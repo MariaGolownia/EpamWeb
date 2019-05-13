@@ -1,0 +1,18 @@
+0, B737_300, passenger, 2017, USA, BOEING, 250, 20000, 2600, 32820, 1000, 150, true, 20
+0, InvalidString///InvalidString///InvalidString///InvalidString///InvalidString///InvalidString
+0, A300_600ST_Beluga, transport, 2018, EUROPEAN_UNION, AIRBUS, 4, 22000,2300, 30000, 11200, 4800, 1500
+0, A340_300, passenger, 2010, EUROPEAN_UNION, AIRBUS, 170, 20000,1200, 22000, 20200, 170, true, 10
+0, A350_900, passenger, 2018, EUROPEAN_UNION,AIRBUS, 100, 20000,2500,33000, 110200, 170, true, 10
+0, A380_800, passenger, 2006, EUROPEAN_UNION,AIRBUS, 120, 31000,2600, 24000, 15200, 200, false, 0
+0, E195AR,  passenger, 2000, BRAZIL, EMBRAER, 200, 38000,3300, 37000, 30200, 170, true, 10
+0, InvalidString///InvalidString///InvalidString///InvalidString///InvalidString///InvalidString
+0, EMB_720_MINUANO, transport, 1998, BRAZIL,EMBRAER, 12, 34000,2700, 77000, 400000, 4300, 1100
+0, E175AR, passenger,  1990, BRAZIL,EMBRAER, 220, 33000,1700, 68000, 10000, 170, true, 10
+0, B757_300, passenger, 2018,USA, BOEING, 245, 24000,3200, 32420, 10000, 220, false, 0
+0, EMB_340, transport, 1990, BRAZIL,EMBRAER, 12, 52000,2200, 57000, 420000, 4000, 900
+0, B737_270, transport, 2000, USA, BOEING,  10, 52000, 1200, 27000, 320000, 2000, 1900
+0, E112,  transport, 2000, BRAZIL, EMBRAER, 5, 20000, 1350, 24000, 220000, 1240, 500
+0, E113, passenger, 2018, USA, BOEING, 270, 30000, 3600, 38820, 2500, 250, true, 30
+0, InvalidString///InvalidString///InvalidString///InvalidString///InvalidString///InvalidString
+0, B737_560, passenger, 2013, USA, BOEING, 230, 25000, 3200, 25000, 2000, 220, true, 10
+0, EMB_320, transport, 1993, BRAZIL,EMBRAER, 17, 34000,2700, 77000, 400000, 4300, 1100
