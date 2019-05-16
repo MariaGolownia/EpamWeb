@@ -1,7 +1,9 @@
 package by.javatr.entity;
+import org.apache.log4j.Logger;
 import java.util.Optional;
 
 public class TransportPlane extends Plane implements PlaneInterface {
+    private static Logger LOGGER = Logger.getLogger(TransportPlane.class);
     private Optional<Integer> volumeOfCargoCompartmentCubicMeter;         // Объём грузового отсека транспортного самолёта
     private Optional<Integer> areaOfCargoHatchSquareMeter;                 // Площадь грузового люка транспортного самолёта
 
@@ -12,11 +14,11 @@ public class TransportPlane extends Plane implements PlaneInterface {
         }
 
         @Override
-        public TransportPlane getTransportPlane(String modelOfPlane, String typeOfPlane, Integer yearOfProduction, String producingCountry,
+        public TransportPlane getTransportPlane(Integer IDOfPlane, String modelOfPlane, String typeOfPlane, Integer yearOfProduction, String producingCountry,
                               String manufacturingCompany, Integer seatingCapacityUnit, Integer carryingCapacityKilo,
                               Integer fuelConsumptionKiloPerHour, Integer emptyWeightKilo, Integer hoursOfFlightsHours,
                               Integer volumeOfCargoCompartmentCubicMeter, Integer areaOfCargoHatchSquareMeter) {
-            return new TransportPlane(modelOfPlane, typeOfPlane, yearOfProduction, producingCountry,
+            return new TransportPlane(IDOfPlane, modelOfPlane, typeOfPlane, yearOfProduction, producingCountry,
                     manufacturingCompany, seatingCapacityUnit, carryingCapacityKilo, fuelConsumptionKiloPerHour,
                     emptyWeightKilo, hoursOfFlightsHours, volumeOfCargoCompartmentCubicMeter, areaOfCargoHatchSquareMeter);
         }
@@ -28,12 +30,12 @@ public class TransportPlane extends Plane implements PlaneInterface {
         areaOfCargoHatchSquareMeter = Optional.of(0);
     }
 
-    private TransportPlane(String modelOfPlane, String typeOfPlane, Integer yearOfProduction, String producingCountry,
+    private TransportPlane(Integer IDOfPlane, String modelOfPlane, String typeOfPlane, Integer yearOfProduction, String producingCountry,
                           String manufacturingCompany, Integer seatingCapacityUnit,
                           Integer carryingCapacityKilo, Integer fuelConsumptionKiloPerHour, Integer emptyWeightKilo,
                           Integer hoursOfFlightsHours, Integer volumeOfCargoCompartmentCubicMeter,
                           Integer areaOfCargoHatchSquareMeter) {
-        super(modelOfPlane, typeOfPlane, yearOfProduction, producingCountry, manufacturingCompany, seatingCapacityUnit, carryingCapacityKilo, fuelConsumptionKiloPerHour, emptyWeightKilo, hoursOfFlightsHours);
+        super(IDOfPlane, modelOfPlane, typeOfPlane, yearOfProduction, producingCountry, manufacturingCompany, seatingCapacityUnit, carryingCapacityKilo, fuelConsumptionKiloPerHour, emptyWeightKilo, hoursOfFlightsHours);
         setVolumeOfCargoCompartmentCubicMeter(volumeOfCargoCompartmentCubicMeter);
         setAreaOfCargoHatchSquareMeter(areaOfCargoHatchSquareMeter);
     }

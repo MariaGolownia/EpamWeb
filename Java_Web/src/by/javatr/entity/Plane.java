@@ -1,13 +1,18 @@
 package by.javatr.entity;
 import by.javatr.exc.*;
 import by.javatr.print.PrintToConsole;
+import by.javatr.util.IDAssignment;
 import by.javatr.valid.ValidationIfPositive;
 import by.javatr.valid.ValidationPlane;
-
+import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Plane implements Comparable<Plane>, PlaneInterface {
+    private static Logger LOGGER = Logger.getLogger(Plane.class);
     private Integer IDOfPlane;
+    private static  List<Integer> listOdID = new ArrayList<>();
     private Optional<String> modelOfPlane;
     private Optional<String> typeOfPlane;
     private Optional<Integer> yearOfProduction;
@@ -23,15 +28,17 @@ public class Plane implements Comparable<Plane>, PlaneInterface {
     public static PlaneFactory factory = new PlaneFactory() {
         @Override
         public Plane getPlane() {
+            LOGGER.debug("Start getPlane");
             return new Plane();
         }
 
         @Override
-        public Plane getPlane(String modelOfPlane, String typeOfPlane, Integer yearOfProduction,
+        public Plane getPlane(Integer IDOfPlane, String modelOfPlane, String typeOfPlane, Integer yearOfProduction,
                               String producingCountry, String manufacturingCompany, Integer seatingCapacityUnit,
                               Integer carryingCapacityKilo, Integer fuelConsumptionKiloPerHour, Integer emptyWeightKilo,
                               Integer hoursOfFlightsHours) {
-            return new Plane (modelOfPlane, typeOfPlane, yearOfProduction, producingCountry, manufacturingCompany,
+            LOGGER.debug("Start getPlane");
+            return new Plane (IDOfPlane, modelOfPlane, typeOfPlane, yearOfProduction, producingCountry, manufacturingCompany,
                     seatingCapacityUnit, carryingCapacityKilo, fuelConsumptionKiloPerHour, emptyWeightKilo,
                     hoursOfFlightsHours);
         }
@@ -39,7 +46,9 @@ public class Plane implements Comparable<Plane>, PlaneInterface {
 
 
     protected Plane() {
-        this.IDOfPlane = 0;
+        LOGGER.debug("Start Plane()");
+        this.IDOfPlane = IDAssignment.assignForPlane(this.listOdID, 1);
+        listOdID.add(this.IDOfPlane);
         this.modelOfPlane = Optional.of("No set");
         this.typeOfPlane = Optional.of("not defined");
         this.yearOfProduction = Optional.of(2019);
@@ -52,10 +61,12 @@ public class Plane implements Comparable<Plane>, PlaneInterface {
         this.hoursOfFlightsHours = Optional.of(1);
     }
 
-    protected Plane(String modelOfPlane, String typeOfPlane, Integer yearOfProduction, String producingCountry,
+    protected Plane(Integer IDOfPlane, String modelOfPlane, String typeOfPlane, Integer yearOfProduction, String producingCountry,
                  String manufacturingCompany, Integer seatingCapacityUnit, Integer carryingCapacityKilo,
                  Integer fuelConsumptionKiloPerHour, Integer emptyWeightKilo, Integer hoursOfFlightsHours) {
-        this.IDOfPlane = 0;
+        LOGGER.debug("Start Plane() with parameters");
+        setIDOfPlane(IDOfPlane);
+        listOdID.add(this.IDOfPlane);
         setModelOfPlane(modelOfPlane);
         setTypeOfPlane(typeOfPlane);
         setYearOfProduction(yearOfProduction);
@@ -69,6 +80,27 @@ public class Plane implements Comparable<Plane>, PlaneInterface {
 
     }
 
+    public void setIDOfPlane(Integer idOfPlane) {
+        try {
+            if (ValidationPlane.ifCorrectIDOfPlane(idOfPlane, this.listOdID)) {
+                this.IDOfPlane = IDAssignment.assignForPlane(listOdID, idOfPlane);
+                listOdID.add(idOfPlane);
+            }
+            else{
+                throw new ValidationException("Error: Check the correctness of idOfPlane (" + idOfPlane + ")!");
+            }
+        }
+        catch(ValidationException ex) {
+            LOGGER.error(ex.getMessage());
+            PrintToConsole.println(ex.getMessage());
+        }
+    }
+
+    protected void setIDOfPlaneOfAirline(Integer idOfPlane) {
+                this.IDOfPlane = idOfPlane;
+        }
+
+
     public void setModelOfPlane(String modelOfPlane) {
         try {
             if (ValidationPlane.ifCorrectModel(modelOfPlane)) {
@@ -80,6 +112,7 @@ public class Plane implements Comparable<Plane>, PlaneInterface {
         }
         }
         catch(NotCorrectModelException ex) {
+            LOGGER.error(ex.getMessage());
             PrintToConsole.println(ex.getMessage());
         }
     }
@@ -95,6 +128,7 @@ public class Plane implements Comparable<Plane>, PlaneInterface {
             }
         }
         catch(NotCorrectTypeException ex) {
+            LOGGER.error(ex.getMessage());
             PrintToConsole.println(ex.getMessage());
         }
     }
@@ -110,6 +144,7 @@ public class Plane implements Comparable<Plane>, PlaneInterface {
             }
         }
         catch(NotCorrectYearException ex) {
+            LOGGER.error(ex.getMessage());
             PrintToConsole.println(ex.getMessage());
         }
     }
@@ -214,9 +249,6 @@ public class Plane implements Comparable<Plane>, PlaneInterface {
         }
     }
 
-    public void setIDOfPlane(Integer IDOfPlane) {
-        this.IDOfPlane = IDOfPlane;
-    }
 
     public Integer getIDOfPlane() {
         return IDOfPlane;
@@ -281,31 +313,41 @@ public class Plane implements Comparable<Plane>, PlaneInterface {
 
     @Override
     public int compareTo(Plane anotherPlane) {
+        LOGGER.debug("Start compareTo");
         int result = this.getModelOfPlane().compareTo(anotherPlane.getModelOfPlane());
+        LOGGER.debug("Start compareTo By getModelOfPlane. Result: result");
         if(result !=0) return result;
 
         result = this.getTypeOfPlane().compareTo(anotherPlane.getTypeOfPlane());
+        LOGGER.debug("Start compareTo By getTypeOfPlane. Result: result");
         if(result !=0) return result;
 
         result= this.getYearOfProduction()- anotherPlane.getYearOfProduction();
+        LOGGER.debug("Start compareTo By getYearOfProduction. Result: result");
         if(result !=0) return result;
 
         result=this.getProducingCountry().compareTo(anotherPlane.getProducingCountry());
+        LOGGER.debug("Start compareTo By getProducingCountry. Result: result");
         if(result !=0) return result;
 
         result=this.getManufacturingCompany().compareTo(anotherPlane.getManufacturingCompany());
+        LOGGER.debug("Start compareTo By getManufacturingCompany. Result: result");
         if(result !=0) return result;
 
         result= this.getSeatingCapacityUnit() - anotherPlane.getSeatingCapacityUnit();
+        LOGGER.debug("Start compareTo By getSeatingCapacityUnit. Result: result");
         if(result !=0) return result;
 
         result= this.getCarryingCapacityKilo() - anotherPlane.getCarryingCapacityKilo();
+        LOGGER.debug("Start compareTo By getCarryingCapacityKilo. Result: result");
         if(result !=0) return result;
 
         result= this.getFuelConsumptionKiloPerHour() - anotherPlane.getFuelConsumptionKiloPerHour();
+        LOGGER.debug("Start compareTo By getFuelConsumptionKiloPerHour. Result: result");
         if(result !=0) return result;
 
         result= this.getEmptyWeightKilo() - anotherPlane.getEmptyWeightKilo();
+        LOGGER.debug("Start compareTo By getEmptyWeightKilo. Result: result");
         if(result !=0) return result;
 
         result= this.getHoursOfFlightsHours() - anotherPlane.getHoursOfFlightsHours();

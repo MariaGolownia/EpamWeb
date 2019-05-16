@@ -8,7 +8,7 @@ public class ComparatorPlaneForSort {
 
     public static class byModelComparator implements Comparator<Plane> {
         public int compare(Plane plane1, Plane plane2) {
-            int result = (plane1.getModelOfPlane()).compareTo(plane2.getManufacturingCompany());
+            int result = (plane1.getModelOfPlane()).compareTo(plane2.getModelOfPlane());
             return result;
         }
     }

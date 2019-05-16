@@ -1,4 +1,4 @@
-0, B737_300, passenger, 2017, USA, BOEING, 250, 20000, 2600, 32820, 1000, 150, true, 20
+0, B737_500, passenger, 2017, USA, BOEING, 250, 20000, 2600, 32820, 1000, 150, true, 20
 0, InvalidString///InvalidString///InvalidString///InvalidString///InvalidString///InvalidString
 0, A300_600ST_Beluga, transport, 2018, EUROPEAN_UNION, AIRBUS, 4, 22000,2300, 30000, 11200, 4800, 1500
 0, A340_300, passenger, 2010, EUROPEAN_UNION, AIRBUS, 170, 20000,1200, 22000, 20200, 170, true, 10

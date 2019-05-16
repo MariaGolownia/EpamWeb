@@ -1,15 +1,37 @@
 package by.javatr.valid;
-
 import by.javatr.en.ProducingCountry;
+import by.javatr.entity.Plane;
 import by.javatr.exc.ValidationException;
 import by.javatr.print.PrintToConsole;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 public class ValidationPlane {
 
     public static final int YEAR_OF_FIRST_AIRCRAFT_INVENTION  = 1903;
+
+    public static Boolean ifExistPlane(Plane plane){
+        Boolean result =  plane!=null;
+        return result;
+    }
+
+    public static Boolean ifCorrectIDOfPlane(Integer value, List<Integer> listOfID){
+        Boolean result = value >= 0 && value !=null;
+        return result;
+    }
+
+    public static Boolean ifUniqueIDOfPlane(Integer value, List<Integer> listOfID){
+        int countTemp = 0;
+        for (int i = 0; i < listOfID.size(); i++) {
+            if (listOfID.get(i) == value) {
+                countTemp++;
+            }
+        }
+        Boolean result = countTemp ==0;
+        return result;
+    }
 
     public static Boolean ifCorrectModel (String value){
         Boolean result = !value.trim().isEmpty() && value.length()> 2 && value.length() < 30;
@@ -35,18 +57,20 @@ public class ValidationPlane {
         return false;
     }
 
+    public static Boolean ifCorrectPlaneStr(String value){
+        Boolean result = ifCorrectPlaneString(value) ||ifCorrectPassengerPlaneString(value) || ifCorrectTransportPlaneString(value);
+        return result;
+    }
+
     public static Boolean ifCorrectPlaneString(String value){
-        Boolean result = ifCorrectPassengerPlaneString(value) || ifCorrectTransportPlaneString(value);
+        String regex = "^\\d{1,}\\s{0,}[,]{1}\\s{0,}\\w{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}\\s{0,}";
+        Boolean result = value.matches (regex);
         return result;
     }
 
     public static Boolean ifCorrectPassengerPlaneString(String value){
-        String regex = "^\\d{1,}\\s{0,}\\w{1,}[,]{1}\\s{0,}[A-Za-z_]{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}[A-Za-z_]{1,}[,]{1}\\s{0,}" +
-                "[A-Za-z_]{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}" +
-                "\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}[A-Za-z_]{1,}[,]{1}\\s{0,}\\d{1,}\\s{0,}$";
-//        String regex = "^\\w{1,}[,]{1}\\s{0,}[A-Za-z_]{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}[A-Za-z_]{1,}[,]{1}\\s{0,}" +
-//                "[A-Za-z_]{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}" +
-//                "\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}[A-Za-z_]{1,}[,]{1}\\s{0,}\\d{1,}\\s{0,}$";
+        String regex = "^\\d{1,}\\s{0,}[,]{1}\\s{0,}\\w{1,}\\s{0,}[,]{1}\\s{0,}[A-Za-z_]{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}[A-Za-z_]{1,}[,]{1}\\s{0,}[A-Za-z_]{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}[A-Za-z_]{1,}[,]{1}\\s{0,}\\d{1,}\\s{0,}$";
+
         Boolean result = value.matches (regex);
         return result;
         // \w - буквенно-цифровой символ или знак подчёркивания
@@ -56,12 +80,7 @@ public class ValidationPlane {
     }
 
     public static Boolean ifCorrectTransportPlaneString(String value){
-        String regex = "^\\\\d{1,}\\\\s{0,}\\w{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}" +
-                "\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}" +
-                "\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}\\s{0,}$";
-//        String regex = "^\\w{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}" +
-//                "\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}" +
-//                "\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}\\s{0,}$";
+        String regex = "^\\d{1,}\\s{0,}[,]{1}\\s{0,}\\w{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}\\s{0,}\\D{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}[,]{1}\\s{0,}\\d{1,}\\s{0,}$";
         Boolean result = value.matches (regex);
         return result;
     }

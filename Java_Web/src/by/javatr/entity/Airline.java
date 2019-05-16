@@ -1,29 +1,45 @@
 package by.javatr.entity;
 import by.javatr.util.AbstractTagForSearch;
 import by.javatr.util.IDAssignment;
+import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class Airline implements Cloneable {
-    private Integer digitToCountIDOfPlane = 0;
-    List<Plane> listOfPlanes = new ArrayList<>();
+    private static Logger LOGGER = Logger.getLogger(Airline.class);
+    private static List<Integer> listIDOfPlanesOfAiline = new ArrayList<>();
+    private List<Plane> listOfPlanes = new ArrayList<>();
 
+    private Airline () {}
+    private static class AirlineHolder {
+        private final static Airline instance = new Airline ();
+    }
+
+    public static Airline getInstance () {
+        LOGGER.debug("Start getInstance()");
+        return AirlineHolder.instance;
+    }
 
     public void addPlane(Plane plane) {
-        plane.setIDOfPlane(IDAssignment.assign(this, plane, 0));
+        LOGGER.debug("Start addPlane");
+       Integer ID = IDAssignment.assignForPlane(listIDOfPlanesOfAiline, plane.getIDOfPlane());
+        listIDOfPlanesOfAiline.add(ID);
+       plane.setIDOfPlaneOfAirline(ID);
         listOfPlanes.add(plane);
     }
 
     public void addPlanes(Plane... plane) {
+        LOGGER.debug("Start addPlanes");
         for (int i = 1; i < plane.length; i++) {
-            plane[i].setIDOfPlane(IDAssignment.assign(this, plane[i], 0));
+            plane[i].setIDOfPlane(IDAssignment.assignForPlane(this, plane[i].getIDOfPlane()));
             listOfPlanes.add(plane[i]);
         }
     }
 
     public Plane getPlaneByIndex(int index) {
+        LOGGER.debug("Start getPlaneByIndex");
         return listOfPlanes.get(index);
     }
 
@@ -32,18 +48,23 @@ public class Airline implements Cloneable {
     }
 
     public Integer getCountOfPlanes() {
+        LOGGER.debug("Start getCountOfPlanes");
         return listOfPlanes.size();
     }
 
     public  void remove (Plane plane) {
+        LOGGER.debug("Start remove");
+        Integer IDOfRemotePlane = plane.getIDOfPlane();
         for (int i = 0; i < listOfPlanes.size(); i++){
-            if (listOfPlanes.get(i).getIDOfPlane().equals(plane.getIDOfPlane())) {
+            if (listOfPlanes.get(i).getIDOfPlane().equals(IDOfRemotePlane)) {
                 listOfPlanes.remove(i);
+                listIDOfPlanesOfAiline.remove(IDOfRemotePlane);
             }
         }
     }
 
     public  void update (Plane plane) {
+        LOGGER.debug("Start update");
         for (int i = 0; i < listOfPlanes.size(); i++)
             if (listOfPlanes.get(i).getIDOfPlane().equals(plane.getIDOfPlane())) {
                  listOfPlanes.set(i, plane);
@@ -80,6 +101,14 @@ public class Airline implements Cloneable {
         }
         return  maxIdOfPlanes;
     }
+
+//    public  List<Integer> getListOfPlanes() {
+//        List<Integer> listOfPlanes = new ArrayList<>();
+//        for (int i = 0; i <  this.getCountOfPlanes(); i++) {
+//            listOfPlanes.add(i);
+//        }
+//        return  listOfPlanes;
+//    }
 
     public void sort(Comparator<Plane> c) {listOfPlanes.sort(c);
     }

@@ -14,7 +14,7 @@ public class FileRepository implements RepositoryPlane<Plane> {
     String FILE_NAME = "result.txt";
     @Override
     public void addPlane(Plane plane) {
-        Airline airlineFromFile = new Airline();
+        Airline airlineFromFile = Airline.getInstance();
         ReaderAirlineFromFile readerAirlineFromFile = new ReaderAirlineFromFile();
         airlineFromFile = readerAirlineFromFile.readPlanesFromFile(FILE_NAME);
         airlineFromFile.addPlane(plane);
@@ -28,7 +28,7 @@ public class FileRepository implements RepositoryPlane<Plane> {
 
     @Override
     public void removePlane(Plane plane) {
-        Airline airlineFromFile = new Airline();
+        Airline airlineFromFile = Airline.getInstance();
         ReaderAirlineFromFile readerAirlineFromFile = new ReaderAirlineFromFile();
         airlineFromFile = readerAirlineFromFile.readPlanesFromFile(FILE_NAME);
         airlineFromFile.remove(plane);
@@ -42,7 +42,7 @@ public class FileRepository implements RepositoryPlane<Plane> {
 
     @Override
     public void updatePlane(Plane plane) {
-        Airline airlineFromFile = new Airline();
+        Airline airlineFromFile = Airline.getInstance();
         ReaderAirlineFromFile readerAirlineFromFile = new ReaderAirlineFromFile();
         airlineFromFile = readerAirlineFromFile.readPlanesFromFile(FILE_NAME);
         airlineFromFile.update(plane);
@@ -57,7 +57,7 @@ public class FileRepository implements RepositoryPlane<Plane> {
     @Override
     public List<Plane> query(SortPlaneSpecification sortPlaneSpecification) {
         List<Plane> rezList = new ArrayList<>();
-        Airline airlineFromFile = new Airline();
+        Airline airlineFromFile = Airline.getInstance();
         ReaderAirlineFromFile readerAirlineFromFile = new ReaderAirlineFromFile();
         airlineFromFile = readerAirlineFromFile.readPlanesFromFile(FILE_NAME);
         airlineFromFile.sort(sortPlaneSpecification.comparatorSpecified());
@@ -71,7 +71,7 @@ public class FileRepository implements RepositoryPlane<Plane> {
     @Override
     public List<Plane> query(SearchPlaneSpecification searchPlaneSpecification) {
         List<Plane> rezList = new ArrayList<>();
-        Airline airlineFromFile = new Airline();
+        Airline airlineFromFile = Airline.getInstance();
         ReaderAirlineFromFile readerAirlineFromFile = new ReaderAirlineFromFile();
         airlineFromFile = readerAirlineFromFile.readPlanesFromFile(FILE_NAME);
 

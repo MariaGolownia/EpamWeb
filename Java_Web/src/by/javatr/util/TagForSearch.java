@@ -32,7 +32,7 @@ public class TagForSearch {
     public static class YearTagForSearch implements AbstractTagForSearch {
         @Override
         public boolean ifContainsTag(Plane plane, String tag) {
-            return plane.getYearOfProduction().equals(tag);
+            return plane.getYearOfProduction().toString().equals(tag);
         }
 
         // Для поиска самолета, произведенного в диапазоне лет

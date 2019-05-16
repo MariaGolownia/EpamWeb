@@ -1,16 +1,19 @@
 package by.javatr.entity;
 
+import org.apache.log4j.Logger;
+
 public class PlaneCreator {
-    private int i  = 10;
+    private static Logger LOGGER = Logger.getLogger(PlaneCreator.class);
     public static Plane createPlane (PlaneFactory factory) {
+
         return factory.getPlane();
     }
 
-    public static Plane createPlane (PlaneFactory factory, String modelOfPlane, String typeOfPlane, Integer yearOfProduction,
+    public static Plane createPlane (PlaneFactory factory, Integer IDOfPlane, String modelOfPlane, String typeOfPlane, Integer yearOfProduction,
                                      String producingCountry, String manufacturingCompany, Integer seatingCapacityUnit,
                                      Integer carryingCapacityKilo, Integer fuelConsumptionKiloPerHour, Integer emptyWeightKilo,
                                      Integer hoursOfFlightsHours) {
-        return factory.getPlane(modelOfPlane, typeOfPlane, yearOfProduction, producingCountry, manufacturingCompany,
+        return factory.getPlane(IDOfPlane, modelOfPlane, typeOfPlane, yearOfProduction, producingCountry, manufacturingCompany,
                 seatingCapacityUnit, carryingCapacityKilo, fuelConsumptionKiloPerHour, emptyWeightKilo,
                 hoursOfFlightsHours);
     }
@@ -20,11 +23,11 @@ public class PlaneCreator {
         return factory.getTransportPlane();
     }
 
-    public static TransportPlane createPlane (TransportPlaneFactory factory, String modelOfPlane, String typeOfPlane, Integer yearOfProduction, String producingCountry,
+    public static TransportPlane createPlane (TransportPlaneFactory factory, Integer IDOfPlane, String modelOfPlane, String typeOfPlane, Integer yearOfProduction, String producingCountry,
                                               String manufacturingCompany, Integer seatingCapacityUnit, Integer carryingCapacityKilo,
                                               Integer fuelConsumptionKiloPerHour, Integer emptyWeightKilo, Integer hoursOfFlightsHours,
                                               Integer volumeOfCargoCompartmentCubicMeter, Integer areaOfCargoHatchSquareMeter) {
-        return factory.getTransportPlane(modelOfPlane, typeOfPlane, yearOfProduction, producingCountry,
+        return factory.getTransportPlane(IDOfPlane, modelOfPlane, typeOfPlane, yearOfProduction, producingCountry,
                 manufacturingCompany, seatingCapacityUnit, carryingCapacityKilo, fuelConsumptionKiloPerHour,
                 emptyWeightKilo, hoursOfFlightsHours, volumeOfCargoCompartmentCubicMeter, areaOfCargoHatchSquareMeter);
     }
@@ -34,12 +37,12 @@ public class PlaneCreator {
         return factory.getPassengerPlane();
     }
 
-    public static PassengerPlane createPlane (PassengerPlaneFactory factory, String modelOfPlane, String typeOfPlane, Integer yearOfProduction, String producingCountry,
+    public static PassengerPlane createPlane (PassengerPlaneFactory factory, Integer IDOfPlane, String modelOfPlane, String typeOfPlane, Integer yearOfProduction, String producingCountry,
                                               String manufacturingCompany, Integer seatingCapacityUnit,
                                               Integer carryingCapacityKilo, Integer fuelConsumptionKiloPerHour, Integer emptyWeightKilo,
                                               Integer hoursOfFlightsHours, Integer numberOfEconomyClassSeats, Boolean businessClassAvailability,
                                               Integer numberOfBusinessClassSeats) {
-        return factory.getPassengerPlane(modelOfPlane, typeOfPlane, yearOfProduction, producingCountry,manufacturingCompany,
+        return factory.getPassengerPlane(IDOfPlane, modelOfPlane, typeOfPlane, yearOfProduction, producingCountry,manufacturingCompany,
                 seatingCapacityUnit, carryingCapacityKilo, fuelConsumptionKiloPerHour, emptyWeightKilo,
                 hoursOfFlightsHours, numberOfEconomyClassSeats, businessClassAvailability, numberOfBusinessClassSeats);
     }
