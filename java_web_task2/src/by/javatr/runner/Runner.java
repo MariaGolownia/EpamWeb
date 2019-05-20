@@ -22,5 +22,7 @@ public class Runner {
             e.printStackTrace();
         }
 
+        System.out.println("GIT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
     }
 }
