@@ -1,5 +1,5 @@
 package by.javatr.util;
-import by.javatr.entity.ComponentOfText;
+import by.javatr.entity.Component;
 import by.javatr.entity.Paragraph;
 import by.javatr.valid.ValidationStr;
 import jdk.nashorn.internal.runtime.ParserException;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class ParserParagraph extends ParserComponent<ComponentOfText> {
+public class ParserParagraph extends ParserComponent<Component> {
 
     // Осуществление разделения абзаца на предложения на основании знаков пунктуации: [.!?]
     // [] - групповой символ, {1,} - одно или более вхождений
@@ -25,7 +25,7 @@ public class ParserParagraph extends ParserComponent<ComponentOfText> {
                 .replace("?", "[**]?")
                 .replace("!", "[****]!");
 
-        List<ComponentOfText> listOfSentences = new ArrayList<>();
+        List<Component> listOfSentences = new ArrayList<>();
         String[] strings = str.trim().split(SENTENCE_DELIMETER.pattern());
 
         for (String s : strings) {

@@ -6,17 +6,18 @@ public class Text extends Composite {
     public Text() {
     }
 
-    public Text(List<ComponentOfText> list) {
+    public Text(List<Component> list) {
         super(list);
     }
 
     // Параграфы начинаются с табуляции и заканчиваются переходом на новую строку
     @Override
-    public String print() {
+    public String toText() {
         String str = "";
-        for (ComponentOfText componentOfText : listOfComponents) {
-            str += "\t" + componentOfText.print() + "\n";
+        for (Component component : listOfComponents) {
+            str += "\t" + component.toText() + "\n";
         }
         return str;
     }
+
 }

@@ -7,16 +7,16 @@ public class Sentence extends Composite {
     public Sentence() {
     }
 
-    public Sentence(List<ComponentOfText> listOfComponents) {
+    public Sentence(List<Component> listOfComponents) {
         super(listOfComponents);
     }
 
     // Предложения состоят из слов
     @Override
-    public String print() {
+    public String toText() {
         String str = "";
-        for (ComponentOfText componentOfText : listOfComponents) {
-            str += componentOfText.print() + " ";
+        for (Component component : listOfComponents) {
+            str += component.toText() + " ";
         }
         return str;
     }

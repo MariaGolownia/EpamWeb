@@ -1,18 +1,18 @@
 package by.javatr.entity;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // Composite получает доступ к методу print () интерфейса ComponentOfText
 
-public abstract class Composite implements ComponentOfText {
+public abstract class Composite implements Component {
 
-    protected List<ComponentOfText> listOfComponents = new ArrayList<>();
+    protected List<Component> listOfComponents = new ArrayList<>();
 
     public Composite() {
     }
 
-    public Composite(List<ComponentOfText>listOfComponents) {
+    public Composite(List<Component>listOfComponents) {
         this.listOfComponents = listOfComponents;
     }
 
@@ -20,11 +20,24 @@ public abstract class Composite implements ComponentOfText {
         listOfComponents.add(composite);
     }
 
-    public List<ComponentOfText> getList() {
+    public List<Component> getList() {
         return listOfComponents;
     }
 
-    public ComponentOfText get(int index) {
+    public Component get(int index) {
         return listOfComponents.get(index);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Composite)) return false;
+        Composite composite = (Composite) o;
+        return listOfComponents.equals(composite.listOfComponents);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(listOfComponents);
     }
 }

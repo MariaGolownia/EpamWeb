@@ -7,17 +7,18 @@ public class Paragraph extends Composite {
     public Paragraph() {
     }
 
-    public Paragraph(List <ComponentOfText> listOfComponents) {
-     super(listOfComponents);
+    public Paragraph(List <Component> listOfComponents) {
+        super(listOfComponents);
     }
 
     // Параграфы состоят из предложений и собираются их соединением через точку. После точки всегда следует пробел
     @Override
-    public String print() {
+    public String toText() {
       String str = "";
-      for (ComponentOfText componentOfText : listOfComponents) {
-          str += componentOfText.print() + " ";
+      for (Component component : listOfComponents) {
+          str += component.toText() + " ";
       }
       return str;
     }
+
 }
