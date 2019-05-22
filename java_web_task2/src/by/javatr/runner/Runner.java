@@ -11,6 +11,7 @@ public class Runner {
 
         Text text = Reader.readTextFromFile("data.txt");
         System.out.println(text.toText());
+        
 
     }
 }
