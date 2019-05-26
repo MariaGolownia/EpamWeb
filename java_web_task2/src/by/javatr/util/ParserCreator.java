@@ -6,10 +6,10 @@ public class ParserCreator {
     public static ParserText createParser() {
         ParserText parser = new ParserText();
         parser
-                .setParser(new ParserParagraph()
-                        .setParser(new ParserSentence()
-                                .setParser(new ParserLexeme()
-                                        .setParser(new ParserLeaf()))));
+                .setNext(new ParserParagraph()
+                        .setNext(new ParserSentence()
+                                .setNext(new ParserLexeme()
+                                        .setNext(new ParserLeaf()))));
         return parser;
     }
 }

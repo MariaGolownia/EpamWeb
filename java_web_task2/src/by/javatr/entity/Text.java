@@ -2,7 +2,7 @@ package by.javatr.entity;
 
 import java.util.List;
 
-public class Text extends Composite {
+public class Text extends CompositeText {
     public Text() {
     }
 

@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Objects;
 
 // Lexeme  имеет возможность переопределить метод print()
-public class Lexeme extends Composite {
+public class Lexeme extends CompositeText {
 
     private String lexeme;
 

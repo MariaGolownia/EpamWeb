@@ -2,7 +2,7 @@ package by.javatr.entity;
 import java.util.List;
 
 // Paragraph  имеет доступ ко всем методам класса Composite и возможность переопределить метод print()
-public class Paragraph extends Composite {
+public class Paragraph extends CompositeText {
 
     public Paragraph() {
     }

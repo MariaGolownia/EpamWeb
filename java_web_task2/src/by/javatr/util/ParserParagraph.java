@@ -4,6 +4,7 @@ import by.javatr.entity.Paragraph;
 import by.javatr.valid.ValidationStr;
 import jdk.nashorn.internal.runtime.ParserException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
