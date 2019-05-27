@@ -3,9 +3,9 @@ import by.javatr.entity.Text;
 import by.javatr.print.PrintToConsole;
 import by.javatr.reader.Reader;
 import by.javatr.util.ComparatorText;
+import by.javatr.util.Converter;
 import by.javatr.util.ParserText;
 import by.javatr.util.Sort;
-
 import java.util.*;
 
 public class Runner {
@@ -26,7 +26,7 @@ public class Runner {
         PrintToConsole.println(listOfParagraphs);
 
         System.out.println("--------------------------------------------------------");
-        System.out.println("Sorting a text (String) from file by count of sentences in paragraphs: ");
+        System.out.println("Sorting a text (String) by count of sentences in paragraphs: ");
         System.out.println("--------------------------------------------------------");
         Sort sort1 = new Sort();
         //Text textSort = new Text();
@@ -36,7 +36,7 @@ public class Runner {
         PrintToConsole.println(paragraphListSort1);
 
         System.out.println("--------------------------------------------------------");
-        System.out.println("Sorting a text (Text) from file by count of sentences in paragraphs: ");
+        System.out.println("Sorting a text (Text) by count of sentences in paragraphs: ");
         System.out.println("--------------------------------------------------------");
         Sort sort2 = new Sort();
         List<String> paragraphListSort2 = new ArrayList<>();
@@ -45,12 +45,33 @@ public class Runner {
         PrintToConsole.println(paragraphListSort2);
 
         System.out.println("--------------------------------------------------------");
-        System.out.println("Sorting a text (Text) from file by words: ");
+        System.out.println("Sorting a text (Text) by words: ");
         System.out.println("--------------------------------------------------------");
         Sort sort3 = new Sort();
-        List<String> wordsListSort = new ArrayList<>();
+        List<String> wordsListSort1 = new ArrayList<>();
         ComparatorText.WordsByLength comparatorText3 = new ComparatorText().new WordsByLength();
-        wordsListSort = sort3.sortWordsByLength(text, comparatorText3);
-        PrintToConsole.println(wordsListSort);
+        wordsListSort1 = sort3.sortWordsByLength(text, comparatorText3);
+        PrintToConsole.println(Converter.convertArrayStrToString(wordsListSort1));
+
+
+        System.out.println("--------------------------------------------------------");
+        System.out.println("Sorting a text (String) by words: ");
+        System.out.println("--------------------------------------------------------");
+        Sort sort4 = new Sort();
+        String wordsListSort2 = "";
+        ComparatorText.WordsByLength comparatorText4 = new ComparatorText().new WordsByLength();
+        wordsListSort2 = sort3.sortWordsByLength(text.toText(), comparatorText4);
+        PrintToConsole.println(wordsListSort2);
+
+        System.out.println("--------------------------------------------------------");
+        System.out.println("Sorting sentences in paragraps by symbol occurrences: ");
+        System.out.println("--------------------------------------------------------");
+        Sort sort5 = new Sort();
+        String sentenceInParagrapsListSort = "";
+        Character markCharacter = 'a';
+        ComparatorText.SentencesBySymbolOccurrences comparatorText5 = new ComparatorText().new SentencesBySymbolOccurrences(markCharacter);
+        sentenceInParagrapsListSort = sort5.sortSentencesBySymbolOccurrences(text.toText(), comparatorText5);
+        PrintToConsole.println(wordsListSort2);
+
     }
 }

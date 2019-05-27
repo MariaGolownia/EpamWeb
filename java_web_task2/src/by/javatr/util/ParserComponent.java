@@ -1,9 +1,12 @@
 package by.javatr.util;
 import jdk.nashorn.internal.runtime.ParserException;
+import org.apache.log4j.Logger;
 
 // Класс для связи с другими парсерами
 
 public abstract class ParserComponent<T> implements IParser<T> {
+    private static Logger LOGGER = Logger.getLogger(ParserComponent.class);
+
     private IParser next;
 
     public ParserComponent() {

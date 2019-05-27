@@ -1,4 +1,5 @@
 package by.javatr.entity;
+import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -6,6 +7,7 @@ import java.util.Objects;
 // Composite получает доступ к методу print () интерфейса ComponentOfText
 
 public abstract class CompositeText implements Component {
+    private static Logger LOGGER = Logger.getLogger(CompositeText.class);
 
     protected List<Component> listOfComponents = new ArrayList<>();
 

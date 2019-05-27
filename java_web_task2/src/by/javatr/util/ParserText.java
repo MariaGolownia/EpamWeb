@@ -1,19 +1,18 @@
 package by.javatr.util;
 import by.javatr.entity.Component;
-import by.javatr.entity.Paragraph;
 import by.javatr.entity.Text;
 import by.javatr.valid.ValidationStr;
 import jdk.nashorn.internal.runtime.ParserException;
-
+import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
 // ParserText - парсер текста на абзацы
 
 public class ParserText extends ParserComponent<Component> {
+    private static Logger LOGGER = Logger.getLogger(ParserText.class);
 
     private static final Pattern PARAGRAPH_DELIMETER = Pattern.compile("\n(\\s{4,}|\t)");
     private static final Pattern SENTENCE_DELIMETER = Pattern.compile("[.!?]{1,}");

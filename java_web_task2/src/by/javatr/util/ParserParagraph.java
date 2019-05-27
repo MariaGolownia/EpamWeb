@@ -3,12 +3,13 @@ import by.javatr.entity.Component;
 import by.javatr.entity.Paragraph;
 import by.javatr.valid.ValidationStr;
 import jdk.nashorn.internal.runtime.ParserException;
+import org.apache.log4j.Logger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class ParserParagraph extends ParserComponent<Component> {
+    private static Logger LOGGER = Logger.getLogger(ParserParagraph.class);
 
     // Осуществление разделения абзаца на предложения на основании знаков пунктуации: [.!?]
     // [] - групповой символ, {1,} - одно или более вхождений
