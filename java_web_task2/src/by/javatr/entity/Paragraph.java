@@ -23,7 +23,7 @@ public class Paragraph extends CompositeText {
       for (Component component : listOfComponents) {
           str += component.toText() + " ";
       }
-      return str;
+      return str.trim();
     }
 
 }

@@ -4,7 +4,6 @@ import by.javatr.entity.Lexeme;
 import by.javatr.valid.ValidationStr;
 import jdk.nashorn.internal.runtime.ParserException;
 import org.apache.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +25,4 @@ public class ParserLexeme extends ParserComponent<Component>{
     }
 
 
-//    @Override
-//    public Lexeme parseComponent(String str) throws ParserException {
-//        return new Lexeme(str);
-//    }
 }

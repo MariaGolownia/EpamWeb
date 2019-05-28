@@ -18,7 +18,6 @@ public class Text extends CompositeText {
         String str = "";
         //for (Component component : listOfComponents) {
         for (int i = 0; i < listOfComponents.size(); i++)  {
-
             str += "\t" + listOfComponents.get(i).toText();
             if (i!=listOfComponents.size()-1)
                 str+="\n";

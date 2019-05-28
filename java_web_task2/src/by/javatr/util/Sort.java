@@ -35,27 +35,31 @@ public class Sort  {
     }
 
 
-    public List<String> sortWordsByLength (Text text, Comparator comparatorC){
+    public String sortWordsByLength (Text text, Comparator comparatorC){
         ParserText parserText = new ParserText();
-        List<String> resultTemp = new ArrayList<>();
+        String result = "\t";
         // работа с параграфами
         List<String> paragraphList = parserText.parseToParagraphs(text.toText());
         for (int i = 0; i < paragraphList.size(); i++) {
             List<String> wordsListSort = new ArrayList<>();
             List<String> sentencesList = parserText.parseToSentences(paragraphList.get(i));
             for (int j = 0; j < sentencesList.size(); j++) {
-            wordsListSort = Arrays.asList(sentencesList.get(j).split(" "));
-            wordsListSort.sort(comparatorC);
-            resultTemp.addAll(wordsListSort);
+                wordsListSort = Arrays.asList(sentencesList.get(j).split(" "));
+                wordsListSort.sort(comparatorC);
+                result += Converter.convertArrayStrToString(wordsListSort);
             }
+            result = result.substring(0, result.length()-1);
+            if (i != paragraphList.size()-1)
+                result += "\n\t";
+
         }
-        return resultTemp;
+        return result;
     }
 
     // Перегрузка метода sortWordsByLength
     public String sortWordsByLength (String text, Comparator comparatorC){
         ParserText parserText = new ParserText();
-        String result = "";
+        String result = "\t";
         // работа с параграфами
         List<String> paragraphList = parserText.parseToParagraphs(text);
         for (int i = 0; i < paragraphList.size(); i++) {
@@ -66,21 +70,40 @@ public class Sort  {
                 wordsListSort.sort(comparatorC);
                 result += Converter.convertArrayStrToString(wordsListSort);
             }
-            result += "\n";
+            result = result.substring(0, result.length()-1);
+            if (i != paragraphList.size()-1)
+                result += "\n\t";
+
         }
+        return result;
+    }
+
+
+    public String sortSentencesBySymbolOccurrences  (Text text, Comparator comparatorC) {
+        ParserText parserText = new ParserText();
+        String result = "";
+        // работа с параграфами
+        List<String> paragraphList = parserText.parseToParagraphs(text.toString());
+        for (int i = 0; i < paragraphList.size(); i++) {
+            List<String> wordsListSort = new ArrayList<>();
+            List<String> sentencesList = parserText.parseToSentences(paragraphList.get(i));
+            sentencesList.sort(comparatorC);
+            result +=  Converter.convertArrayStrToString(sentencesList) + "\n";
+        }
+
         return result;
     }
 
     public String sortSentencesBySymbolOccurrences  (String text, Comparator comparatorC) {
         ParserText parserText = new ParserText();
-        String result = "";
+        String result = "\t";
         // работа с параграфами
         List<String> paragraphList = parserText.parseToParagraphs(text);
         for (int i = 0; i < paragraphList.size(); i++) {
             List<String> wordsListSort = new ArrayList<>();
             List<String> sentencesList = parserText.parseToSentences(paragraphList.get(i));
             sentencesList.sort(comparatorC);
-            result +=  Converter.convertArrayStrToString(sentencesList) + "\n";
+            result +=  Converter.convertArrayStrToString(sentencesList) + "\n\t";
         }
         return result;
     }
