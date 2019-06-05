@@ -12,10 +12,8 @@ public class RunnerThreadToDisable {
         try{
             Thread.sleep(1100);
             myThread.disable();
-         //   Thread.interrupted();
-
+          //  Thread.interrupted();
             Thread.sleep(1000);
-
         }
         catch(InterruptedException e){
             System.out.println("Поток прерван");

@@ -1,6 +1,8 @@
 package by.javatr.multithreading.entity;
 import by.javatr.multithreading.util.Calculation;
 
+import java.util.concurrent.TimeUnit;
+
 public class Matrix {
     private static final int MAX_NUMBER_OF_ROWS_OR_COLUMNS = 12;
     private static final int MIN_NUMBER_OF_ROWS_OR_COLUMNS = 8;
@@ -11,7 +13,6 @@ public class Matrix {
     private int[][] array;
     private int n;
     private int m;
-    private boolean ifRandomInitialization;
 
 // Конструктор: создание и заполнение матрицы
 // Матрица инициализируется единицами, главная диагональ - нулями
@@ -160,7 +161,7 @@ public class Matrix {
                 else {
                     for (int i = 0; i < n; i++) {
                         for (int j = 0; j < m; j++) {
-                            array[i][j] = (i == j) ? NUMBER_TO_INITIALIZE_EXCEPT_MAIN_DIAGONAL :
+                            array[i][j] = (i == j) ? NUMBER_TO_INITIALIZE_MAIN_DIAGONAL :
                                     (int)(Math.random()*(maxR - minR)+ minR + 1);
                         }
                     }
@@ -172,12 +173,18 @@ public class Matrix {
         }
     }
 
+    public Matrix(int[][] array) {
+        this.array = array;
+    }
+
+
 
     public void show() {
         try {
             if (array == null) {
                 throw new MatrixException("The matrix is not correctly initialized!");
             }
+
             System.out.println("\nMatrix: " + array.length + " x " + array[0].length);
             int maxDischarge = Calculation.determineMaxDischarge(this.array);
             String strToPrintf = "%" + (maxDischarge + 1) + "d";
@@ -193,4 +200,10 @@ public class Matrix {
             System.out.println(ex.getMessage());
         }
     }
+
+    public  int[][] getArray () {
+        return this.array.clone();
+    }
+
+
 }

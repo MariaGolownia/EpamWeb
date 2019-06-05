@@ -1,9 +1,13 @@
 package by.javatr.multithreading.runner;
 import by.javatr.multithreading.entity.Matrix;
+import by.javatr.multithreading.util.ThreadDiagonal;
+
+import java.util.concurrent.TimeUnit;
 
 public class Runner {
 
     public static void main(String[] args) {
+        /*
         //Incorrect initialization in accordance with the conditions of the task
         Matrix matrix0 = new Matrix(22);
         matrix0.show();
@@ -35,9 +39,30 @@ public class Runner {
         //Correct initialization in accordance with the conditions of the task
         Matrix matrix31 = new Matrix(12, 12, true);
         matrix31.show();
-
+*/
         //Correct initialization in accordance with the conditions of the task
         Matrix matrix4 = new Matrix(8, 8, true,1,100);
         matrix4.show();
+
+        ThreadDiagonal threadDiagonal1 = new ThreadDiagonal(matrix4, 1);
+        ThreadDiagonal threadDiagonal2 = new ThreadDiagonal(matrix4, 2);
+        ThreadDiagonal threadDiagonal3 = new ThreadDiagonal(matrix4, 3);
+        ThreadDiagonal threadDiagonal4 = new ThreadDiagonal(matrix4, 4);
+        threadDiagonal1.start();
+        threadDiagonal2.start();
+        threadDiagonal3.start();
+        threadDiagonal4.start();
+
+        try{
+            threadDiagonal1.join();
+            threadDiagonal2.join();
+            threadDiagonal3.join();
+            threadDiagonal4.join();
+        }
+         catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        matrix4.show();
+
     }
 }
