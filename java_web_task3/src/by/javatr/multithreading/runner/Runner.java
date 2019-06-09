@@ -4,11 +4,17 @@ import by.javatr.multithreading.service.print.Printer;
 import by.javatr.multithreading.dal.reader.ReaderFromFile;
 import by.javatr.multithreading.dal.creator.Creator;
 import by.javatr.multithreading.service.util.ThreadDiagonal;
+import by.javatr.multithreading.view.Dialog;
+import org.apache.log4j.PropertyConfigurator;
+
 import java.util.List;
 
 public class Runner {
 
     public static void main(String[] args) {
+        String log4jConfPath = "log4j.properties";
+        PropertyConfigurator.configure(log4jConfPath);
+
         // Check matrix reading from file
         List<String> resultMatrixFromFile = ReaderFromFile.readFromFile("data.txt");
         int[][] array;
@@ -67,6 +73,13 @@ public class Runner {
         }
         matrix11.show();
 
-    }
 
+        // Старт работы пользователя
+        Dialog dialog = new Dialog("Correct", "Correct");
+        dialog.readAndShowMatrixFromFile("data.txt");
+        dialog.readAndShowStreamsFromFile("stream.txt");
+        dialog.startStreamsAction();
+        dialog.showMatrix();
+
+    }
 }

@@ -21,7 +21,7 @@ public class Paragraph extends CompositeText {
         LOGGER.debug("Start Paragraph toText");
       String str = "";
       for (Component component : listOfComponents) {
-          str += component.toText() + " ";
+          str += component.toText();
       }
       return str.trim();
     }

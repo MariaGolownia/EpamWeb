@@ -1,15 +1,17 @@
 package by.javatr.multithreading.service.util;
 
+import org.apache.log4j.Logger;
+
 /**
  * Calculation is designed to work out certain calculations on the matrix
  * **/
 
 public class Calculation {
-
+    private static Logger LOGGER = Logger.getLogger(Calculation.class);
     // Определение максимального разряда в матрица
     // Метод используется для эргономичного вывода матрицы на экран
-
     public static int determineMaxDischarge(int[][] array) {
+        LOGGER.debug("Start determineMaxDischarge");
         int maxDischarge = 0;
         String maxValueStr = "";
         String minValueStr = "";

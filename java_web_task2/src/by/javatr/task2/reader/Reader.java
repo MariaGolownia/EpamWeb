@@ -17,7 +17,7 @@ public class Reader {
     private static Logger LOGGER = Logger.getLogger(Reader.class);
 
     public static Text readTextFromFile(String fileName)  {
-        String FILE_PATH = "src/by/javatr/data/" + fileName;
+        String FILE_PATH = fileName;
         Text text = new Text();
         try {
             File file = new File(FILE_PATH);

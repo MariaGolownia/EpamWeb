@@ -1,11 +1,11 @@
 package by.javatr.task2.test;
-
 import by.javatr.task2.entity.Text;
 import by.javatr.task2.reader.Reader;
 import by.javatr.task2.util.Converter;
 import by.javatr.task2.util.ComparatorText;
 import by.javatr.task2.util.Sort;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -14,15 +14,18 @@ import java.util.List;
 import static org.testng.Assert.*;
 
 public class SortTest {
-    private static Logger LOGGER = Logger.getLogger(ReaderTest.class);
+    private static Logger LOGGER = Logger.getLogger(SortTest.class);
 
     @Test
     public void testSortParagraphsBySentences() {
+        String log4jConfPath = "log4j.properties";
+        PropertyConfigurator.configure(log4jConfPath);
+
         LOGGER.debug("Start testSortParagraphsBySentences");
-        String expected = "\t4 Actions speak louder than words!  Good bye!  Bye!\n" +
-                "\t3 Discretion is the greater part of valour!  Practice makes perfect!  Necessity is the mother of invention!\n" +
-                "\t1 Two wrongs don't make a right.  To check sorting: a aaa aaaaa aaaaaaa aaaaaaaaaaaa!  Fortune favors the bold.\n" +
-                "\t2 Birds of a feather flock together.  Hope for the best, but prepare for the worst...  A picture is worth a thousand words!";
+        String expected = "\t4 Actions speak louder than words! Good bye! Bye!\n" +
+                "\t3 Discretion is the greater part of valour! Practice makes perfect! Necessity is the mother of invention!\n" +
+                "\t1 Two wrongs don't make a right. To check sorting: a aaa aaaaa aaaaaaa aaaaaaaaaaaa! Fortune favors the bold.\n" +
+                "\t2 Birds of a feather flock together. Hope for the best, but prepare for the worst... A picture is worth a thousand words!";
         Text text = Reader.readTextFromFile("data.txt");
         Sort sort = new Sort();
         List<String> paragraphListSort = new ArrayList<>();

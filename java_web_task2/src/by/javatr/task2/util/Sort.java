@@ -1,5 +1,5 @@
 package by.javatr.task2.util;
-import by.javatr.entity.*;
+import by.javatr.task2.entity.*;
 import by.javatr.task2.entity.Text;
 import org.apache.log4j.Logger;
 import java.util.ArrayList;

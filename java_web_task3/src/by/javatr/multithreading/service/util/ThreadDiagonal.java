@@ -1,5 +1,6 @@
 package by.javatr.multithreading.service.util;
 import by.javatr.multithreading.service.entity.Matrix;
+import org.apache.log4j.Logger;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.Lock;
@@ -8,6 +9,7 @@ import java.util.concurrent.locks.Lock;
  * **/
 
 public class ThreadDiagonal extends Thread {
+    private static Logger LOGGER = Logger.getLogger(ThreadDiagonal.class);
     private static final Lock lock = new ReentrantLock();
     private int uniqueNumber;
     private static int[][] array;
@@ -23,10 +25,9 @@ public class ThreadDiagonal extends Thread {
     }
 
     public void run() {
-            System.out.println("run: " + this.uniqueNumber);
+            LOGGER.debug("Start run");
             try {
                 for (int i = 0; i < array.length; i++) {
-
                     for (int j = 0; j < array[0].length; j++) {
                             if (i == j && array[i][j] == 0 && lock.tryLock()) {
                                 try {
