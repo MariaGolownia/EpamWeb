@@ -1,6 +1,5 @@
-package by.javatr.multithreading.util;
-import by.javatr.multithreading.entity.Matrix;
-
+package by.javatr.multithreading.service.util;
+import by.javatr.multithreading.service.entity.Matrix;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.Lock;

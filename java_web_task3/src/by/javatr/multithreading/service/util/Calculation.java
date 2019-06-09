@@ -1,4 +1,4 @@
-package by.javatr.multithreading.util;
+package by.javatr.multithreading.service.util;
 
 /**
  * Calculation is designed to work out certain calculations on the matrix

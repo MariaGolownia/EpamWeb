@@ -1,26 +1,28 @@
 package by.javatr.multithreading.runner;
-import by.javatr.multithreading.entity.Matrix;
-import by.javatr.multithreading.reader.ReaderFromFile;
-import by.javatr.multithreading.util.Creator;
-import by.javatr.multithreading.util.ThreadDiagonal;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import by.javatr.multithreading.service.entity.Matrix;
+import by.javatr.multithreading.service.print.Printer;
+import by.javatr.multithreading.dal.reader.ReaderFromFile;
+import by.javatr.multithreading.dal.creator.Creator;
+import by.javatr.multithreading.service.util.ThreadDiagonal;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Runner {
 
     public static void main(String[] args) {
-        List<String> resultFromFile = ReaderFromFile.readFromFile("data.txt");
+        // Check matrix reading from file
+        List<String> resultMatrixFromFile = ReaderFromFile.readFromFile("data.txt");
         int[][] array;
-        array = Creator.createArray(resultFromFile);
+        array = Creator.createArray(resultMatrixFromFile);
         Matrix matrix = Matrix.getInstance();
         matrix.initializeMatrix(array);
         matrix.show();
 
-        /*
+        //Checking to read streams from a file
+        List<String> resultFlowsFromFile = ReaderFromFile.readFromFile("stream.txt");
+        List<Integer> flowsArray = Creator.createFlow(resultFlowsFromFile);
+        Printer.printStream(flowsArray);
+
+
         //Correct initialization in accordance with the conditions of the task
         Matrix matrix01 = Matrix.getInstance();
         matrix01.initializeMatrix(9);
@@ -64,7 +66,7 @@ public class Runner {
             e.printStackTrace();
         }
         matrix11.show();
- */
+
     }
 
 }

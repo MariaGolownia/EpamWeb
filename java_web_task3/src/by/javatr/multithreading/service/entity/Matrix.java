@@ -1,6 +1,5 @@
-package by.javatr.multithreading.entity;
-import by.javatr.multithreading.util.Calculation;
-import java.util.concurrent.TimeUnit;
+package by.javatr.multithreading.service.entity;
+import by.javatr.multithreading.service.util.Calculation;
 
 /**
  * A matrix is a mathematical object written in the form of a rectangular table of elements

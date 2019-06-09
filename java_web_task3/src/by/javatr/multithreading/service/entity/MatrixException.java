@@ -1,4 +1,4 @@
-package by.javatr.multithreading.entity;
+package by.javatr.multithreading.service.entity;
 
 /**
  * MatrixException includes exceptions and errors when working with the matrix

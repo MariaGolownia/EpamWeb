@@ -1,4 +1,4 @@
-package by.javatr.multithreading.reader;
+package by.javatr.multithreading.dal.reader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
