@@ -4,6 +4,9 @@ import by.javatr.multithreading.entity.Matrix;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.Lock;
+/**
+ * ThreadDiagonal is designed to work with multithreading and changing the main diagonal of the matrix
+ * **/
 
 public class ThreadDiagonal extends Thread {
     private static final Lock lock = new ReentrantLock();

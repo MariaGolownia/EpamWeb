@@ -1,5 +1,9 @@
 package by.javatr.multithreading.util;
 
+/**
+ * Calculation is designed to work out certain calculations on the matrix
+ * **/
+
 public class Calculation {
 
     // Определение максимального разряда в матрица

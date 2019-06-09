@@ -1,53 +1,54 @@
 package by.javatr.multithreading.runner;
 import by.javatr.multithreading.entity.Matrix;
+import by.javatr.multithreading.reader.ReaderFromFile;
+import by.javatr.multithreading.util.Creator;
 import by.javatr.multithreading.util.ThreadDiagonal;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Runner {
 
     public static void main(String[] args) {
-        /*
-        //Incorrect initialization in accordance with the conditions of the task
-        Matrix matrix0 = new Matrix(22);
-        matrix0.show();
+        List<String> resultFromFile = ReaderFromFile.readFromFile("data.txt");
+        int[][] array;
+        array = Creator.createArray(resultFromFile);
+        Matrix matrix = Matrix.getInstance();
+        matrix.initializeMatrix(array);
+        matrix.show();
 
+        /*
         //Correct initialization in accordance with the conditions of the task
-        Matrix matrix01 = new Matrix(9);
+        Matrix matrix01 = Matrix.getInstance();
+        matrix01.initializeMatrix(9);
         matrix01.show();
 
-        //Incorrect initialization in accordance with the conditions of the task
-        Matrix matrix1 = new Matrix(9, 10);
-        matrix1.show();
-
         //Correct initialization in accordance with the conditions of the task
-        Matrix matrix11 = new Matrix(10, 10);
+        Matrix matrix11 = Matrix.getInstance();
+        matrix11.initializeMatrix(10, 10);
         matrix11.show();
 
-        //Incorrect initialization in accordance with the conditions of the task
-        Matrix matrix2 = new Matrix(6, 6, false);
-        matrix2.show();
+        //Correct initialization in accordance with the conditions of the task
+        matrix11.initializeMatrix(11,11,10);
+        matrix11.show();
+
 
         //Correct initialization in accordance with the conditions of the task
-        Matrix matrix21 = new Matrix(11, 11, false);
-        matrix21.show();
-
-        //Incorrect initialization in accordance with the conditions of the task
-        Matrix matrix3 = new Matrix(7, 7, true);
-        matrix3.show();
+        matrix11.initializeMatrix(12, 12, true);
+        matrix11.show();
 
         //Correct initialization in accordance with the conditions of the task
-        Matrix matrix31 = new Matrix(12, 12, true);
-        matrix31.show();
-*/
-        //Correct initialization in accordance with the conditions of the task
-        Matrix matrix4 = new Matrix(8, 8, true,1,100);
-        matrix4.show();
+        matrix11.initializeMatrix(8, 8, true,1,100);
+        matrix11.show();
 
-        ThreadDiagonal threadDiagonal1 = new ThreadDiagonal(matrix4, 1);
-        ThreadDiagonal threadDiagonal2 = new ThreadDiagonal(matrix4, 2);
-        ThreadDiagonal threadDiagonal3 = new ThreadDiagonal(matrix4, 3);
-        ThreadDiagonal threadDiagonal4 = new ThreadDiagonal(matrix4, 4);
+
+        ThreadDiagonal threadDiagonal1 = new ThreadDiagonal(matrix11, 1);
+        ThreadDiagonal threadDiagonal2 = new ThreadDiagonal(matrix11, 2);
+        ThreadDiagonal threadDiagonal3 = new ThreadDiagonal(matrix11, 3);
+        ThreadDiagonal threadDiagonal4 = new ThreadDiagonal(matrix11, 4);
         threadDiagonal1.start();
         threadDiagonal2.start();
         threadDiagonal3.start();
@@ -62,7 +63,8 @@ public class Runner {
          catch (InterruptedException e) {
             e.printStackTrace();
         }
-        matrix4.show();
-
+        matrix11.show();
+ */
     }
+
 }

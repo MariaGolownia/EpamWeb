@@ -1,5 +1,9 @@
 package by.javatr.multithreading.entity;
 
+/**
+ * MatrixException includes exceptions and errors when working with the matrix
+ **/
+
 public class MatrixException extends Exception {
 
     public MatrixException(){

@@ -1,7 +1,12 @@
 package by.javatr.multithreading.entity;
 import by.javatr.multithreading.util.Calculation;
-
 import java.util.concurrent.TimeUnit;
+
+/**
+ * A matrix is a mathematical object written in the form of a rectangular table of elements
+ * of a ring or field, which is a set of rows and columns,
+ * at the intersection of which its elements are located.
+ **/
 
 public class Matrix {
     private static final int MAX_NUMBER_OF_ROWS_OR_COLUMNS = 12;
@@ -14,20 +19,56 @@ public class Matrix {
     private int n;
     private int m;
 
-// Конструктор: создание и заполнение матрицы
-// Матрица инициализируется единицами, главная диагональ - нулями
-    public Matrix(int n) {
+    private Matrix () {}
+    private static class MatrixHolder {
+        private final static Matrix instance = new Matrix ();
+    }
+
+    public static Matrix getInstance () {
+        return MatrixHolder.instance;
+    }
+    //--------------------------------------------------------------------------
+    public void initializeMatrix(int[][] arr) {
+        try {
+            n = arr.length;
+            m = arr[0].length;
+            if (n != m) {
+                throw new MatrixException("\n" + "The number of rows of the matrix should be wounded by the number of columns!");
+            }
+            else if (n < MIN_NUMBER_OF_ROWS_OR_COLUMNS || n > MAX_NUMBER_OF_ROWS_OR_COLUMNS) {
+                throw new MatrixException("\nAn integer matrix cannot be initialized with values less "
+                        + MIN_NUMBER_OF_ROWS_OR_COLUMNS + " or more than " + MAX_NUMBER_OF_ROWS_OR_COLUMNS + "!\n"
+                        + "Trying to create a matrix " + n + " x " + n + " is not successful!");
+            }
+            else {
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < n; j++) {
+                        if (i == j && arr[i][j]!=NUMBER_TO_INITIALIZE_MAIN_DIAGONAL) {
+                            throw new MatrixException("\nThe main diagonal of the matrix must be initialized with zeros!");
+                        }
+                    }
+                }
+            }
+            this.array = arr;
+        }
+        catch (MatrixException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    // Матрица инициализируется единицами, главная диагональ - нулями
+    public void initializeMatrix(int n) {
         try {
             if (n < MIN_NUMBER_OF_ROWS_OR_COLUMNS || n > MAX_NUMBER_OF_ROWS_OR_COLUMNS) {
                 throw new MatrixException("\nAn integer matrix cannot be initialized with values less "
                         + MIN_NUMBER_OF_ROWS_OR_COLUMNS + " or more than " + MAX_NUMBER_OF_ROWS_OR_COLUMNS + "!\n"
-                + "Trying to create a matrix " + n + " x " + n + " is not successful!");
+                        + "Trying to create a matrix " + n + " x " + n + " is not successful!");
             }
             else {
-                array = new int[n][n];
+                this.array = new int[n][n];
                 for (int i = 0; i < n; i++) {
                     for (int j = 0; j < n; j++) {
-                        array[i][j] = (i == j) ? NUMBER_TO_INITIALIZE_MAIN_DIAGONAL : NUMBER_TO_INITIALIZE_EXCEPT_MAIN_DIAGONAL;
+                        this.array[i][j] = (i == j) ? NUMBER_TO_INITIALIZE_MAIN_DIAGONAL : NUMBER_TO_INITIALIZE_EXCEPT_MAIN_DIAGONAL;
                     }
                 }
             }
@@ -37,9 +78,8 @@ public class Matrix {
         }
     }
 
-// Конструктор: создание и заполнение матрицы
-// Матрица инициализируется единицами, главная диагональ - нулями
-    public Matrix(int n, int m) {
+    // Матрица инициализируется единицами, главная диагональ - нулями
+    public void  initializeMatrix(int n, int m) {
         try {
             if (n < MIN_NUMBER_OF_ROWS_OR_COLUMNS || n > MAX_NUMBER_OF_ROWS_OR_COLUMNS) {
                 throw new MatrixException("\nAn integer matrix cannot be initialized with values less "
@@ -64,9 +104,8 @@ public class Matrix {
         }
     }
 
-// Конструктор: создание и заполнение матрицы
-// Матрица инициализируется аданным числом numberToInitialize, главная диагональ - нулями
-    public Matrix(int nn, int mm, int numberToInitialize) {
+    // Матрица инициализируется заданным числом numberToInitialize, главная диагональ - нулями
+    public void initializeMatrix(int n, int m, int numberToInitialize) {
         try {
             if (n < MIN_NUMBER_OF_ROWS_OR_COLUMNS || n > MAX_NUMBER_OF_ROWS_OR_COLUMNS) {
                 throw new MatrixException("\nAn integer matrix cannot be initialized with values less "
@@ -78,8 +117,6 @@ public class Matrix {
                         + "Trying to create a matrix " + n + " x " + n + " is not successful!");
             }
             else {
-                n = nn;
-                m = mm;
                 array = new int[n][m];
                 for (int i = 0; i < n; i++) {
                     for (int j = 0; j < m; j++) {
@@ -92,12 +129,12 @@ public class Matrix {
             System.out.println(ex.getMessage());
         }
     }
-// Конструктор: создание и заполнение матрицы
-// Если ifRandomInitialization == false:
+
+    // Если ifRandomInitialization == false:
 // матрица инициализируется единицами, главная диагональ - нулями.
 // Если ifRandomInitialization == true:
 // матрица инициализируется рандомными значениями в пределах диапазона int, главная диагональ - нулями.
-    public Matrix(int n, int m, boolean ifRandomInitialization) {
+    public void initializeMatrix(int n, int m, boolean ifRandomInitialization) {
         try {
             if (n < MIN_NUMBER_OF_ROWS_OR_COLUMNS || n > MAX_NUMBER_OF_ROWS_OR_COLUMNS) {
                 throw new MatrixException("\nAn integer matrix cannot be initialized with values less "
@@ -133,12 +170,11 @@ public class Matrix {
         }
     }
 
-    // Конструктор: создание и заполнение матрицы
-// Если ifRandomInitialization == false:
+    // Если ifRandomInitialization == false:
 // матрица инициализируется единицами, главная диагональ - нулями.
 // Если ifRandomInitialization == true:
 // матрица инициализируется рандомными значениями в пределах заданного пользователем диапазона, главная диагональ - нулями.
-    public Matrix(int n, int m, boolean ifRandomInitialization, int minR, int maxR) {
+    public void initializeMatrix(int n, int m, boolean ifRandomInitialization, int minR, int maxR) {
         try {
             if (n < MIN_NUMBER_OF_ROWS_OR_COLUMNS || n > MAX_NUMBER_OF_ROWS_OR_COLUMNS) {
                 throw new MatrixException("\nAn integer matrix cannot be initialized with values less "
