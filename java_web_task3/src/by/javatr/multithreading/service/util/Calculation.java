@@ -24,8 +24,8 @@ public class Calculation {
 
     public static int determineMaxValue(int[][] array) {
         int maxValue = Integer.MIN_VALUE;
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[0].length; j++) {
+        for (int i = 0; i < array.length; ++i) {
+            for (int j = 0; j < array[0].length; ++j) {
                 if (array [i][j] > maxValue) {
                     maxValue = array [i][j];
                 }
@@ -37,8 +37,8 @@ public class Calculation {
 
     public static int determineMinValue(int[][] array) {
         int minValue = Integer.MAX_VALUE;
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[0].length; j++) {
+        for (int i = 0; i < array.length; ++i) {
+            for (int j = 0; j < array[0].length; ++j) {
                 if (array [i][j] < minValue) {
                     minValue = array [i][j];
                 }

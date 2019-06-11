@@ -45,8 +45,8 @@ public class Matrix {
                         + "Trying to create a matrix " + n + " x " + n + " is not successful!");
             }
             else {
-                for (int i = 0; i < n; i++) {
-                    for (int j = 0; j < n; j++) {
+                for (int i = 0; i < n; ++i) {
+                    for (int j = 0; j < n; ++j) {
                         if (i == j && arr[i][j]!=NUMBER_TO_INITIALIZE_MAIN_DIAGONAL) {
                             throw new MatrixException("\nThe main diagonal of the matrix must be initialized with zeros!");
                         }
@@ -57,6 +57,7 @@ public class Matrix {
         }
         catch (MatrixException ex) {
             System.out.println(ex.getMessage());
+            LOGGER.error("MatrixException run");
         }
     }
 
@@ -71,8 +72,8 @@ public class Matrix {
             }
             else {
                 this.array = new int[n][n];
-                for (int i = 0; i < n; i++) {
-                    for (int j = 0; j < n; j++) {
+                for (int i = 0; i < n; ++i) {
+                    for (int j = 0; j < n; ++j) {
                         this.array[i][j] = (i == j) ? NUMBER_TO_INITIALIZE_MAIN_DIAGONAL : NUMBER_TO_INITIALIZE_EXCEPT_MAIN_DIAGONAL;
                     }
                 }
@@ -80,6 +81,7 @@ public class Matrix {
         }
         catch (MatrixException ex) {
             System.out.println(ex.getMessage());
+            LOGGER.error("MatrixException run");
         }
     }
 
@@ -107,6 +109,7 @@ public class Matrix {
         }
         catch (MatrixException ex) {
             System.out.println(ex.getMessage());
+            LOGGER.error("MatrixException run");
         }
     }
 
@@ -134,6 +137,7 @@ public class Matrix {
         }
         catch (MatrixException ex) {
             System.out.println(ex.getMessage());
+            LOGGER.error("MatrixException run");
         }
     }
 
@@ -175,6 +179,7 @@ public class Matrix {
         }
         catch (MatrixException ex) {
             System.out.println(ex.getMessage());
+            LOGGER.error("MatrixException run");
         }
     }
 
@@ -215,6 +220,7 @@ public class Matrix {
         }
         catch (MatrixException ex) {
             System.out.println(ex.getMessage());
+            LOGGER.error("MatrixException run");
         }
     }
 
@@ -244,6 +250,7 @@ public class Matrix {
         }
         catch (MatrixException ex) {
             System.out.println(ex.getMessage());
+            LOGGER.error("MatrixException run");
         }
     }
 

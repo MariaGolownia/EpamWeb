@@ -11,6 +11,7 @@ import java.util.concurrent.locks.Lock;
 public class ThreadDiagonal extends Thread {
     private static Logger LOGGER = Logger.getLogger(ThreadDiagonal.class);
     private static final Lock lock = new ReentrantLock();
+    private static final int DEFAULT_NUMBER_OF_MAIN_DIAGONAL = 0;
     private int uniqueNumber;
     private static int[][] array;
 
@@ -27,9 +28,9 @@ public class ThreadDiagonal extends Thread {
     public void run() {
             LOGGER.debug("Start run");
             try {
-                for (int i = 0; i < array.length; i++) {
-                    for (int j = 0; j < array[0].length; j++) {
-                            if (i == j && array[i][j] == 0 && lock.tryLock()) {
+                for (int i = 0; i < array.length; ++i) {
+                    for (int j = 0; j < array[0].length; ++j) {
+                            if (i == j && array[i][j] == DEFAULT_NUMBER_OF_MAIN_DIAGONAL && lock.tryLock()) {
                                 try {
                                     array[i][j] = this.uniqueNumber;
                                 }
@@ -41,7 +42,8 @@ public class ThreadDiagonal extends Thread {
                     }
                 }
             } catch (InterruptedException e) {
-                System.err.print(e);
+                e.printStackTrace();
+                LOGGER.error("InterruptedException run");
             }
     }
 

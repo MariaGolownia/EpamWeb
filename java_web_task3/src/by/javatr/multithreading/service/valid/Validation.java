@@ -30,6 +30,7 @@ public class Validation {
         }
         catch (ValidationException ex) {
             ex.printStackTrace();
+            LOGGER.error("ValidationException run");
         }
     }
 }
