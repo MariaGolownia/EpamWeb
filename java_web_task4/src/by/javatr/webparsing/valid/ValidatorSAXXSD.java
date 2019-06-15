@@ -6,11 +6,13 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+
+import by.javatr.webparsing.error.GemErrorHandler;
 import org.xml.sax.SAXException;
 
 public class ValidatorSAXXSD {
 
-    public ValidatorSAXXSD (String fileName, String schemaName) {
+    public ValidatorSAXXSD (String fileName, String schemaName, String logname) {
         String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
         SchemaFactory factory = SchemaFactory.newInstance(language);
         File schemaLocation = new File(schemaName);
@@ -23,6 +25,10 @@ public class ValidatorSAXXSD {
             Source source = new StreamSource(fileName);
             validator.validate(source);
             System.out.println(fileName + " is valid.");
+            GemErrorHandler sh = new GemErrorHandler(logname);
+            validator.setErrorHandler(sh);
+            validator.validate(source);
+            System.out.println(fileName + " validating is ended.");
         } catch (SAXException e) {
             System.err.print("validation "+ fileName + " is not valid because "
                     + e.getMessage());

@@ -8,7 +8,7 @@ public class Runner {
         String logName = "logs/log.txt";
         ValidatorSAX validatorSAX = new ValidatorSAX(fileName, schemaName, logName);
 
-        ValidatorSAXXSD validatorSAXXSD = new ValidatorSAXXSD(fileName, schemaName);
+        ValidatorSAXXSD validatorSAXXSD = new ValidatorSAXXSD(fileName, schemaName, logName);
 
     }
 }

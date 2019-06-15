@@ -11,7 +11,6 @@
                          maxOccurs="unbounded"/>
             </sequence>
         </complexType>
-
     </element>
 
     <complexType name="Gem">
@@ -51,6 +50,7 @@
             <extension base="tns:Gem">
                 <choice minOccurs="0" maxOccurs="unbounded">
                 <element name="manufacturingMethod" type="string"/>
+                 <element name="processingMethod" type="string"/>
                 </choice>
             </extension>
         </complexContent>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <?xml-stylesheet type="text/xsl" href=" gems.xsl"?>
-<gems>
+
+<gems xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.epam.training.by/classes" xsi:schemaLocation="http://www.epam.training.by/classes gems.xsd" >
+
     <!-- This is a comment: gem №1 -->
     <naturalGem id ="d1" preciousness = "precious" >
         <name>diamond</name>
@@ -12,9 +15,9 @@
         </visualParameters>
         <originTreatment>France</originTreatment>
         <treater>Limited liability company Dimond</treater>
-        <dateTreatment>20.11.1991</dateTreatment>
+        <dateTreatment>1991-11-20</dateTreatment>
         <originExtraction>Russia</originExtraction>
-        <dateExtraction>25.02.1990</dateExtraction>
+        <dateExtraction>1990-02-20</dateExtraction>
     </naturalGem>
 
     <!-- This is a comment: gem №2-->
@@ -28,9 +31,9 @@
         </visualParameters>
         <originTreatment>France</originTreatment>
         <treater>Public corporation Star</treater>
-        <dateTreatment>20.11.1991</dateTreatment>
+        <dateTreatment>2019-06-02</dateTreatment>
         <originExtraction>France</originExtraction>
-        <dateExtraction>15.04.2019</dateExtraction>
+        <dateExtraction>2019-05-04</dateExtraction>
     </naturalGem>
 
 
@@ -45,13 +48,13 @@
         </visualParameters>
         <originTreatment>France</originTreatment>
         <treater>Limited liability company Dimond</treater>
-        <dateTreatment>20.11.1991</dateTreatment>
+        <dateTreatment>1992-02-05</dateTreatment>
         <manufacturingMethod>Hydrothermal method</manufacturingMethod>
     </syntheticGem>
 
 
     <!-- This is a comment: gem №4-->
-    <syntheticGem id="d4">
+    <syntheticGem id="d4" preciousness = "precious">
         <name>diamond</name>
         <valueGr>2.650</valueGr>
         <visualParameters>
@@ -61,8 +64,7 @@
         </visualParameters>
         <originTreatment>Poland</originTreatment>
         <treater>Limited liability company Super</treater>
-        <dateTreatment>12.11.1996</dateTreatment>
-        <preciousness>precious</preciousness>
+        <dateTreatment>1996-11-10</dateTreatment>
         <manufacturingMethod>Hydrothermal method</manufacturingMethod>
     </syntheticGem>
 
