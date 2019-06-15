@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<?xml-stylesheet type="text/xsl" href=" gems.xsl"?>
+<gems>
+    <!-- This is a comment: gem №1 -->
+    <naturalGem id ="d1" preciousness = "precious" >
+        <name>diamond</name>
+        <valueGr>1.512</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>99.9</transparencyPr>
+            <facesNumber>15</facesNumber>
+        </visualParameters>
+        <originTreatment>France</originTreatment>
+        <treater>Limited liability company Dimond</treater>
+        <dateTreatment>20.11.1991</dateTreatment>
+        <originExtraction>Russia</originExtraction>
+        <dateExtraction>25.02.1990</dateExtraction>
+    </naturalGem>
+
+    <!-- This is a comment: gem №2-->
+    <naturalGem id="d2" preciousness = "precious">
+        <name>diamond</name>
+        <valueGr>2.112</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>99.9</transparencyPr>
+            <facesNumber>15</facesNumber>
+        </visualParameters>
+        <originTreatment>France</originTreatment>
+        <treater>Public corporation Star</treater>
+        <dateTreatment>20.11.1991</dateTreatment>
+        <originExtraction>France</originExtraction>
+        <dateExtraction>15.04.2019</dateExtraction>
+    </naturalGem>
+
+
+    <!-- This is a comment: gem №3-->
+    <syntheticGem id="d3" preciousness = "precious">
+        <name>diamond</name>
+        <valueGr>3.010</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>89.9</transparencyPr>
+            <facesNumber>13</facesNumber>
+        </visualParameters>
+        <originTreatment>France</originTreatment>
+        <treater>Limited liability company Dimond</treater>
+        <dateTreatment>20.11.1991</dateTreatment>
+        <manufacturingMethod>Hydrothermal method</manufacturingMethod>
+    </syntheticGem>
+
+
+    <!-- This is a comment: gem №4-->
+    <syntheticGem id="d4">
+        <name>diamond</name>
+        <valueGr>2.650</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>97.9</transparencyPr>
+            <facesNumber>11</facesNumber>
+        </visualParameters>
+        <originTreatment>Poland</originTreatment>
+        <treater>Limited liability company Super</treater>
+        <dateTreatment>12.11.1996</dateTreatment>
+        <preciousness>precious</preciousness>
+        <manufacturingMethod>Hydrothermal method</manufacturingMethod>
+    </syntheticGem>
+
+
+</gems>
+
+
+
+
+
+
+
+
+
