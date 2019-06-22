@@ -1,4 +1,4 @@
 package by.javatr.webparsing.util;
 
-public class GemHandler {
+public class Converter {
 }
