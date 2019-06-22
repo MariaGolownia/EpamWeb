@@ -1,5 +1,5 @@
-package by.javatr.webparsing.util;
-import by.javatr.webparsing.entity.ObjectFactory;
+package by.javatr.webparsing.service.util;
+import by.javatr.webparsing.service.entity.ObjectFactory;
 import javax.xml.bind.JAXBElement;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;

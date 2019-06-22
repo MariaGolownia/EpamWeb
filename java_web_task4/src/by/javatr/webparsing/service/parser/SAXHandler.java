@@ -1,15 +1,12 @@
-package by.javatr.webparsing.parser;
-import by.javatr.webparsing.entity.Gem;
-import by.javatr.webparsing.entity.NaturalGem;
-import by.javatr.webparsing.entity.ObjectFactory;
-import by.javatr.webparsing.entity.SyntheticGem;
-import by.javatr.webparsing.util.Converter;
-import by.javatr.webparsing.util.GemEnum;
-import by.javatr.webparsing.util.ValidationException;
+package by.javatr.webparsing.service.parser;
+import by.javatr.webparsing.service.entity.Gem;
+import by.javatr.webparsing.service.entity.NaturalGem;
+import by.javatr.webparsing.service.entity.SyntheticGem;
+import by.javatr.webparsing.service.entity.VisualParameters;
+import by.javatr.webparsing.service.util.Converter;
+import by.javatr.webparsing.service.util.GemEnum;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
-
-import javax.xml.bind.JAXBElement;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -19,31 +16,27 @@ public class SAXHandler extends DefaultHandler {
     private Gem current = null;
     private GemEnum currentEnum = null;
     private EnumSet<GemEnum> withText;
+    private VisualParameters visualParameters;
 
     public SAXHandler() {
         gems = new ArrayList<>();
-        //???????withText = EnumSet.range(GemEnum.ID, GemEnum.PRECIOUSNESS);
+        withText = EnumSet.range(GemEnum.ID, GemEnum.PROCESSINGMETHOD);
     }
     public List<Gem> getGems() {
         return gems;
     }
     public void startElement(String uri, String localName, String qName, Attributes attrs) {
-        if ("gem".equals(localName)) {
-            current = new Gem();
-            GemEnum temp = GemEnum.valueOf(localName.toUpperCase());
-            if (withText.contains(temp)) {
-                currentEnum = temp;
-            }
-        }
+        if ("syntheticGem".equals(localName)) {
+            current = new SyntheticGem();
+            current.setId(attrs.getValue(0));
+            current.setPreciousness(attrs.getValue(1));
+       }
         else if ("naturalGem".equals(localName)) {
             current = new NaturalGem();
-            GemEnum temp = GemEnum.valueOf(localName.toUpperCase());
-            if (withText.contains(temp)) {
-                currentEnum = temp;
-            }
+            current.setId(attrs.getValue(0));
+            current.setPreciousness(attrs.getValue(1));
         }
         else {
-            current = new SyntheticGem();
             GemEnum temp = GemEnum.valueOf(localName.toUpperCase());
             if (withText.contains(temp)) {
                 currentEnum = temp;
@@ -52,7 +45,10 @@ public class SAXHandler extends DefaultHandler {
     }
 
     public void endElement(String uri, String localName, String qName) {
-        if ("gem".equals(localName)) {
+        if ("visualParameters".equals(localName)) {
+            current.setVisualParameters(visualParameters);
+        }
+        else if ("gem".equals(localName)) {
             gems.add(current);
         }
         else if ("naturalGem".equals(localName)) {
@@ -61,13 +57,7 @@ public class SAXHandler extends DefaultHandler {
         else if ("syntheticGem".equals(localName)) {
             gems.add(current);
         }
-        else {
-            try {
-                throw  new ValidationException("Error type gem!");
-            } catch (ValidationException e) {
-                e.printStackTrace();
-            }
-        }
+        else {return;}
     }
 
     public void characters(char[] ch, int start, int length) {
@@ -80,6 +70,21 @@ public class SAXHandler extends DefaultHandler {
                     break;
                 case ID:
                     current.setId(s);
+                    break;
+                case VALUEGR:
+                    current.setValueGr(Double.valueOf(s));
+                    break;
+                case VISUALPARAMETERS:
+                    visualParameters = new VisualParameters();
+                    break;
+                case COLOR:
+                    visualParameters.setColor(s);
+                    break;
+                case TRANSPARENCYPR:
+                    visualParameters.setTransparencyPr(Double.valueOf(s));
+                    break;
+                case FACESNUMBER:
+                    visualParameters.setFacesNumber(Double.valueOf(s));
                     break;
                 case ORIGINTREATMENT:
                     current.setOriginTreatment(s);
@@ -97,13 +102,12 @@ public class SAXHandler extends DefaultHandler {
                     ((NaturalGem)current).setDateExtraction(converter.convertStringToXMLGregorianCalendar(s));
                     break;
                 case MANUFACTURINGMETHOD:
-                {
-
-                }
-                    ((SyntheticGem)current).setManufacturingMethodOrProcessingMethod(s);
+                    ((SyntheticGem)current).
+                            setManufacturingMethodOrProcessingMethod(converter.convertStringToListJAX(s));
                     break;
                 case PROCESSINGMETHOD:
-                    ((SyntheticGem)current).setManufacturingMethodOrProcessingMethod(s);
+                    ((SyntheticGem)current).
+                            setManufacturingMethodOrProcessingMethod(converter.convertStringToListJAX(s));
                     break;
                 default:
                     throw new EnumConstantNotPresentException(

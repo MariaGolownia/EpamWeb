@@ -1,4 +1,4 @@
-package by.javatr.webparsing.parser;
+package by.javatr.webparsing.service.parser;
 import java.io.IOException;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;

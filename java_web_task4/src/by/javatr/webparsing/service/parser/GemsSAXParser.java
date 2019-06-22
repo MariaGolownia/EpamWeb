@@ -1,16 +1,13 @@
-package by.javatr.webparsing.parser;
+package by.javatr.webparsing.service.parser;
 import java.io.IOException;
 import java.util.List;
-import by.javatr.webparsing.entity.Gem;
+import by.javatr.webparsing.service.entity.Gem;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
-import by.javatr.webparsing.entity.Gem;
 
-import java.util.List;
-
-public class GemsSAXParser {
-        private List<Gem> gems;
+public class GemsSAXParser extends Parser {
+    private List<Gem> gems;
     private SAXHandler sh;
     private XMLReader reader;
 
@@ -28,7 +25,7 @@ public class GemsSAXParser {
     public List<Gem> getGems() {
         return gems;
     }
-    public void buildSetStudents(String fileName) {
+    public void buildSetGems(String fileName) {
         try {
             // разбор XML-документа
             reader.parse(fileName);

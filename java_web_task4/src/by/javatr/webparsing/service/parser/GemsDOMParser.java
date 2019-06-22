@@ -1,4 +1,4 @@
-package by.javatr.webparsing.parser;
+package by.javatr.webparsing.service.parser;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -13,24 +13,26 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import by.javatr.webparsing.entity.*;
+import by.javatr.webparsing.service.entity.*;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class GemsDOMParser extends Builder {
-
+public class GemsDOMParser extends Parser {
+    private static Logger LOGGER = Logger.getLogger(GemsDOMParser.class);
     private List<Gem> gems;
     private DocumentBuilder docBuilder;
     private static final String NATURAL_GEM = "naturalGem";
     private static final String SYNTHETIC_GEM = "syntheticGem";
 
     public GemsDOMParser() {
+        LOGGER.debug("Start GemsDOMParser");
         String xmlFileName = "gems.xml";
         String xsdSchemaName = "gems.xsd";
         String logName = "logs/log.txt";
-
         this.gems = new ArrayList<>();
         // создание DOM-анализатора
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -44,7 +46,6 @@ public class GemsDOMParser extends Builder {
         } catch (SAXException e) {
             e.printStackTrace();
         }
-
         try {
             docBuilder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
@@ -57,6 +58,7 @@ public class GemsDOMParser extends Builder {
     }
 
     public void buildListGems(String fileName) {
+        LOGGER.debug("Start buildListGems");
         Document doc = null;
         try {
             // parsing XML-документа и создание древовидной структуры
@@ -75,23 +77,6 @@ public class GemsDOMParser extends Builder {
                 Gem gem = buildSyntheticGem(gemElement);
                 gems.add(gem);
             }
-
-            //получение списка дочерних элементов <gem>
-//            NodeList gemsList = root.getElementsByTagName("gem");
-//            for (int i = 0; i < gemsList.getLength(); i++) {
-//                Element gemElement = (Element) gemsList.item(i);
-//
-//                Node node = gemsList.item(i);
-//                if (node instanceof NaturalGem) {
-//                    Gem gem = buildNaturalGem(gemElement);
-//                    gems.add(gem);
-//                }
-//                else {
-//                    Gem gem = buildSyntheticGem(gemElement);
-//                    gems.add(gem);
-//                }
-//            }
-
         } catch (IOException e) {
             System.err.println("File error or I/O error: " + e);
         } catch (SAXException e) {
@@ -118,28 +103,22 @@ public class GemsDOMParser extends Builder {
         // заполнение объекта gem
         //      <naturalGem id ="d1" preciousness = "precious" >
         gem.setId(gemElement.getAttribute("id"));
-        //--------------------------------------------------------------------------------
-        System.out.println("\n" + gemElement.getAttribute("id"));
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(gemElement.getAttribute("id"));
+
+        //      <naturalGem id ="d1" preciousness = "precious" >
         gem.setPreciousness(gemElement.getAttribute("preciousness"));
-        //--------------------------------------------------------------------------------
-        System.out.println(gemElement.getAttribute("preciousness"));
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(gemElement.getAttribute("preciousness"));
 
         //        <name>diamond</name>
         String nameOfGem = String.valueOf(getElementTextContent(gemElement, "name"));
         gem.setName(nameOfGem);
-        //--------------------------------------------------------------------------------
-        System.out.println(nameOfGem);
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(nameOfGem);
 
         //        <valueGr>1.512</valueGr>
         Double valueGr = Double.valueOf(getElementTextContent(
                 gemElement, "valueGr"));
         gem.setValueGr(valueGr);
-        //--------------------------------------------------------------------------------
-        System.out.println(valueGr);
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(valueGr);
 
         //        <visualParameters>
         //            <color>colorless</color>
@@ -149,41 +128,31 @@ public class GemsDOMParser extends Builder {
         VisualParameters visualParameters = new VisualParameters();
         Element visualParametersElement = (Element) gemElement.getElementsByTagName("visualParameters").item(0);
         visualParameters.setColor(getElementTextContent(visualParametersElement, "color"));
-        //--------------------------------------------------------------------------------
-        System.out.println(getElementTextContent(visualParametersElement, "color"));
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(getElementTextContent(visualParametersElement, "color"));
+
         visualParameters.setTransparencyPr(Double.valueOf(getElementTextContent(visualParametersElement, "transparencyPr")));
-        //--------------------------------------------------------------------------------
-        System.out.println(getElementTextContent(visualParametersElement, "transparencyPr"));
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(getElementTextContent(visualParametersElement, "transparencyPr"));
+
         visualParameters.setFacesNumber(Double.valueOf(getElementTextContent(visualParametersElement, "facesNumber")));
-        //--------------------------------------------------------------------------------
-        System.out.println(getElementTextContent(visualParametersElement, "facesNumber"));
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(getElementTextContent(visualParametersElement, "facesNumber"));
         gem.setVisualParameters(visualParameters);
 
         //        <originTreatment>France</originTreatment>
         String originTreatmentGem = String.valueOf(getElementTextContent(gemElement, "originTreatment"));
         gem.setOriginTreatment(originTreatmentGem);
-        //--------------------------------------------------------------------------------
-        System.out.println(originTreatmentGem);
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(originTreatmentGem);
 
         //        <treater>Limited liability company Dimond</treater>
         String treaterGem = String.valueOf(getElementTextContent(gemElement, "treater"));
         gem.setTreater(treaterGem);
-        //--------------------------------------------------------------------------------
-        System.out.println(treaterGem);
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(treaterGem);
 
         //        <dateTreatment>1991-11-20</dateTreatment>
         try {
             XMLGregorianCalendar resultDateTreatment = DatatypeFactory.newInstance()
                     .newXMLGregorianCalendar(getElementTextContent(gemElement, "dateTreatment"));
             gem.setDateTreatment(resultDateTreatment);
-            //--------------------------------------------------------------------------------
-            System.out.println(resultDateTreatment);
-            //--------------------------------------------------------------------------------
+            LOGGER.debug(resultDateTreatment);
         } catch (DatatypeConfigurationException e) {
             e.printStackTrace();
         }
@@ -191,18 +160,14 @@ public class GemsDOMParser extends Builder {
         //        <originExtraction>Russia</originExtraction>
         String originExtractionGem = String.valueOf(getElementTextContent(gemElement, "originExtraction"));
         ((NaturalGem) gem).setOriginExtraction(originExtractionGem);
-        //--------------------------------------------------------------------------------
-        System.out.println(originExtractionGem);
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(originExtractionGem);
 
         //        <dateExtraction>1990-02-20</dateExtraction>
         try {
             XMLGregorianCalendar resultDateExtraction = DatatypeFactory.newInstance()
                     .newXMLGregorianCalendar(getElementTextContent(gemElement, "dateExtraction"));
             ((NaturalGem) gem).setDateExtraction(resultDateExtraction);
-            //--------------------------------------------------------------------------------
-            System.out.println(resultDateExtraction);
-            //--------------------------------------------------------------------------------
+            LOGGER.debug(resultDateExtraction);
         } catch (DatatypeConfigurationException e) {
             e.printStackTrace();
         }
@@ -227,28 +192,20 @@ public class GemsDOMParser extends Builder {
         // заполнение объекта gem
         //      <naturalGem id ="d1" preciousness = "precious" >
         gem.setId(gemElement.getAttribute("id"));
-        //--------------------------------------------------------------------------------
-        System.out.println("\n" + gemElement.getAttribute("id"));
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(gemElement.getAttribute("id"));
         gem.setPreciousness(gemElement.getAttribute("preciousness"));
-        //--------------------------------------------------------------------------------
-        System.out.println(gemElement.getAttribute("preciousness"));
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(gemElement.getAttribute("preciousness"));
 
         //        <name>diamond</name>
         String nameOfGem = String.valueOf(getElementTextContent(gemElement, "name"));
         gem.setName(nameOfGem);
-        //--------------------------------------------------------------------------------
-        System.out.println(nameOfGem);
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(nameOfGem);
 
         //        <valueGr>1.512</valueGr>
         Double valueGr = Double.valueOf(getElementTextContent(
                 gemElement, "valueGr"));
         gem.setValueGr(valueGr);
-        //--------------------------------------------------------------------------------
-        System.out.println(valueGr);
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(valueGr);
 
         //        <visualParameters>
         //            <color>colorless</color>
@@ -258,41 +215,31 @@ public class GemsDOMParser extends Builder {
         VisualParameters visualParameters = new VisualParameters();
         Element visualParametersElement = (Element) gemElement.getElementsByTagName("visualParameters").item(0);
         visualParameters.setColor(getElementTextContent(visualParametersElement, "color"));
-        //--------------------------------------------------------------------------------
-        System.out.println(getElementTextContent(visualParametersElement, "color"));
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(getElementTextContent(visualParametersElement, "color"));
+
         visualParameters.setTransparencyPr(Double.valueOf(getElementTextContent(visualParametersElement, "transparencyPr")));
-        //--------------------------------------------------------------------------------
-        System.out.println(getElementTextContent(visualParametersElement, "transparencyPr"));
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(getElementTextContent(visualParametersElement, "transparencyPr"));
+
         visualParameters.setFacesNumber(Double.valueOf(getElementTextContent(visualParametersElement, "facesNumber")));
-        //--------------------------------------------------------------------------------
-        System.out.println(getElementTextContent(visualParametersElement, "facesNumber"));
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(getElementTextContent(visualParametersElement, "facesNumber"));
         gem.setVisualParameters(visualParameters);
 
         //        <originTreatment>France</originTreatment>
         String originTreatmentGem = String.valueOf(getElementTextContent(gemElement, "originTreatment"));
         gem.setOriginTreatment(originTreatmentGem);
-        //--------------------------------------------------------------------------------
-        System.out.println(originTreatmentGem);
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(originTreatmentGem);
 
         //        <treater>Limited liability company Dimond</treater>
         String treaterGem = String.valueOf(getElementTextContent(gemElement, "treater"));
         gem.setTreater(treaterGem);
-        //--------------------------------------------------------------------------------
-        System.out.println(treaterGem);
-        //--------------------------------------------------------------------------------
+        LOGGER.debug(treaterGem);
 
         //        <dateTreatment>1991-11-20</dateTreatment>
         try {
             XMLGregorianCalendar resultDateTreatment = DatatypeFactory.newInstance()
                     .newXMLGregorianCalendar(getElementTextContent(gemElement, "dateTreatment"));
             gem.setDateTreatment(resultDateTreatment);
-            //--------------------------------------------------------------------------------
-            System.out.println(resultDateTreatment);
-            //--------------------------------------------------------------------------------
+            LOGGER.debug(resultDateTreatment);
         } catch (DatatypeConfigurationException e) {
             e.printStackTrace();
         }
@@ -313,10 +260,8 @@ public class GemsDOMParser extends Builder {
         }
 
         ((SyntheticGem) gem).setManufacturingMethodOrProcessingMethod(methodList);
-        //--------------------------------------------------------------------------------
         for (int i = 0; i < methodList.size(); i++)
-        System.out.println(methodList.get(i).getValue());
-        //--------------------------------------------------------------------------------
+            LOGGER.debug(methodList.get(i).getValue());
         return gem;
     }
 

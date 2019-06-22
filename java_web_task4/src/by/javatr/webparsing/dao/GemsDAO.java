@@ -48,7 +48,7 @@ public class GemsDAO implements Cloneable{
 
     @Override
     public String toString() {
-        return "\nGemsDAO{" +
+        return "GemsDAO{" +
                 "gems=" + gems +
                 '}';
 

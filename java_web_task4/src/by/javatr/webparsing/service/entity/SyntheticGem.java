@@ -6,7 +6,7 @@
 //
 
 
-package by.javatr.webparsing.entity;
+package by.javatr.webparsing.service.entity;
 
 import java.util.ArrayList;
 import java.util.List;

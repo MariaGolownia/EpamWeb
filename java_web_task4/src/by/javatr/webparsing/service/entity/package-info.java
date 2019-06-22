@@ -6,4 +6,4 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://www.epam.training.by/classes", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package by.javatr.webparsing.entity;
+package by.javatr.webparsing.service.entity;

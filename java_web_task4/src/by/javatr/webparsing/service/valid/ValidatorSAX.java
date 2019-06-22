@@ -1,4 +1,4 @@
-package by.javatr.webparsing.valid;
+package by.javatr.webparsing.service.valid;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.XMLConstants;
@@ -8,7 +8,7 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import by.javatr.webparsing.parser.GemErrorHandler;
+import by.javatr.webparsing.service.parser.GemErrorHandler;
 import org.xml.sax.SAXException;
 
 public class ValidatorSAX {

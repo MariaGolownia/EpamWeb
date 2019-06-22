@@ -1,11 +1,9 @@
-package by.javatr.webparsing.util;
-import by.javatr.webparsing.entity.Gem;
-import by.javatr.webparsing.entity.Gems;
+package by.javatr.webparsing.service.util;
+import by.javatr.webparsing.service.entity.Gems;
 import org.xml.sax.SAXException;
 import java.io.File;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;

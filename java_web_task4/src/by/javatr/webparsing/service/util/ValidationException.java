@@ -1,4 +1,4 @@
-package by.javatr.webparsing.util;
+package by.javatr.webparsing.service.util;
 
 public class ValidationException extends Exception {
 

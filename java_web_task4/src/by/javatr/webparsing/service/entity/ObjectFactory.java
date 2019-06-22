@@ -6,7 +6,7 @@
 //
 
 
-package by.javatr.webparsing.entity;
+package by.javatr.webparsing.service.entity;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

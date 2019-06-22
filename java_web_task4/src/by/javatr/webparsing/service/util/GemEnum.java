@@ -1,8 +1,10 @@
-package by.javatr.webparsing.util;
+package by.javatr.webparsing.service.util;
 
 public enum GemEnum {
     GEMS("gems"),
     GEM("gem"),
+    NATURALGEM("naturalGem"),
+    SYNTHETICGEM("syntheticGem"),
     ID("id"),
     PRECIOUSNESS("preciousness"),
     NAME("name"),

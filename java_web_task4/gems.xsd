@@ -64,9 +64,9 @@
         </complexContent>
     </complexType>
 
-    <element name="gem" type="tns:Gem" abstract="true"></element>
-    <element name="naturalGem" type="tns:NaturalGem" substitutionGroup="tns:gem"></element>
-    <element name="syntheticGem" type="tns:SyntheticGem" substitutionGroup="tns:gem"></element>
+    <element name="gem" type="tns:Gem" abstract="true"/>
+    <element name="naturalGem" type="tns:NaturalGem" substitutionGroup="tns:gem"/>
+    <element name="syntheticGem" type="tns:SyntheticGem" substitutionGroup="tns:gem"/>
 
 
     <simpleType name="Unique">
@@ -77,9 +77,9 @@
 
     <simpleType name="Preciousness">
         <restriction base="string">
-            <enumeration value="vague"></enumeration>
-            <enumeration value="precious"></enumeration>
-            <enumeration value="semiprecious"></enumeration>
+            <enumeration value="vague"/>
+            <enumeration value="precious"/>
+            <enumeration value="semiprecious"/>
         </restriction>
     </simpleType>
 </schema>
