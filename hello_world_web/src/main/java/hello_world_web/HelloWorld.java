@@ -1,4 +1,4 @@
-package by.javatr.hello;
+package main.java.hello_world_web;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;

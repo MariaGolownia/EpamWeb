@@ -1,10 +1,11 @@
 package by.javatr.task2.entity;
 import org.apache.log4j.Logger;
-
 import java.util.List;
-
-// Paragraph  имеет доступ ко всем методам класса Composite и возможность переопределить метод print()
+/**
+ * Class Paragraph.
+ */
 public class Paragraph extends CompositeText {
+    // Paragraph  имеет доступ ко всем методам класса Composite и возможность переопределить метод print()
     private static Logger LOGGER = Logger.getLogger(Paragraph.class);
 
     public Paragraph() {

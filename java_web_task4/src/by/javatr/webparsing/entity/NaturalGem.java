@@ -6,7 +6,7 @@
 //
 
 
-package by.training.epam.classes;
+package by.javatr.webparsing.entity;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -41,8 +41,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "originExtraction",
     "dateExtraction"
 })
-public class NaturalGem
-    extends Gem
+public class NaturalGem extends Gem implements Cloneable
 {
 
     @XmlElement(required = true)
@@ -99,4 +98,34 @@ public class NaturalGem
         this.dateExtraction = value;
     }
 
+    @Override
+    public String toString() {
+        return "\nNaturalGem{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", preciousness=" + preciousness +
+                ", valueGr=" + valueGr +
+                ", visualParameters=" + visualParameters +
+                ", originTreatment='" + originTreatment + '\'' +
+                ", treater='" + treater + '\'' +
+                ", dateTreatment=" + dateTreatment +
+                ", originExtraction='" + originExtraction + '\'' +
+                ", dateExtraction=" + dateExtraction +
+                '}';
+    }
+
+    public NaturalGem clone() throws CloneNotSupportedException {
+        NaturalGem clone = new NaturalGem();
+        clone.setId(super.id);
+        clone.setPreciousness(super.preciousness.value());
+        clone.setName(super.name);
+        clone.setValueGr(super.valueGr);
+        clone.setOriginTreatment(super.originTreatment);
+        clone.setDateTreatment(super.dateTreatment);
+        clone.setTreater(super.treater);
+        clone.setVisualParameters(super.visualParameters);
+        ((NaturalGem) clone).setOriginExtraction(this.originExtraction);
+        ((NaturalGem) clone).setDateExtraction(this.dateExtraction);
+        return clone;
+    }
 }

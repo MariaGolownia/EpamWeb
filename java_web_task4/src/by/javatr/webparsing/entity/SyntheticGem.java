@@ -6,7 +6,7 @@
 //
 
 
-package by.training.epam.classes;
+package by.javatr.webparsing.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +42,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "SyntheticGem", propOrder = {
     "manufacturingMethodOrProcessingMethod"
 })
-public class SyntheticGem
-    extends Gem
-{
+public class SyntheticGem extends Gem implements Cloneable{
 
     @XmlElementRefs({
         @XmlElementRef(name = "manufacturingMethod", namespace = "http://www.epam.training.by/classes", type = JAXBElement.class, required = false),
@@ -82,4 +80,40 @@ public class SyntheticGem
         return this.manufacturingMethodOrProcessingMethod;
     }
 
+    public void setManufacturingMethodOrProcessingMethod(List<JAXBElement<String>> manufacturingMethodOrProcessingMethod) {
+        this.manufacturingMethodOrProcessingMethod = manufacturingMethodOrProcessingMethod;
+    }
+
+    @Override
+    public String toString() {
+        String method = "";
+        for (int i = 0; i < manufacturingMethodOrProcessingMethod.size(); i++)
+            method +=manufacturingMethodOrProcessingMethod.get(i).getValue();
+
+        return "\nSyntheticGem{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", preciousness=" + preciousness +
+                ", valueGr=" + valueGr +
+                ", visualParameters=" + visualParameters.toString() +
+                ", originTreatment='" + originTreatment + '\'' +
+                ", treater='" + treater + '\'' +
+                ", dateTreatment=" + dateTreatment +
+                ", manufacturingMethodOrProcessingMethod=" + method +
+                '}';
+    }
+
+    public SyntheticGem clone() throws CloneNotSupportedException {
+        SyntheticGem clone = new SyntheticGem();
+        clone.setId(super.id);
+        clone.setPreciousness(super.preciousness.value());
+        clone.setName(super.name);
+        clone.setValueGr(super.valueGr);
+        clone.setOriginTreatment(super.originTreatment);
+        clone.setDateTreatment(super.dateTreatment);
+        clone.setTreater(super.treater);
+        clone.setVisualParameters(super.visualParameters);
+        clone.setManufacturingMethodOrProcessingMethod(this.manufacturingMethodOrProcessingMethod);
+        return clone;
+    }
 }

@@ -1,4 +1,5 @@
 package by.javatr.webparsing.dao
 
-enum class ParserTypy {
+enum class ParserType {
+    SAX, STAX, DOM
 }

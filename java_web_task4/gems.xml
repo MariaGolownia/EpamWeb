@@ -2,16 +2,18 @@
 <?xml-stylesheet type="text/xsl" href=" gems.xsl"?>
 
 <gems xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns="http://www.epam.training.by/classes" xsi:schemaLocation="http://www.epam.training.by/classes gems.xsd" >
+      xmlns="http://www.epam.training.by/classes"
+      xsi:schemaLocation="http://www.epam.training.by/classes
+      http://www.epam.training.by/classes/gems.xsd">
 
-    <!-- This is a comment: gem №1 -->
+    <!-- This is a comment: precious gem №1 -->
     <naturalGem id ="d1" preciousness = "precious" >
         <name>diamond</name>
         <valueGr>1.512</valueGr>
         <visualParameters>
             <color>colorless</color>
-            <transparencyPr>99.9</transparencyPr>
-            <facesNumber>15</facesNumber>
+            <transparencyPr>20.99</transparencyPr>
+            <facesNumber>11</facesNumber>
         </visualParameters>
         <originTreatment>France</originTreatment>
         <treater>Limited liability company Dimond</treater>
@@ -60,7 +62,7 @@
         <visualParameters>
             <color>colorless</color>
             <transparencyPr>97.9</transparencyPr>
-            <facesNumber>11</facesNumber>
+            <facesNumber>14</facesNumber>
         </visualParameters>
         <originTreatment>Poland</originTreatment>
         <treater>Limited liability company Super</treater>

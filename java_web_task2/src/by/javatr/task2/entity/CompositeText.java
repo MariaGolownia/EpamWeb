@@ -3,10 +3,11 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-// Composite получает доступ к методу print () интерфейса ComponentOfText
-
+/**
+ * Class CompositeText.
+ */
 public abstract class CompositeText implements Component {
+    // Composite получает доступ к методу print () интерфейса ComponentOfText
     private static Logger LOGGER = Logger.getLogger(CompositeText.class);
 
     protected List<Component> listOfComponents = new ArrayList<>();
@@ -30,16 +31,4 @@ public abstract class CompositeText implements Component {
         return listOfComponents.get(index);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CompositeText)) return false;
-        CompositeText composite = (CompositeText) o;
-        return listOfComponents.equals(composite.listOfComponents);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(listOfComponents);
-    }
 }

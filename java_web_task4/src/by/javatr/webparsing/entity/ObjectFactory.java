@@ -6,7 +6,7 @@
 //
 
 
-package by.training.epam.classes;
+package by.javatr.webparsing.entity;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

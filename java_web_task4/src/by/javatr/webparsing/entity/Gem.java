@@ -6,7 +6,7 @@
 //
 
 
-package by.training.epam.classes;
+package by.javatr.webparsing.entity;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.Calendar;
 
 
 /**
@@ -60,7 +61,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     SyntheticGem.class,
     NaturalGem.class
 })
-public class Gem {
+public class Gem implements Cloneable {
 
     @XmlElement(required = true)
     protected String name;
@@ -207,7 +208,7 @@ public class Gem {
 
     /**
      * Sets the value of the dateTreatment property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link XMLGregorianCalendar }
@@ -259,14 +260,46 @@ public class Gem {
 
     /**
      * Sets the value of the preciousness property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Preciousness }
      *     
      */
-    public void setPreciousness(Preciousness value) {
-        this.preciousness = value;
+    public void setPreciousness(String value) {
+        if (value.equals("precious"))
+        this.preciousness = Preciousness.PRECIOUS;
+        else if (value.equals("semiprecious"))
+            this.preciousness = Preciousness.SEMIPRECIOUS;
+        else
+            this.preciousness = Preciousness.VAGUE;
+
     }
 
+    @Override
+    public String toString() {
+        return "\nGem{" +
+                ", id='" + id + '\'' +
+                "name='" + name + '\'' +
+                ", preciousness=" + preciousness +
+                ", valueGr=" + valueGr +
+                ", visualParameters=" + visualParameters +
+                ", originTreatment='" + originTreatment + '\'' +
+                ", treater='" + treater + '\'' +
+                ", dateTreatment=" + dateTreatment +
+                '}';
+    }
+
+    public Gem clone() throws CloneNotSupportedException {
+        Gem clone = new Gem();
+        clone.setId(this.id);
+        clone.setPreciousness(this.preciousness.value());
+        clone.setName(this.name);
+        clone.setValueGr(this.valueGr);
+        clone.setOriginTreatment(this.originTreatment);
+        clone.setDateTreatment(this.dateTreatment);
+        clone.setTreater(this.treater);
+        clone.setVisualParameters(this.visualParameters);
+        return clone;
+    }
 }

@@ -6,9 +6,6 @@ public class ParserCreator {
  //ParserCreator - создание последовательности парсеров
 
     public static ParserText createParser() {
-
-        ParserText parser = new ParserText();
-
         ParserLeaf parserLeaf = new ParserLeaf();
         ParserLexeme parserLexeme = new ParserLexeme();
         parserLexeme.setNext(parserLeaf);
@@ -19,6 +16,7 @@ public class ParserCreator {
         ParserParagraph parserParagraph = new ParserParagraph();
         parserParagraph.setNext(parserSentence);
 
+        ParserText parser = new ParserText();
         parser.setNext(parserParagraph);
         return parser;
 

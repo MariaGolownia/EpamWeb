@@ -10,12 +10,10 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 // ParserText - парсер текста на абзацы
-
 public class ParserText extends ParserComponent<Component> {
     private static Logger LOGGER = Logger.getLogger(ParserText.class);
 
     private static final Pattern PARAGRAPH_DELIMETER = Pattern.compile("\n(\\s{4,}|\t)");
-    private static final Pattern SENTENCE_DELIMETER = Pattern.compile("[.!?]{1,}");
 
     @Override
     public Text parseComponent(String str) throws ParserException {
@@ -29,7 +27,6 @@ public class ParserText extends ParserComponent<Component> {
         }
         Text text = new Text(listOfParagraphs);
         return text;
-
     }
 
     public List<String> parseToParagraphs(String str) throws ParserException {
@@ -44,7 +41,7 @@ public class ParserText extends ParserComponent<Component> {
         return listOfParagraphs;
     }
 
-
+    private static final Pattern SENTENCE_DELIMETER = Pattern.compile("[.!?]{1,}");
     public List<String> parseToSentences(String str) throws ParserException {
         if(!ValidationStr.ifExist(str)) {
             throw new ParserException("Attention: input string is empty!");

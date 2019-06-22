@@ -5,9 +5,7 @@
 // Generated on: 2019.06.16 at 12:19:37 PM AST 
 //
 
-
-package by.training.epam.classes;
-
+package by.javatr.webparsing.entity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXBElement;
@@ -16,7 +14,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for anonymous complex type.

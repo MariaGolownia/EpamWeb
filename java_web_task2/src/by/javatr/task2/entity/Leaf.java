@@ -1,5 +1,7 @@
 package by.javatr.task2.entity;
-
+/**
+ * Class Leaf.
+ */
 public class Leaf implements Component {
     //private static Logger LOGGER = Logger.getLogger(Leaf.class);
 

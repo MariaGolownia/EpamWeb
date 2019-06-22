@@ -6,7 +6,7 @@
 //
 
 
-package by.training.epam.classes;
+package by.javatr.webparsing.entity;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -54,10 +54,11 @@ public class VisualParameters {
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
+     * @param color
      */
-    public String getColor() {
-        return color;
+    public String getColor(String color) {
+        return this.color;
     }
 
     /**
@@ -74,10 +75,11 @@ public class VisualParameters {
 
     /**
      * Gets the value of the transparencyPr property.
-     * 
+     *
+     * @param transparencyPr
      */
-    public double getTransparencyPr() {
-        return transparencyPr;
+    public double getTransparencyPr(String transparencyPr) {
+        return this.transparencyPr;
     }
 
     /**
@@ -90,10 +92,11 @@ public class VisualParameters {
 
     /**
      * Gets the value of the facesNumber property.
-     * 
+     *
+     * @param facesNumber
      */
-    public double getFacesNumber() {
-        return facesNumber;
+    public double getFacesNumber(String facesNumber) {
+        return this.facesNumber;
     }
 
     /**
@@ -104,4 +107,12 @@ public class VisualParameters {
         this.facesNumber = value;
     }
 
+    @Override
+    public String toString() {
+        return "VisualParameters{" +
+                "color='" + color + '\'' +
+                ", transparencyPr=" + transparencyPr +
+                ", facesNumber=" + facesNumber +
+                '}';
+    }
 }

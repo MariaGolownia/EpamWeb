@@ -1,7 +1,9 @@
 package by.javatr.task2.entity;
 import org.apache.log4j.Logger;
 import java.util.List;
-
+/**
+ * Class Text.
+ */
 public class Text extends CompositeText {
     private static Logger LOGGER = Logger.getLogger(Text.class);
 

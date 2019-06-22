@@ -1,10 +1,11 @@
 package by.javatr.task2.entity;
 import org.apache.log4j.Logger;
-
 import java.util.List;
-
-// Sentence имеет доступ ко всем методам класса Composite и возможность переопределить метод print()
+/**
+ * Class Sentence.
+ */
 public class Sentence extends CompositeText {
+    // Sentence имеет доступ ко всем методам класса Composite и возможность переопределить метод print()
     private static Logger LOGGER = Logger.getLogger(Sentence.class);
 
     public Sentence() {

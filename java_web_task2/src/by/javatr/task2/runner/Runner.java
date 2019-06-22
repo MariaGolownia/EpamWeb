@@ -6,12 +6,16 @@ import by.javatr.task2.util.ComparatorText;
 import by.javatr.task2.util.Converter;
 import by.javatr.task2.util.ParserText;
 import by.javatr.task2.util.Sort;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.util.*;
 
 public class Runner {
 
     public static void main(String[] args) {
+        String log4jConfPath = "log4j.properties";
+        PropertyConfigurator.configure(log4jConfPath);
+
         System.out.println("--------------------------------------------------------");
         System.out.println("Reading a text from file: ");
         System.out.println("--------------------------------------------------------");
@@ -69,10 +73,9 @@ public class Runner {
         System.out.println("--------------------------------------------------------");
         Sort sort5 = new Sort();
         String sentenceInParagrapsListSort = "";
-        Character markCharacter = 'a';
+        Character markCharacter = 'b';
         ComparatorText.SentencesBySymbolOccurrences comparatorText5 = new ComparatorText().new SentencesBySymbolOccurrences(markCharacter);
         sentenceInParagrapsListSort = sort5.sortSentencesBySymbolOccurrences(text.toText(), comparatorText5);
         PrintToConsole.println(sentenceInParagrapsListSort);
-
     }
 }

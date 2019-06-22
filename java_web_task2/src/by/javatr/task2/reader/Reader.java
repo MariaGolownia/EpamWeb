@@ -42,5 +42,4 @@ public class Reader {
         }
         return text;
     }
-
 }

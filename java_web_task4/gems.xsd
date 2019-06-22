@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.epam.training.by/classes"
-        xmlns:tns="http://www.epam.training.by/classes" elementFormDefault="qualified">
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.epam.training.by/classes"
+        xmlns:tns="http://www.epam.training.by/classes"
+        elementFormDefault="qualified">
 
     <element name="gems">
         <complexType>
             <sequence>
-                <element name="gem"
-                         type="tns:Gem"
+                <element ref="tns:gem"
                          minOccurs="1"
                          maxOccurs="unbounded"/>
             </sequence>
@@ -29,7 +30,14 @@
     <complexType name="VisualParameters">
         <sequence>
             <element name="color" type="string"/>
-            <element name="transparencyPr" type="double"/>
+            <element name="transparencyPr">
+                <simpleType>
+                    <restriction base="double">
+                        <minExclusive value="0"/>
+                        <maxExclusive value="100"/>
+                    </restriction>
+                </simpleType>
+            </element>
             <element name="facesNumber" type="double"/>
         </sequence>
     </complexType>

@@ -19,14 +19,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class GemsDOMBuilder extends Builder {
+public class GemsDOMParser extends Builder {
 
     private List<Gem> gems;
     private DocumentBuilder docBuilder;
     private static final String NATURAL_GEM = "naturalGem";
     private static final String SYNTHETIC_GEM = "syntheticGem";
 
-    public GemsDOMBuilder() {
+    public GemsDOMParser() {
         String xmlFileName = "gems.xml";
         String xsdSchemaName = "gems.xsd";
         String logName = "logs/log.txt";
