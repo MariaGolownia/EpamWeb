@@ -8,7 +8,11 @@
         <complexType>
             <sequence>
                 <element ref="tns:gem"
+<<<<<<< HEAD
                          minOccurs="16"
+=======
+                         minOccurs="1"
+>>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
                          maxOccurs="unbounded"/>
             </sequence>
         </complexType>

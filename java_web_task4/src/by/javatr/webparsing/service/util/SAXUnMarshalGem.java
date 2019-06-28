@@ -10,13 +10,20 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 public class SAXUnMarshalGem {
+<<<<<<< HEAD
     private final static String INSTANCE_ENTITY = "by.javatr.webparsing.service.entity";
+=======
+>>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
 
     public SAXUnMarshalGem(String xmlName, String schemaName) {
         JAXBContext jc = null;
         Gems fl = null;
         try {
+<<<<<<< HEAD
             jc = JAXBContext.newInstance(INSTANCE_ENTITY);
+=======
+            jc = JAXBContext.newInstance("by.javatr.webparsing.entity");
+>>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
             Unmarshaller um = jc.createUnmarshaller();
             SchemaFactory factory =
                     SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

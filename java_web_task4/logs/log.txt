@@ -218,6 +218,7 @@ ERROR - 8 : 76 - cvc-elt.1: Cannot find the declaration of element 'gems'.
 ERROR - 8 : 76 - cvc-elt.1: Cannot find the declaration of element 'gems'.
 ERROR - 7 : 54 - cvc-elt.1: Cannot find the declaration of element 'gems'.
 ERROR - 7 : 54 - cvc-elt.1: Cannot find the declaration of element 'gems'.
+<<<<<<< HEAD
 ERROR - 7 : 54 - cvc-elt.1: Cannot find the declaration of element 'gems'.
 ERROR - 7 : 54 - cvc-elt.1: Cannot find the declaration of element 'gems'.
 ERROR - 7 : 54 - cvc-elt.1: Cannot find the declaration of element 'gems'.
@@ -241,3 +242,5 @@ ERROR - 3 : 51 - cvc-elt.1: Cannot find the declaration of element 'gems'.
 ERROR - 7 : 54 - cvc-elt.1: Cannot find the declaration of element 'gems'.
 ERROR - 7 : 54 - cvc-elt.1: Cannot find the declaration of element 'gems'.
 ERROR - 7 : 54 - cvc-elt.1: Cannot find the declaration of element 'gems'.
+=======
+>>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c

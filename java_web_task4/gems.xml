@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <?xml-stylesheet type="text/xsl" href=" gems.xsl"?>
 
+<<<<<<< HEAD
     <gems xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+=======
+<gems xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
       xmlns="http://www.epam.training.by/classes"
       xsi:schemaLocation="http://www.epam.training.by/classes
       http://www.epam.training.by/classes/gems.xsd">
@@ -38,6 +42,7 @@
         <dateExtraction>2019-05-04</dateExtraction>
     </naturalGem>
 
+<<<<<<< HEAD
     <!-- This is a comment: gem №3-->
     <naturalGem id="d3" preciousness="precious">
         <name>diamond</name>
@@ -156,6 +161,11 @@
 
     <!-- This is a comment: gem №10-->
     <syntheticGem id="d10" preciousness = "precious">
+=======
+
+    <!-- This is a comment: gem №3-->
+    <syntheticGem id="d3" preciousness = "precious">
+>>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
         <name>diamond</name>
         <valueGr>3.010</valueGr>
         <visualParameters>
@@ -170,8 +180,13 @@
     </syntheticGem>
 
 
+<<<<<<< HEAD
     <!-- This is a comment: gem №11-->
     <syntheticGem id="d11" preciousness = "precious">
+=======
+    <!-- This is a comment: gem №4-->
+    <syntheticGem id="d4" preciousness = "precious">
+>>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
         <name>diamond</name>
         <valueGr>2.650</valueGr>
         <visualParameters>
@@ -185,6 +200,7 @@
         <manufacturingMethod>Hydrothermal method</manufacturingMethod>
     </syntheticGem>
 
+<<<<<<< HEAD
     <!-- This is a comment: gem №12-->
     <syntheticGem id="d12" preciousness="precious">
         <name>diamond</name>
@@ -274,6 +290,8 @@
         <dateTreatment>1996-11-10</dateTreatment>
         <manufacturingMethod>Hydrothermal method</manufacturingMethod>
     </syntheticGem>
+=======
+>>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
 
 </gems>
 
