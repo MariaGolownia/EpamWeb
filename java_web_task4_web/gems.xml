@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<?xml-stylesheet type="text/xsl" href=" gems.xsl"?>
+
+    <gems xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.epam.training.by/classes"
+      xsi:schemaLocation="http://www.epam.training.by/classes
+      http://www.epam.training.by/classes/gems.xsd">
+
+    <!-- This is a comment: precious gem №1 -->
+    <naturalGem id ="d1" preciousness = "precious" >
+        <name>diamond</name>
+        <valueGr>1.512</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>20.99</transparencyPr>
+            <facesNumber>11</facesNumber>
+        </visualParameters>
+        <originTreatment>France</originTreatment>
+        <treater>Limited liability company Dimond</treater>
+        <dateTreatment>1991-11-20</dateTreatment>
+        <originExtraction>Russia</originExtraction>
+        <dateExtraction>1990-02-20</dateExtraction>
+    </naturalGem>
+
+    <!-- This is a comment: gem №2-->
+    <naturalGem id="d2" preciousness = "precious">
+        <name>diamond</name>
+        <valueGr>2.112</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>99.9</transparencyPr>
+            <facesNumber>15</facesNumber>
+        </visualParameters>
+        <originTreatment>France</originTreatment>
+        <treater>Public corporation Star</treater>
+        <dateTreatment>2019-06-02</dateTreatment>
+        <originExtraction>France</originExtraction>
+        <dateExtraction>2019-05-04</dateExtraction>
+    </naturalGem>
+
+    <!-- This is a comment: gem №3-->
+    <naturalGem id="d3" preciousness="precious">
+        <name>diamond</name>
+        <valueGr>2.112</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>99.9</transparencyPr>
+            <facesNumber>15</facesNumber>
+        </visualParameters>
+        <originTreatment>France</originTreatment>
+        <treater>Public corporation Star</treater>
+        <dateTreatment>2019-06-02</dateTreatment>
+        <originExtraction>France</originExtraction>
+        <dateExtraction>2019-05-04</dateExtraction>
+    </naturalGem>
+
+    <!-- This is a comment: gem №4-->
+    <naturalGem id="d4" preciousness="precious">
+        <name>sapphire</name>
+        <valueGr>15.110</valueGr>
+        <visualParameters>
+            <color>green</color>
+            <transparencyPr>85.6</transparencyPr>
+            <facesNumber>16</facesNumber>
+        </visualParameters>
+        <originTreatment>Croatia</originTreatment>
+        <treater>Public corporation Swallow</treater>
+        <dateTreatment>2010-11-13</dateTreatment>
+        <originExtraction>Belarus</originExtraction>
+        <dateExtraction>2009-07-09</dateExtraction>
+    </naturalGem>
+
+    <!-- This is a comment: gem №5-->
+    <naturalGem id="d5" preciousness="precious">
+        <name>pearls</name>
+        <valueGr>89.131</valueGr>
+        <visualParameters>
+            <color>white</color>
+            <transparencyPr>15.6</transparencyPr>
+            <facesNumber>0</facesNumber>
+        </visualParameters>
+        <originTreatment>Dominican Republic</originTreatment>
+        <treater>Public corporation Sun</treater>
+        <dateTreatment>2008-02-09</dateTreatment>
+        <originExtraction>France</originExtraction>
+        <dateExtraction>2007-12-01</dateExtraction>
+    </naturalGem>
+
+    <!-- This is a comment: gem №6-->
+    <naturalGem id="d6" preciousness="precious">
+        <name>pearls</name>
+        <valueGr>15.131</valueGr>
+        <visualParameters>
+            <color>white</color>
+            <transparencyPr>10.6</transparencyPr>
+            <facesNumber>0</facesNumber>
+        </visualParameters>
+        <originTreatment>Greece</originTreatment>
+        <treater>Individual entrepreneur Himself</treater>
+        <dateTreatment>2012-02-09</dateTreatment>
+        <originExtraction>Belarus</originExtraction>
+        <dateExtraction>2013-12-01</dateExtraction>
+    </naturalGem>
+
+
+    <!-- This is a comment: gem №7-->
+    <naturalGem id="d7" preciousness="precious">
+        <name>sapphire</name>
+        <valueGr>18.000</valueGr>
+        <visualParameters>
+            <color>green</color>
+            <transparencyPr>77.6</transparencyPr>
+            <facesNumber>14</facesNumber>
+        </visualParameters>
+        <originTreatment>Dominican Republic</originTreatment>
+        <treater>Public corporation Swallow</treater>
+        <dateTreatment>2018-02-02</dateTreatment>
+        <originExtraction>France</originExtraction>
+        <dateExtraction>2017-07-09</dateExtraction>
+    </naturalGem>
+
+
+    <!-- This is a comment: gem №8-->
+    <naturalGem id="d8" preciousness="precious">
+        <name>alexandrite</name>
+        <valueGr>8.100</valueGr>
+        <visualParameters>
+            <color>blue</color>
+            <transparencyPr>77.6</transparencyPr>
+            <facesNumber>11</facesNumber>
+        </visualParameters>
+        <originTreatment>Russia</originTreatment>
+        <treater>Individual entrepreneur Bird</treater>
+        <dateTreatment>2017-03-11</dateTreatment>
+        <originExtraction>Russia</originExtraction>
+        <dateExtraction>2016-12-01</dateExtraction>
+    </naturalGem>
+
+    <!-- This is a comment: gem №9-->
+    <naturalGem id="d9" preciousness="precious">
+        <name>alexandrite</name>
+        <valueGr>18.200</valueGr>
+        <visualParameters>
+            <color>light-blue</color>
+            <transparencyPr>88.6</transparencyPr>
+            <facesNumber>10</facesNumber>
+        </visualParameters>
+        <originTreatment>Japan</originTreatment>
+        <treater>Individual entrepreneur Flower</treater>
+        <dateTreatment>2017-03-11</dateTreatment>
+        <originExtraction>Russia</originExtraction>
+        <dateExtraction>2016-12-01</dateExtraction>
+    </naturalGem>
+
+
+
+    <!-- This is a comment: gem №10-->
+    <syntheticGem id="d10" preciousness = "precious">
+        <name>diamond</name>
+        <valueGr>3.010</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>89.9</transparencyPr>
+            <facesNumber>13</facesNumber>
+        </visualParameters>
+        <originTreatment>France</originTreatment>
+        <treater>Limited liability company Dimond</treater>
+        <dateTreatment>1992-02-05</dateTreatment>
+        <manufacturingMethod>Hydrothermal method</manufacturingMethod>
+    </syntheticGem>
+
+
+    <!-- This is a comment: gem №11-->
+    <syntheticGem id="d11" preciousness = "precious">
+        <name>diamond</name>
+        <valueGr>2.650</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>97.9</transparencyPr>
+            <facesNumber>14</facesNumber>
+        </visualParameters>
+        <originTreatment>Poland</originTreatment>
+        <treater>Limited liability company Super</treater>
+        <dateTreatment>1996-11-10</dateTreatment>
+        <manufacturingMethod>Hydrothermal method</manufacturingMethod>
+    </syntheticGem>
+
+    <!-- This is a comment: gem №12-->
+    <syntheticGem id="d12" preciousness="precious">
+        <name>diamond</name>
+        <valueGr>3.010</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>89.9</transparencyPr>
+            <facesNumber>13</facesNumber>
+        </visualParameters>
+        <originTreatment>France</originTreatment>
+        <treater>Limited liability company Dimond</treater>
+        <dateTreatment>1992-02-05</dateTreatment>
+        <manufacturingMethod>Hydrothermal method</manufacturingMethod>
+    </syntheticGem>
+
+    <!-- This is a comment: gem №13-->
+    <syntheticGem id="d13" preciousness="precious">
+        <name>diamond</name>
+        <valueGr>5.250</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>89.9</transparencyPr>
+            <facesNumber>14</facesNumber>
+        </visualParameters>
+        <originTreatment>France</originTreatment>
+        <treater>Limited liability company House</treater>
+        <dateTreatment>2018-02-05</dateTreatment>
+        <manufacturingMethod>Chemical method</manufacturingMethod>
+    </syntheticGem>
+
+    <!-- This is a comment: gem №14-->
+    <syntheticGem id="d14" preciousness="semiprecious">
+        <name>amethyst</name>
+        <valueGr>51.250</valueGr>
+        <visualParameters>
+            <color>yellow</color>
+            <transparencyPr>18.7</transparencyPr>
+            <facesNumber>10</facesNumber>
+        </visualParameters>
+        <originTreatment>Belgium</originTreatment>
+        <treater>Limited liability company Thread</treater>
+        <dateTreatment>2019-02-05</dateTreatment>
+        <manufacturingMethod>Chemical method</manufacturingMethod>
+    </syntheticGem>
+
+    <!-- This is a comment: gem №15-->
+    <syntheticGem id="d15" preciousness="semiprecious">
+        <name>amethyst</name>
+        <valueGr>21.210</valueGr>
+        <visualParameters>
+            <color>yellow</color>
+            <transparencyPr>33.3</transparencyPr>
+            <facesNumber>10</facesNumber>
+        </visualParameters>
+        <originTreatment>Belgium</originTreatment>
+        <treater>Limited liability company Sky</treater>
+        <dateTreatment>2019-06-11</dateTreatment>
+        <manufacturingMethod>Water method</manufacturingMethod>
+    </syntheticGem>
+
+    <!-- This is a comment: gem №16-->
+    <syntheticGem id="d16" preciousness="semiprecious">
+        <name>aquamarine</name>
+        <valueGr>39.990</valueGr>
+        <visualParameters>
+            <color>blue</color>
+            <transparencyPr>56.3</transparencyPr>
+            <facesNumber>22</facesNumber>
+        </visualParameters>
+        <originTreatment>Poland</originTreatment>
+        <treater>Limited liability company Stone</treater>
+        <dateTreatment>2019-06-11</dateTreatment>
+        <manufacturingMethod>Growing up</manufacturingMethod>
+    </syntheticGem>
+
+    <!-- This is a comment: gem №17-->
+    <syntheticGem id="d17" preciousness="precious">
+        <name>diamond</name>
+        <valueGr>2.650</valueGr>
+        <visualParameters>
+            <color>colorless</color>
+            <transparencyPr>97.9</transparencyPr>
+            <facesNumber>14</facesNumber>
+        </visualParameters>
+        <originTreatment>Poland</originTreatment>
+        <treater>Limited liability company Super</treater>
+        <dateTreatment>1996-11-10</dateTreatment>
+        <manufacturingMethod>Hydrothermal method</manufacturingMethod>
+    </syntheticGem>
+
+</gems>
+
+
+
+
+
+
+
+
+

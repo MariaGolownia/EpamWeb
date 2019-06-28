@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.epam.training.by/classes"
+        xmlns:tns="http://www.epam.training.by/classes"
+        elementFormDefault="qualified">
+
+    <element name="gems">
+        <complexType>
+            <sequence>
+                <element ref="tns:gem"
+                         minOccurs="16"
+                         maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="Gem">
+        <sequence>
+            <element name="name" type="string"/>
+            <element name="valueGr" type="double"/>
+            <element name="visualParameters" type="tns:VisualParameters"/>
+            <element name="originTreatment" type="string"/>
+            <element name="treater" type="string"/>
+            <element name="dateTreatment" type="date"/>
+        </sequence>
+        <attribute name="id" type="tns:Unique" use="required"/>
+        <attribute name="preciousness" type="tns:Preciousness" default="vague" use="optional"/>
+    </complexType>
+
+    <complexType name="VisualParameters">
+        <sequence>
+            <element name="color" type="string"/>
+            <element name="transparencyPr">
+                <simpleType>
+                    <restriction base="double">
+                        <minExclusive value="0"/>
+                        <maxExclusive value="100"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="facesNumber" type="double"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="NaturalGem">
+        <complexContent>
+            <extension base="tns:Gem">
+                <sequence>
+                    <element name="originExtraction" type="string"/>
+                    <element name="dateExtraction" type="date"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="SyntheticGem">
+        <complexContent>
+            <extension base="tns:Gem">
+                <choice minOccurs="0" maxOccurs="unbounded">
+                <element name="manufacturingMethod" type="string"/>
+                 <element name="processingMethod" type="string"/>
+                </choice>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="gem" type="tns:Gem" abstract="true"/>
+    <element name="naturalGem" type="tns:NaturalGem" substitutionGroup="tns:gem"/>
+    <element name="syntheticGem" type="tns:SyntheticGem" substitutionGroup="tns:gem"/>
+
+
+    <simpleType name="Unique">
+        <restriction base="ID">
+            <pattern value="([a-zA-Z])[0-9]{1,5}"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="Preciousness">
+        <restriction base="string">
+            <enumeration value="vague"/>
+            <enumeration value="precious"/>
+            <enumeration value="semiprecious"/>
+        </restriction>
+    </simpleType>
+</schema>
+
