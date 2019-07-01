@@ -1,5 +1,4 @@
 package by.javatr.webparsing.view;
-<<<<<<< HEAD
 import by.javatr.webparsing.dao.GemsDAO;
 import by.javatr.webparsing.dao.ParserFactory;
 import by.javatr.webparsing.service.entity.Gem;
@@ -74,10 +73,3 @@ public class Dialog {
         System.out.print(gemsDAO.toString());
     }
 }
-
-
-=======
-
-public class Dialog {
-}
->>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c

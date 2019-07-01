@@ -12,10 +12,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-<<<<<<< HEAD
-=======
-import by.javatr.webparsing.entity.*;
->>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
 import by.javatr.webparsing.service.entity.*;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -32,11 +28,8 @@ public class GemsDOMParser extends Parser {
     private static final String SYNTHETIC_GEM = "syntheticGem";
 
     public GemsDOMParser() {
-<<<<<<< HEAD
      //   LOGGER.debug("Start GemsDOMParser");
-=======
         LOGGER.debug("Start GemsDOMParser");
->>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
         String xmlFileName = "gems.xml";
         String xsdSchemaName = "gems.xsd";
         String logName = "logs/log.txt";
@@ -65,11 +58,9 @@ public class GemsDOMParser extends Parser {
     }
 
     public void buildListGems(String fileName) {
-<<<<<<< HEAD
+
     //    LOGGER.debug("Start buildListGems");
-=======
         LOGGER.debug("Start buildListGems");
->>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
         Document doc = null;
         try {
             // parsing XML-документа и создание древовидной структуры

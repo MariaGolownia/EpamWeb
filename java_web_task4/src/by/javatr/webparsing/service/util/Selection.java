@@ -9,22 +9,21 @@ import java.util.List;
 
 public class Selection {
 
-    public static List<Gem> selectNaturalGem (GemsDAO gems) {
-        List<Gem> naturalGemsList = new ArrayList<>();
-        List <SyntheticGem> syntheticGemList = new ArrayList<>();
+    public static List<NaturalGem> selectNaturalGem (GemsDAO gems) {
+        List<NaturalGem> naturalGemsList = new ArrayList<>();
         for (int i = 0; i < gems.getGems().size(); i++) {
             if (gems.getGems().get(i) instanceof NaturalGem) {
-                naturalGemsList.add(gems.getGems().get(i));
+                naturalGemsList.add((NaturalGem) gems.getGems().get(i));
             }
         }
         return naturalGemsList;
     }
 
-    public static List<Gem> selectSyntheticGem (GemsDAO gems) {
-        List <Gem> syntheticGemList = new ArrayList<>();
+    public static List<SyntheticGem> selectSyntheticGem (GemsDAO gems) {
+        List <SyntheticGem> syntheticGemList = new ArrayList<>();
         for (int i = 0; i < gems.getGems().size(); i++) {
             if (gems.getGems().get(i) instanceof SyntheticGem) {
-                syntheticGemList.add(gems.getGems().get(i));
+                syntheticGemList.add((SyntheticGem)gems.getGems().get(i));
             }
         }
         return syntheticGemList;

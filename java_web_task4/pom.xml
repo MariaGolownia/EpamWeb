@@ -5,7 +5,6 @@
     <groupId>com.gmail.ilerofv</groupId>
     <artifactId>informationhandler</artifactId>
     <version>1.0-SNAPSHOT</version>
-<<<<<<< HEAD
 
     <dependencies>
 
@@ -17,34 +16,28 @@
             <scope>provided</scope>
         </dependency>
 
-    <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-api</artifactId>
-        <version>2.11.2</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>2.11.2</version>
-    </dependency>
-    <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>1.18.8</version>
-        <scope>provided</scope>
-    </dependency>
-=======
-    <dependencies>
->>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
-<<<<<<< HEAD
 
-=======
->>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
     </dependencies>
     <properties>
 
@@ -54,27 +47,19 @@
         <java.version>1.8</java.version>
         <maven.compiler.version>3.7.0</maven.compiler.version>
     </properties>
-<<<<<<< HEAD
 
-=======
->>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
     <build>
         <defaultGoal>install</defaultGoal>
         <finalName>LinkingLocMain</finalName>
-        <sourceDirectory>src/main/java</sourceDirectory>
+        <sourceDirectory>src</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.version}</version>
                 <configuration>
-<<<<<<< HEAD
-                        <source>1.8</source>
-                        <target>1.8</target>
-=======
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
->>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>

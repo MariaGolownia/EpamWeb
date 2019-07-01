@@ -1,14 +1,7 @@
 package by.javatr.webparsing.dao;
-<<<<<<< HEAD
 import by.javatr.webparsing.service.entity.Gem;
 import by.javatr.webparsing.service.entity.NaturalGem;
 import by.javatr.webparsing.service.entity.SyntheticGem;
-=======
-import by.javatr.webparsing.entity.Gem;
-import by.javatr.webparsing.entity.NaturalGem;
-import by.javatr.webparsing.entity.SyntheticGem;
->>>>>>> 7866105f43e6b95699e903769a3c89d6dc70b67c
-
 import java.util.ArrayList;
 import java.util.List;
 

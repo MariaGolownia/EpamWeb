@@ -55,9 +55,8 @@ public class VisualParameters {
      *     possible object is
      *     {@link String }
      *
-     * @param color
      */
-    public String getColor(String color) {
+    public String getColor() {
         return this.color;
     }
 
@@ -76,9 +75,8 @@ public class VisualParameters {
     /**
      * Gets the value of the transparencyPr property.
      *
-     * @param transparencyPr
      */
-    public double getTransparencyPr(String transparencyPr) {
+    public double getTransparencyPr() {
         return this.transparencyPr;
     }
 
@@ -93,9 +91,8 @@ public class VisualParameters {
     /**
      * Gets the value of the facesNumber property.
      *
-     * @param facesNumber
      */
-    public double getFacesNumber(String facesNumber) {
+    public double getFacesNumber() {
         return this.facesNumber;
     }
 

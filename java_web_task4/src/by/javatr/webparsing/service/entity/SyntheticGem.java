@@ -84,6 +84,14 @@ public class SyntheticGem extends Gem implements Cloneable{
         this.manufacturingMethodOrProcessingMethod = manufacturingMethodOrProcessingMethod;
     }
 
+    public String getManufacturingMethodOrProcesingMethod() {
+        if (manufacturingMethodOrProcessingMethod == null) {
+            manufacturingMethodOrProcessingMethod = new ArrayList<JAXBElement<String>>();
+        }
+        return this.manufacturingMethodOrProcessingMethod.get(0).toString();
+    }
+
+
     @Override
     public String toString() {
         String method = "";
