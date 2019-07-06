@@ -1,10 +1,8 @@
 package by.javatr.entity;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class Rent {
+
+public class Rent extends Entity{
     private User user;
     private Bicycle bicycle;
     private Date startTime;

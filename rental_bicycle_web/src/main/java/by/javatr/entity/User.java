@@ -7,6 +7,7 @@ public class User extends Entity {
     private String password;
     private Role role;
     private List<VirtualCard> virtualCardList = new ArrayList<>();
+    private List<Rent> rentList = new ArrayList<>();
 
     public String getLogin() {
         return login;
@@ -38,5 +39,13 @@ public class User extends Entity {
 
     public void setVirtualCardList(List<VirtualCard> virtualCardList) {
         this.virtualCardList = virtualCardList;
+    }
+
+    public List<Rent> getRentList() {
+        return rentList;
+    }
+
+    public void setRentList(List<Rent> rentList) {
+        this.rentList = rentList;
     }
 }

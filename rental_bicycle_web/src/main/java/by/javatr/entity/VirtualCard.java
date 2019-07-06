@@ -5,6 +5,7 @@ import java.util.Currency;
 
 public class VirtualCard extends Entity {
     private String name;
+    private User user;
     private BigDecimal balance;
     private Currency currency;
 
@@ -14,6 +15,14 @@ public class VirtualCard extends Entity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public BigDecimal getBalance() {

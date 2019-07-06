@@ -1,42 +1,13 @@
 package by.javatr.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
-public class Payment {
+public class Payment extends Entity {
     private BigDecimal amount;
     private VirtualCard virtualCard;
     private Company company;
     private Boolean ifPaid;
+    private Date date;
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public VirtualCard getVirtualCard() {
-        return virtualCard;
-    }
-
-    public void setVirtualCard(VirtualCard virtualCard) {
-        this.virtualCard = virtualCard;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public Boolean getIfPaid() {
-        return ifPaid;
-    }
-
-    public void setIfPaid(Boolean ifPaid) {
-        this.ifPaid = ifPaid;
-    }
 }
