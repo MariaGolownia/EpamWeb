@@ -1,13 +1,18 @@
 package by.javatr.entity;
 import java.sql.Blob;
 import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bicycle extends Entity {
     private String model;
     private BicycleType bicycleType;
     private Year productionYear;
     private String producer;
+    private Location currentLocation;
     private Blob photo;
+    private Price price;
+    private List<Rent> rentList = new ArrayList<>();
 
     public String getModel() {
         return model;
@@ -41,11 +46,35 @@ public class Bicycle extends Entity {
         this.producer = producer;
     }
 
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(Location currentLocation) {
+        this.currentLocation = currentLocation;
+    }
+
     public Blob getPhoto() {
         return photo;
     }
 
     public void setPhoto(Blob photo) {
         this.photo = photo;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
+    }
+
+    public List<Rent> getRentList() {
+        return rentList;
+    }
+
+    public void setRentList(List<Rent> rentList) {
+        this.rentList = rentList;
     }
 }
