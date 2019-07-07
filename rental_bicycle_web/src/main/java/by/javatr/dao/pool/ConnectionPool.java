@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.LinkedBlockingQueue;
-
 import by.javatr.dao.PersistentException;
 import org.apache.log4j.Logger;
 

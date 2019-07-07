@@ -48,4 +48,15 @@ public class User extends Entity {
     public void setRentList(List<Rent> rentList) {
         this.rentList = rentList;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", virtualCardList=" + virtualCardList +
+                ", rentList=" + rentList +
+                "}\n";
+    }
 }
