@@ -9,6 +9,8 @@ import java.sql.*;
 public class SQLValidation {
     private static final String SQL_USER_SELECT = "SELECT `user_login` FROM `user` WHERE `user_login` = ?";
     private static final String SQL_COMPANY_SELECT = "SELECT `company_id` FROM `company` WHERE `company_id` = ?";
+    private static final String SQL_COMPANY_SELECT_BY_ACCOUNT_NUMBER =
+            "SELECT `company_accountNumberOfPayer` FROM `company` WHERE `company_accountNumberOfPayer` = ?";
     private static final String SQL_SELECT_COMPANY_BY_ID =
             "SELECT `company_name`, `company_accountNumberOfPayer` FROM `company` WHERE `company_id` = ?";
 
@@ -103,4 +105,32 @@ public class SQLValidation {
         return ifСompanyExist;
     }
 
+    // Проверка на наличие учетного номера плательщика компании в БД
+    public Boolean validateIfСompanyNumberExist (Integer number, Connection connection) {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Boolean ifСompanyExist = false;
+        try {
+            statement = connection.prepareStatement(SQL_COMPANY_SELECT_BY_ACCOUNT_NUMBER);
+            statement.setString(1, number.toString());
+            resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                ifСompanyExist = true;
+            }
+        } catch(SQLException e) {
+            try {
+                throw new PersistentException(e);
+            } catch (PersistentException ex) {
+                ex.printStackTrace();
+            }
+        } finally {
+            try {
+                resultSet.close();
+            } catch(SQLException | NullPointerException e) {}
+            try {
+                statement.close();
+            } catch(SQLException | NullPointerException e) {}
+        }
+        return ifСompanyExist;
+    }
 }

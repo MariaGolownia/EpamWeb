@@ -7,7 +7,7 @@ import java.util.List;
 public class Bicycle extends Entity {
     private String model;
     private BicycleType bicycleType;
-    private Year productionYear;
+    private Short productionYear;
     private String producer;
     private Location currentLocation;
     private Blob photo;
@@ -32,11 +32,11 @@ public class Bicycle extends Entity {
         this.bicycleType = bicycleType;
     }
 
-    public Year getProductionYear() {
+    public Short getProductionYear() {
         return productionYear;
     }
 
-    public void setProductionYear(Year productionYear) {
+    public void setProductionYear(Short productionYear) {
         this.productionYear = productionYear;
     }
 

@@ -17,11 +17,14 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     //private static final String SERVER_NAME = "localhost";
     //private static final String MY_DATA_BASE = "rental_bicycle_web";
 
-    private static final String SQL_USER_INSERT = "INSERT INTO `user` (`user_login`, `user_password`, `user_role`, `user_status`) VALUES (?, ?, ?, ?)";
+    private static final String SQL_USER_INSERT =
+            "INSERT INTO `user` (`user_login`, `user_password`, `user_role`, `user_status`) VALUES (?, ?, ?, ?)";
     private static final String SQL_SELECT_USER_BY_ID = "SELECT `user_login`, `user_password`, `user_role`, `user_status` FROM `user` WHERE `user_id` = ?";
     private static final String SQL_ALL_USERS_SELECT = "SELECT `user_id`, `user_login`, `user_password`, `user_role`, `user_status` FROM `user` ORDER BY `user_login`";
     private static final String SQL_ID_ROLE_STATUS_USER_SELECT = "SELECT `user_id`, `user_role`, `user_status` FROM `user` WHERE `user_login` = ? AND `user_password` = ?";
-    private static final String SQL_USER_UPDATE = "UPDATE `user` SET `user_login` = ?, `user_password` = ?, `user_role` = ?, `user_status` = ? WHERE `user_id` = ?";
+    private static final String SQL_USER_UPDATE =
+            "UPDATE `user` SET `user_login` = ?, `user_password` = ?, `user_role` = ?, `user_status` = ?" +
+                    " WHERE `user_id` = ?";
     private static final String SQL_USER_DELETE = "DELETE FROM `user` WHERE `user_id` = ?";
 
     @Override
@@ -212,6 +215,4 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             } catch(SQLException | NullPointerException e) {}
         }
     }
-
-
 }

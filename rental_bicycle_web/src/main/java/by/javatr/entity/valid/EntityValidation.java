@@ -12,11 +12,12 @@ public class EntityValidation {
     public Boolean ifCityBelongsToCountry (Country country, City city) {
         List<City> listCity = new ArrayList<>();
         listCity = City.getByCountry(country);
-        if (listCity.contains(city)) {
-            return true;
+        Boolean ifCityBelongs = false;
+        for (int i = 0; i < listCity.size(); i ++) {
+         if (listCity.get(i).toString().toUpperCase().contains(city.getName().toUpperCase()))   {
+             ifCityBelongs = true;
+         }
         }
-        else {
-            return false;
-        }
+       return ifCityBelongs;
     }
 }

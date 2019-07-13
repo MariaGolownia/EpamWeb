@@ -1,22 +1,19 @@
 package by.javatr.controller;
-
 import by.javatr.dao.PersistentException;
 import by.javatr.dao.mysql.CompanyDaoImpl;
 import by.javatr.dao.mysql.LocationDaoImpl;
-import by.javatr.dao.mysql.UserDaoImpl;
-import by.javatr.dao.pool.ConnectionPool;
+import by.javatr.dao.mysql.PriceDaoImpl;
 import by.javatr.entity.*;
+import com.sun.deploy.security.CertUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-//import org.apache.log4j.Logger;
-
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Runner {
-    //private static Logger logger = Logger.getLogger(Runner.class);
     private static final Logger logger = LogManager.getLogger();
+
     public static void main(String[] args) {
         logger.info("Start runner");
 //------------------------------------------------------------------------------------------------------------
@@ -95,15 +92,179 @@ public class Runner {
 //            e.printStackTrace();
 //        }
 //------------------------------------------------------------------------------------------------------------
-        // Тестирование получение Location by ID
+        // Тестирование получение Company by AccountNumber
+//        CompanyDaoImpl companyDao = new CompanyDaoImpl();
+//        try {
+//            Company company = new Company();
+//            company = companyDao.readByAccountNumberOfPayer(192693197);
+//            System.out.print(company.toString());
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование получения Company by AccountNumber
+//        CompanyDaoImpl companyDao = new CompanyDaoImpl();
+//        try {
+//            Company company = new Company();
+//            company = companyDao.readByAccountNumberOfPayer(192693197);
+//            System.out.print(company.toString());
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование создания Company by AccountNumber
+//        CompanyDaoImpl companyDao = new CompanyDaoImpl();
+//        try {
+//            Company company = new Company();
+//            company.setName("Limited liability company Enjoyment");
+//            company.setAccountNumberOfPayer(15978958);
+//            Integer id = companyDao.create(company);
+//            System.out.print(company.toString());
+//            System.out.print(id.toString());
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование  удаления Company
+//        CompanyDaoImpl companyDao = new CompanyDaoImpl();
+//        try {
+//            companyDao.delete(5);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование получения Location by ID
+//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        try {
+//            Location location = new Location();
+//            location = locationDao.read(1);
+//            System.out.print(location.toString());
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование получения Location by Company_ID
+//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        List<Location> locationList = new ArrayList();
+//        try {
+//            locationList = locationDao.readByCompanyId(1);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//        for (Location location:locationList) {
+//            System.out.print(location.toString());
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование получения Location by country
+//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        List<Location> locationList = new ArrayList();
+//        try {
+//            locationList = locationDao.readByCountry("Poland");
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//        for (Location location:locationList) {
+//            System.out.print(location.toString());
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование получения Location by city
         LocationDaoImpl locationDao = new LocationDaoImpl();
+        List<Location> locationList = new ArrayList();
         try {
-            Location location = new Location();
-            location = locationDao.read(1);
-            System.out.print(location.toString());
+            locationList = locationDao.readByCity("Poznan");
         } catch (PersistentException e) {
             e.printStackTrace();
         }
+        for (Location location : locationList) {
+            System.out.print(location.toString());
+        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование получения Price by ID
+//        PriceDaoImpl priceDao = new PriceDaoImpl();
+//        try {
+//            Price price = new Price();
+//            price = priceDao.read(1);
+//            System.out.print(price.toString());
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование получения всех Price By Currency
+//        PriceDaoImpl priceDao = new PriceDaoImpl();
+//        try {
+//            List<Price> priceList = new ArrayList<>();
+//            Currency currencyTest = Currency.BYN;
+//            priceList = priceDao.readByCurrency(currencyTest);
+//            for (Price price:priceList) {
+//            System.out.print(price.toString());
+//        }
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование получения всех Price
+//        PriceDaoImpl priceDao = new PriceDaoImpl();
+//        try {
+//            List<Price> priceList = new ArrayList<>();
+//            priceList = priceDao.read();
+//            for (Price price:priceList) {
+//            System.out.print(price.toString());
+//        }
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование создания Price
+////        Price priceTest = new Price();
+////        priceTest.setCurrency(Currency.BYN);
+////        TimeUnit timeUnit = TimeUnit.HOUR;
+////        priceTest.setUnitTime(timeUnit);
+////        priceTest.setBookMaxTimeInMin(60);
+////        priceTest.setRate(new BigDecimal(0.05));
+////        priceTest.setBookRate(new BigDecimal(0));
+////
+////    PriceDaoImpl priceDao = new PriceDaoImpl();
+////        try {
+////            priceDao.create(priceTest);
+////        } catch (PersistentException e) {
+////            e.printStackTrace();
+////        }
+//
+////------------------------------------------------------------------------------------------------------------
+        // Тестирование update Price
+//        Price priceUpdate = new Price();
+//        priceUpdate.setId(1);
+//        priceUpdate.setCurrency(Currency.BYN);
+//        TimeUnit timeUnit = TimeUnit.HOUR;
+//        priceUpdate.setUnitTime(timeUnit);
+//        priceUpdate.setBookMaxTimeInMin(30);
+//        priceUpdate.setRate(new BigDecimal(0.01));
+//        priceUpdate.setBookRate(new BigDecimal(0));
+//
+//        PriceDaoImpl priceDao = new PriceDaoImpl();
+//        try {
+//            priceDao.update(priceUpdate);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+////------------------------------------------------------------------------------------------------------------
+        // Тестирование delete Price
+//        PriceDaoImpl priceDaoImpl = new PriceDaoImpl();
+//        try {
+//            priceDaoImpl.delete(5);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+////------------------------------------------------------------------------------------------------------------
+    // Тестирование получения bicycle by ID
+//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        try {
+//            Bicycle bicycle = new Bicycle();
+//            bicycle = bicycleDao.read(1);
+//            System.out.print(bicycle.toString());
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }}
 //------------------------------------------------------------------------------------------------------------
     }
 }

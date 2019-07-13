@@ -1,8 +1,10 @@
 package by.javatr.entity;
 
+import java.util.Objects;
+
 public class Company extends Entity {
     private String name;
-    private String accountNumberOfPayer;
+    private Integer accountNumberOfPayer;
 
     public String getName() {
         return name;
@@ -12,11 +14,11 @@ public class Company extends Entity {
         this.name = name;
     }
 
-    public String getAccountNumberOfPayer() {
+    public Integer getAccountNumberOfPayer() {
         return accountNumberOfPayer;
     }
 
-    public void setAccountNumberOfPayer(String accountNumberOfPayer) {
+    public void setAccountNumberOfPayer(Integer accountNumberOfPayer) {
         this.accountNumberOfPayer = accountNumberOfPayer;
     }
 
@@ -26,5 +28,21 @@ public class Company extends Entity {
                 "name='" + name + '\'' +
                 ", accountNumberOfPayer='" + accountNumberOfPayer + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (this==null || o==null) return false;
+        if (!(o instanceof Company)) return false;
+        if (!super.equals(o)) return false;
+        Company company = (Company) o;
+        return Objects.equals(getName(), company.getName()) &&
+                Objects.equals(getAccountNumberOfPayer(), company.getAccountNumberOfPayer());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getName(), getAccountNumberOfPayer());
     }
 }

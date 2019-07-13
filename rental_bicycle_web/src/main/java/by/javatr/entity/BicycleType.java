@@ -5,6 +5,8 @@ public enum BicycleType {
     HIGHWAY("highway"),
     HIGHLAND("highland");
 
+    public final static int INDEX_TIME_UNIT_BY_DEFAULT = 0;
+
     private String name;
 
     private BicycleType(String name) {
@@ -19,7 +21,19 @@ public enum BicycleType {
         return ordinal();
     }
 
-    public static BicycleType getByIdentity(Integer identity) {
-        return BicycleType.values()[identity];
+    public static BicycleType getById(Integer id) {
+        return BicycleType.values()[id];
+    }
+
+    public static BicycleType getBicycleType(String str) {
+        BicycleType bicycleType = null;
+        for (int i = 0; i < bicycleType.values().length; i++) {
+            String bicycleTypeFromEnum = Country.values()[i].toString();
+            if (bicycleTypeFromEnum.equals(str.toUpperCase())) {
+                bicycleType = BicycleType.getById(i);
+            }
+            else bicycleType = BicycleType.getById(INDEX_TIME_UNIT_BY_DEFAULT);
+        }
+        return bicycleType;
     }
 }

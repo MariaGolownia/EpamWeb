@@ -1,10 +1,12 @@
 package by.javatr.entity;
 
 public enum TimeUnit {
+
     HOUR("hour"),
     MIN("min"),
     SEC("sec");
 
+    public final static int INDEX_TIME_UNIT_BY_DEFAULT = 1;
 
     private String name;
 
@@ -30,6 +32,9 @@ public enum TimeUnit {
             String timeUnitFromEnum = TimeUnit.values()[i].toString();
             if (timeUnitFromEnum.equals(str.toUpperCase())) {
                 timeUnit = TimeUnit.getById(i);
+            }
+            else {
+                timeUnit = TimeUnit.getById(INDEX_TIME_UNIT_BY_DEFAULT);
             }
         }
         return timeUnit;
