@@ -34,31 +34,53 @@ public enum City {
         return ordinal();
     }
 
-    public static City getByIdentity(Integer identity) {
-        return City.values()[identity];
+    public static City getById(Integer id) {
+        return City.values()[id];
     }
 
     public static List<City> getByCountry(Country country) {
         List<City>cityList = new ArrayList<>();
-        for (int i = 0; i < City.values().length; i++) {
-            if (country.equals(Country.BELARUS)) {
-                cityList.subList(START_INDEX_BELARUS_CITIES, FINISH_INDEX_BELARUS_CITIES);
-            }
-            else if (country.equals(Country.POLAND)){
-                cityList.subList(START_INDEX_POLAND_CITIES, FINISH_INDEX_POLAND_CITIES);
-            }
-            else if (country.equals(Country.LITHUANIA)) {
-                cityList.subList(START_INDEX_LITHUANIA_CITIES, FINISH_INDEX_LITHUANIA_CITIES);
-            }
-            else {
-                try {
-                    throw new InformationException("Please contact the developer to extend the software application" +
-                            " to the level of your region!");
-                } catch (InformationException e) {
-                    e.printStackTrace();
+        if (country!=null) {
+                if (country.equals(Country.BELARUS)) {
+                    for (int i = START_INDEX_BELARUS_CITIES; i < FINISH_INDEX_BELARUS_CITIES +1; i++) {
+                        cityList.add(City.getById(i));
+                    }
+                } else if (country.equals(Country.POLAND)) {
+                    for (int i = START_INDEX_POLAND_CITIES; i < FINISH_INDEX_POLAND_CITIES +1; i++) {
+                        cityList.add(City.getById(i));
+                    }
+                } else if (country.equals(Country.LITHUANIA)) {
+                        for (int i = START_INDEX_LITHUANIA_CITIES; i < FINISH_INDEX_LITHUANIA_CITIES +1; i++) {
+                            cityList.add(City.getById(i));
+                        }
+                } else {
+                    try {
+                        throw new InformationException("Please contact the developer to extend the software application" +
+                                " to the level of your region!");
+                    } catch (InformationException e) {
+                        e.printStackTrace();
+                    }
                 }
+            }
+        else {
+            try {
+                throw new EntityException ("The option of the country doesn't matter!");
+            } catch (EntityException e) {
+                e.printStackTrace();
             }
         }
         return cityList;
+    }
+
+    public static City getCity(String str) {
+        City city = null;
+        for (int i = 0; i < City.values().length; i++) {
+            String cityFromUnum = City.values()[i].toString();
+            if (cityFromUnum.equals(str.toUpperCase())) {
+                city = City.getById(i);
+                break;
+            }
+        }
+        return city;
     }
 }

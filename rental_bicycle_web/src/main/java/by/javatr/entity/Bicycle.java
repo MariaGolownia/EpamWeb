@@ -12,6 +12,8 @@ public class Bicycle extends Entity {
     private Location currentLocation;
     private Blob photo;
     private Price price;
+    private Boolean ifNotBooked;
+    private Boolean ifFree;
     private List<Rent> rentList = new ArrayList<>();
 
     public String getModel() {
@@ -76,5 +78,37 @@ public class Bicycle extends Entity {
 
     public void setRentList(List<Rent> rentList) {
         this.rentList = rentList;
+    }
+
+    public Boolean getIfNotBooked() {
+        return ifNotBooked;
+    }
+
+    public void setIfNotBooked(Boolean ifNotBooked) {
+        this.ifNotBooked = ifNotBooked;
+    }
+
+    public Boolean getIfFree() {
+        return ifFree;
+    }
+
+    public void setIfFree(Boolean ifFree) {
+        this.ifFree = ifFree;
+    }
+
+    @Override
+    public String toString() {
+        return "Bicycle{" +
+                "model='" + model + '\'' +
+                ", bicycleType=" + bicycleType +
+                ", productionYear=" + productionYear +
+                ", producer='" + producer + '\'' +
+                ", currentLocation=" + currentLocation +
+                ", photo=" + photo +
+                ", price=" + price +
+                ", ifNotBooked=" + ifNotBooked +
+                ", ifFree=" + ifFree +
+                ", rentList=" + rentList +
+                '}';
     }
 }

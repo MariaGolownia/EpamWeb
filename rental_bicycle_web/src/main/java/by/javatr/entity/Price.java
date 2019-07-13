@@ -5,8 +5,10 @@ import java.util.Date;
 
 public class Price extends Entity {
     private Currency currency;
-    private Date unitTime;
+    private TimeUnit unitTime;
     private BigDecimal rate;
+    private  Integer bookMaxTimeInMin;
+    private BigDecimal bookRate;
 
     public Currency getCurrency() {
         return currency;
@@ -16,11 +18,11 @@ public class Price extends Entity {
         this.currency = currency;
     }
 
-    public Date getUnitTime() {
+    public TimeUnit getUnitTime() {
         return unitTime;
     }
 
-    public void setUnitTime(Date unitTime) {
+    public void setUnitTime(TimeUnit unitTime) {
         this.unitTime = unitTime;
     }
 
@@ -30,5 +32,32 @@ public class Price extends Entity {
 
     public void setRate(BigDecimal rate) {
         this.rate = rate;
+    }
+
+    public Integer getBookMaxTimeInMin() {
+        return bookMaxTimeInMin;
+    }
+
+    public void setBookMaxTimeInMin(Integer bookMaxTimeInMin) {
+        this.bookMaxTimeInMin = bookMaxTimeInMin;
+    }
+
+    public BigDecimal getBookRate() {
+        return bookRate;
+    }
+
+    public void setBookRate(BigDecimal bookRate) {
+        this.bookRate = bookRate;
+    }
+
+    @Override
+    public String toString() {
+        return "Price{" +
+                "currency=" + currency +
+                ", unitTime=" + unitTime +
+                ", rate=" + rate +
+                ", bookMaxTimeInMin=" + bookMaxTimeInMin +
+                ", bookRate=" + bookRate +
+                '}';
     }
 }

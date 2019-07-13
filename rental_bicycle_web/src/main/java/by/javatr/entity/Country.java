@@ -15,11 +15,22 @@ public enum Country {
         return name;
     }
 
-    public Integer getIdentity() {
+    public Integer getId() {
         return ordinal();
     }
 
-    public static Country getByIdentity(Integer identity) {
-        return Country.values()[identity];
+    public static Country getById(Integer id) {
+        return Country.values()[id];
+    }
+
+    public static Country getCountry(String str) {
+        Country country = null;
+        for (int i = 0; i < Country.values().length; i++) {
+            String countryFromEnum = Country.values()[i].toString();
+            if (countryFromEnum.equals(str.toUpperCase())) {
+                country = Country.getById(i);
+            }
+        }
+        return country;
     }
 }

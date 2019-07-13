@@ -19,4 +19,12 @@ public class Company extends Entity {
     public void setAccountNumberOfPayer(String accountNumberOfPayer) {
         this.accountNumberOfPayer = accountNumberOfPayer;
     }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "name='" + name + '\'' +
+                ", accountNumberOfPayer='" + accountNumberOfPayer + '\'' +
+                '}';
+    }
 }
