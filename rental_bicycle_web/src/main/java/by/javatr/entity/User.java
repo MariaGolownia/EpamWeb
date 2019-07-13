@@ -6,6 +6,7 @@ public class User extends Entity {
     private String login;
     private String password;
     private Role role;
+    private UserStatus userStatus;
     private List<VirtualCard> virtualCardList = new ArrayList<>();
     private List<Rent> rentList = new ArrayList<>();
 
@@ -49,12 +50,21 @@ public class User extends Entity {
         this.rentList = rentList;
     }
 
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", userStatus=" + userStatus +
                 ", virtualCardList=" + virtualCardList +
                 ", rentList=" + rentList +
                 "}\n";

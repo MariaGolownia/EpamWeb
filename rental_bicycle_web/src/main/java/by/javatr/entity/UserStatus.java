@@ -1,13 +1,12 @@
 package by.javatr.entity;
 
-public enum Role {
-    ADMIN("admin"),
-    USER("user"),
-    GRANT_USER("grant user");
+public enum UserStatus {
+    BLOCKED("Blocked"),
+    ACTIVE("Active");
 
     private String name;
 
-    private Role(String name) {
+    private UserStatus(String name) {
         this.name = name;
     }
 
@@ -19,7 +18,7 @@ public enum Role {
         return ordinal();
     }
 
-    public static Role getById(Integer id) {
-        return Role.values()[id];
+    public static UserStatus getById(Integer id) {
+        return UserStatus.values()[id];
     }
 }

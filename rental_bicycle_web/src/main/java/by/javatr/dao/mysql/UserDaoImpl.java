@@ -10,14 +10,14 @@ import by.javatr.entity.Role;
 import by.javatr.entity.User;
 import org.apache.log4j.Logger;
 
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     private static final String SERVER_NAME = "localhost";
     private static final String MY_DATA_BASE = "rental_bicycle_web";
     private static final String URL = "jdbc:mysql://" + SERVER_NAME + "/" + MY_DATA_BASE;
     private static final String USER_SQL_NAME = "root";
     private static final String USER_SQL_PASSWORD = "admin";
 
-    private static final String SQL_USER_INSERT = "INSERT INTO `user` (`user_login`, `user_password`, `user_role`) VALUES (?, ?, ?)";
+    private static final String SQL_USER_INSERT = "INSERT INTO `user` (`user_login`, `user_password`, `user_role`, `user_status`) VALUES (?, ?, ?, ?)";
     private static final String SQL_USER_SELECT = "SELECT `user_login`, `user_password`, `user_role` FROM `user` WHERE `user_id` = ?";
     private static final String SQL_ALL_USERS_SELECT = "SELECT `user_id`, `user_login`, `user_password`, `user_role` FROM `user` ORDER BY `user_login`";
     private static final String SQL_ID_ROLE_USER_SELECT = "SELECT `user_id`, `user_role` FROM `user` WHERE `user_login` = ? AND `user_password` = ?";
@@ -33,8 +33,9 @@ public class UserDaoImpl implements UserDao {
         Connection connection = null;
 
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.createConnectionToDB();
+            //ConnectionSQL connectionSQL = new ConnectionSQL();
+            //connection = connectionSQL.createConnectionToDB();
+            //statement = connection.prepareStatement(SQL_USER_INSERT, Statement.RETURN_GENERATED_KEYS);
             statement = connection.prepareStatement(SQL_USER_INSERT, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());

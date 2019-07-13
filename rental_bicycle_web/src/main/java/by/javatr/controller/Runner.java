@@ -20,17 +20,18 @@ public class Runner {
         logger.info("Start runner");
 //------------------------------------------------------------------------------------------------------------
 // Тестирование ввода данных о user в БД
-//        User user1 = new User();
-//        user1.setLogin("test");
-//        user1.setPassword("test222");
-//        user1.setRole(Role.USER);
-//
-//        UserDaoImpl userDaoTest1 = new UserDaoImpl();
-//        try {
-//            userDaoTest1.create(user1);
-//        } catch (PersistentException e) {
-//            e.printStackTrace();
-//        }
+        User user1 = new User();
+        user1.setLogin("test");
+        user1.setPassword("test222");
+        user1.setRole(Role.USER);
+
+
+        UserDaoImpl userDaoTest1 = new UserDaoImpl();
+        try {
+            userDaoTest1.create(user1);
+        } catch (PersistentException e) {
+            e.printStackTrace();
+        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения списка всех user из БД
 //        List<User> userList = new ArrayList();
