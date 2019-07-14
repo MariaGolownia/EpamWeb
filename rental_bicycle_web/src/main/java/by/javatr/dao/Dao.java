@@ -1,5 +1,4 @@
 package by.javatr.dao;
-
 import by.javatr.entity.Entity;
 
 public interface Dao<Type extends Entity> {

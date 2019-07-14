@@ -1,6 +1,7 @@
 package by.javatr.entity;
+import by.javatr.entity.en_um.BicycleType;
+
 import java.sql.Blob;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,16 +85,36 @@ public class Bicycle extends Entity {
         return ifNotBooked;
     }
 
+    public Integer getIfNotBookedInt() {
+        return ifNotBooked == true ? 1 : 0;
+    }
+
     public void setIfNotBooked(Boolean ifNotBooked) {
         this.ifNotBooked = ifNotBooked;
+    }
+
+    public void setIfNotBooked(Integer ifNotBooked) {
+        if (ifNotBooked == 1) {
+        this.ifNotBooked = true;}
+        else this.ifNotBooked = false;
     }
 
     public Boolean getIfFree() {
         return ifFree;
     }
 
+    public Integer getIfFreeInt() {
+        return ifFree == true ? 1 : 0;
+    }
+
     public void setIfFree(Boolean ifFree) {
         this.ifFree = ifFree;
+    }
+
+    public void setIfFree(Integer ifFree) {
+        if (ifFree == 1) {
+            this.ifFree = true;}
+        else this.ifFree = false;
     }
 
     @Override

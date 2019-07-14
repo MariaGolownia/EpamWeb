@@ -1,10 +1,7 @@
 package by.javatr.dao.pool;
-
 import by.javatr.dao.PersistentException;
-
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+
 
 public class ConnectionSQL {
     public static final int MAX_CONNECTIONS_SIZE = 20;
@@ -27,7 +24,4 @@ public class ConnectionSQL {
         }
         return connection;
     }
-
-
-
 }

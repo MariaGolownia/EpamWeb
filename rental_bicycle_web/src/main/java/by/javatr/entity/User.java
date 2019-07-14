@@ -1,4 +1,7 @@
 package by.javatr.entity;
+import by.javatr.entity.en_um.Role;
+import by.javatr.entity.en_um.UserStatus;
+
 import java.util.ArrayList;
 import java.util.List;
 

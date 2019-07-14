@@ -1,5 +1,8 @@
 package by.javatr.entity;
 
+import by.javatr.entity.en_um.City;
+import by.javatr.entity.en_um.Country;
+
 public class Location extends Entity {
     private String name;
     private Company company;

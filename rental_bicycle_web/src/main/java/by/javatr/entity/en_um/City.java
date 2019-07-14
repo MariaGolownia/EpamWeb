@@ -1,5 +1,5 @@
-package by.javatr.entity;
-
+package by.javatr.entity.en_um;
+import by.javatr.entity.EntityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,16 +55,16 @@ public enum City {
                         }
                 } else {
                     try {
-                        throw new InformationException("Please contact the developer to extend the software application" +
+                        throw new EntityException("Please contact the developer to extend the software application" +
                                 " to the level of your region!");
-                    } catch (InformationException e) {
+                    } catch (EntityException e) {
                         e.printStackTrace();
                     }
                 }
             }
         else {
             try {
-                throw new EntityException ("The option of the country doesn't matter!");
+                throw new EntityException("The option of the country doesn't matter!");
             } catch (EntityException e) {
                 e.printStackTrace();
             }

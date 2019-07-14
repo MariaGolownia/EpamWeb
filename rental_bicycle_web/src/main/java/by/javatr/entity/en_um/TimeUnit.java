@@ -1,4 +1,4 @@
-package by.javatr.entity;
+package by.javatr.entity.en_um;
 
 public enum TimeUnit {
 

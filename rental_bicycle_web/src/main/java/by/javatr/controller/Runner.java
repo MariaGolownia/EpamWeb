@@ -4,10 +4,13 @@ import by.javatr.dao.mysql.CompanyDaoImpl;
 import by.javatr.dao.mysql.LocationDaoImpl;
 import by.javatr.dao.mysql.PriceDaoImpl;
 import by.javatr.entity.*;
+import by.javatr.entity.en_um.City;
+import by.javatr.entity.en_um.Country;
 import com.sun.deploy.security.CertUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,16 +104,7 @@ public class Runner {
 //        } catch (PersistentException e) {
 //            e.printStackTrace();
 //        }
-//------------------------------------------------------------------------------------------------------------
-        // Тестирование получения Company by AccountNumber
-//        CompanyDaoImpl companyDao = new CompanyDaoImpl();
-//        try {
-//            Company company = new Company();
-//            company = companyDao.readByAccountNumberOfPayer(192693197);
-//            System.out.print(company.toString());
-//        } catch (PersistentException e) {
-//            e.printStackTrace();
-//        }
+
 //------------------------------------------------------------------------------------------------------------
         // Тестирование создания Company by AccountNumber
 //        CompanyDaoImpl companyDao = new CompanyDaoImpl();
@@ -168,16 +162,69 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения Location by city
-        LocationDaoImpl locationDao = new LocationDaoImpl();
-        List<Location> locationList = new ArrayList();
-        try {
-            locationList = locationDao.readByCity("Poznan");
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
-        for (Location location : locationList) {
-            System.out.print(location.toString());
-        }
+//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        List<Location> locationList = new ArrayList();
+//        try {
+//            locationList = locationDao.readByCity("Poznan");
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//        for (Location location : locationList) {
+//            System.out.print(location.toString());
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование создания Location
+//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        Location location = new Location();
+//        location.setName("Basic");
+//        Company company = new Company();
+//        company.setName("Limited liability company Enjoyment");
+//        company.setAccountNumberOfPayer(15978958);
+//        location.setCompany(company);
+//        location.setCountry(Country.BELARUS);
+//        location.setCity(City.GRODNO);
+//        location.setStreet("Yastnaja");
+//        location.setHouse("2A");
+//        location.setOffice("12");
+//        location.setPhone(80297568900L);
+//        location.setSecondPhone(80297568989L);
+//        location.setPhoto("There will be a relative path to the photo!");
+//        try {
+//            locationDao.create(location);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование update Location
+//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        Location location = new Location();
+//        location.setName("New");
+//        location.setId(18);
+//        Company company = new Company();
+//        company.setName("Limited liability company Enjoyment");
+//        company.setAccountNumberOfPayer(15978958);
+//        location.setCompany(company);
+//        location.setCountry(Country.BELARUS);
+//        location.setCity(City.GRODNO);
+//        location.setStreet("Yastnaja");
+//        location.setHouse("2A");
+//        location.setOffice("12");
+//        location.setPhone(80297568900L);
+//        location.setSecondPhone(80297568989L);
+//        location.setPhoto("There will be a relative path to the photo!");
+//        try {
+//            locationDao.update(location);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование  удаления Location
+//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        try {
+//            locationDao.delete(18);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения Price by ID
 //        PriceDaoImpl priceDao = new PriceDaoImpl();

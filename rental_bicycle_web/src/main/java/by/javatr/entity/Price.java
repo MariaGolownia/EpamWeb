@@ -1,6 +1,8 @@
 package by.javatr.entity;
+import by.javatr.entity.en_um.Currency;
+import by.javatr.entity.en_um.TimeUnit;
+
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class Price extends Entity {
     private Currency currency;

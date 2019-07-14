@@ -15,7 +15,7 @@ public class SQLValidation {
             "SELECT `company_name`, `company_accountNumberOfPayer` FROM `company` WHERE `company_id` = ?";
 
     // Проверка на наличие аналогичного логина пользователя в БД
-    public Boolean validateIfIdenticalLoginInDB (String login, Connection connection) {
+    public Boolean ifIdenticalLoginInDB (String login, Connection connection) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Boolean ifIdenticalLoginInDB = false;
@@ -44,7 +44,7 @@ public class SQLValidation {
     }
 
 
-    public Boolean validateIfIdenticalLoginInDB (String login) {
+    public Boolean ifIdenticalLoginInDB (String login) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         ConnectionSQL connectionSQL = new ConnectionSQL();
@@ -77,13 +77,13 @@ public class SQLValidation {
 
 
     // Проверка на наличие id компании в БД
-    public Boolean validateIfСompanyExist (Integer id, Connection connection) {
+    public Boolean ifСompanyExist (Integer id, Connection connection) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Boolean ifСompanyExist = false;
         try {
             statement = connection.prepareStatement(SQL_COMPANY_SELECT);
-            statement.setString(1, id.toString());
+            statement.setInt(1, id);
             resultSet = statement.executeQuery();
             if(resultSet.next()) {
                 ifСompanyExist = true;
@@ -105,14 +105,45 @@ public class SQLValidation {
         return ifСompanyExist;
     }
 
+    // Проверка на наличие id компании в БД
+    public Integer returnIdIfСompanyExist (Integer id, Connection connection) {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Integer IdOfСompany = null;
+        try {
+            statement = connection.prepareStatement(SQL_COMPANY_SELECT);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                IdOfСompany = id;
+            }
+        } catch (SQLException e) {
+            try {
+                throw new PersistentException(e);
+            } catch (PersistentException ex) {
+                ex.printStackTrace();
+            }
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+        }
+        return IdOfСompany;
+    }
+
     // Проверка на наличие учетного номера плательщика компании в БД
-    public Boolean validateIfСompanyNumberExist (Integer number, Connection connection) {
+    public Boolean ifСompanyNumberExist (Integer number, Connection connection) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Boolean ifСompanyExist = false;
         try {
             statement = connection.prepareStatement(SQL_COMPANY_SELECT_BY_ACCOUNT_NUMBER);
-            statement.setString(1, number.toString());
+            statement.setInt(1, number);
             resultSet = statement.executeQuery();
             if(resultSet.next()) {
                 ifСompanyExist = true;

@@ -1,7 +1,7 @@
 package by.javatr.entity.valid;
 
-import by.javatr.entity.City;
-import by.javatr.entity.Country;
+import by.javatr.entity.en_um.City;
+import by.javatr.entity.en_um.Country;
 
 import java.util.ArrayList;
 import java.util.List;

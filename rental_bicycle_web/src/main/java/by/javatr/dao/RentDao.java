@@ -1,7 +1,5 @@
 package by.javatr.dao;
-
 import by.javatr.entity.Rent;
-
 import java.math.BigInteger;
 import java.util.List;
 

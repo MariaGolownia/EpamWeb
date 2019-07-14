@@ -7,21 +7,21 @@ import by.javatr.dao.UserDao;
 import by.javatr.dao.pool.ConnectionSQL;
 import by.javatr.dao.valid.SQLValidation;
 import by.javatr.dao.valid.ValidationException;
-import by.javatr.entity.Role;
+import by.javatr.entity.en_um.Role;
 import by.javatr.entity.User;
-import by.javatr.entity.UserStatus;
+import by.javatr.entity.en_um.UserStatus;
 import org.apache.logging.log4j.LogManager;
 
 public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
-    //private static final String SERVER_NAME = "localhost";
-    //private static final String MY_DATA_BASE = "rental_bicycle_web";
-
     private static final String SQL_USER_INSERT =
             "INSERT INTO `user` (`user_login`, `user_password`, `user_role`, `user_status`) VALUES (?, ?, ?, ?)";
-    private static final String SQL_SELECT_USER_BY_ID = "SELECT `user_login`, `user_password`, `user_role`, `user_status` FROM `user` WHERE `user_id` = ?";
-    private static final String SQL_ALL_USERS_SELECT = "SELECT `user_id`, `user_login`, `user_password`, `user_role`, `user_status` FROM `user` ORDER BY `user_login`";
-    private static final String SQL_ID_ROLE_STATUS_USER_SELECT = "SELECT `user_id`, `user_role`, `user_status` FROM `user` WHERE `user_login` = ? AND `user_password` = ?";
+    private static final String SQL_SELECT_USER_BY_ID =
+            "SELECT `user_login`, `user_password`, `user_role`, `user_status` FROM `user` WHERE `user_id` = ?";
+    private static final String SQL_ALL_USERS_SELECT =
+            "SELECT `user_id`, `user_login`, `user_password`, `user_role`, `user_status` FROM `user` ORDER BY `user_login`";
+    private static final String SQL_ID_ROLE_STATUS_USER_SELECT =
+            "SELECT `user_id`, `user_role`, `user_status` FROM `user` WHERE `user_login` = ? AND `user_password` = ?";
     private static final String SQL_USER_UPDATE =
             "UPDATE `user` SET `user_login` = ?, `user_password` = ?, `user_role` = ?, `user_status` = ?" +
                     " WHERE `user_id` = ?";
@@ -36,7 +36,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             ConnectionSQL connectionSQL = new ConnectionSQL();
             connection = connectionSQL.getConnectionToDB();
             SQLValidation SQLValidation = new SQLValidation();
-            if (!SQLValidation.validateIfIdenticalLoginInDB(user.getLogin(), connection)) {
+            if (!SQLValidation.ifIdenticalLoginInDB(user.getLogin(), connection)) {
                 statement = connection.prepareStatement(SQL_USER_INSERT, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, user.getLogin());
                 statement.setString(2, user.getPassword());

@@ -1,4 +1,6 @@
 package by.javatr.entity;
+import by.javatr.entity.en_um.Country;
+
 import java.util.Date;
 
 public class UserInfo extends Entity {

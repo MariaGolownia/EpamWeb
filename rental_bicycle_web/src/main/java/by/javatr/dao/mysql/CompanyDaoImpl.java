@@ -11,7 +11,7 @@ import java.sql.*;
 
 public class CompanyDaoImpl extends BaseDaoImpl implements CompanyDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
-        private static final String SQL_SELECT_COMPANY_BY_ID =
+     private static final String SQL_SELECT_COMPANY_BY_ID =
             "SELECT `company_name`, `company_accountNumberOfPayer` FROM `company` WHERE `company_id` = ?";
     private static final String SQL_SELECT_COMPANY_BY_ACCOUNT_NUMBER_OF_PAYER =
             "SELECT `company_id`, `company_name` FROM `company` WHERE `company_accountNumberOfPayer` = ?";
@@ -31,9 +31,10 @@ public class CompanyDaoImpl extends BaseDaoImpl implements CompanyDao {
             statement = connection.prepareStatement(SQL_SELECT_COMPANY_BY_ACCOUNT_NUMBER_OF_PAYER);
             statement.setInt(1, search);
             resultSet = statement.executeQuery();
-            Company company = null;
+            Company company = new Company();
             while(resultSet.next()) {
-                company.setId(resultSet.getInt("company_id"));
+                Integer companyID = resultSet.getInt("company_id");
+                company.setId(companyID);
                 company.setName(resultSet.getString("company_name"));
                 company.setAccountNumberOfPayer(search);
             }
@@ -56,6 +57,38 @@ public class CompanyDaoImpl extends BaseDaoImpl implements CompanyDao {
         }
     }
 
+
+    public Company readByAccountNumberOfPayer(Integer search, Connection connection) throws PersistentException {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_SELECT_COMPANY_BY_ACCOUNT_NUMBER_OF_PAYER);
+            statement.setInt(1, search);
+            resultSet = statement.executeQuery();
+            Company company = new Company();
+            while(resultSet.next()) {
+                company.setId(resultSet.getInt("company_id"));
+                company.setName(resultSet.getString("company_name"));
+                company.setAccountNumberOfPayer(search);
+            }
+            if (company==null) try {
+                throw new ValidationException("Contact the developer to add your company to the software application!");
+            } catch (ValidationException e) {
+                e.printStackTrace();
+            }
+            return company;
+        } catch(SQLException e) {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch(SQLException | NullPointerException e) {}
+            try {
+                statement.close();
+            } catch(SQLException | NullPointerException e) {}
+        }
+    }
+
     @Override
     public Integer create(Company company) throws PersistentException {
         PreparedStatement statement = null;
@@ -65,7 +98,7 @@ public class CompanyDaoImpl extends BaseDaoImpl implements CompanyDao {
             ConnectionSQL connectionSQL = new ConnectionSQL();
             connection = connectionSQL.getConnectionToDB();
             SQLValidation SQLValidation = new SQLValidation();
-            if (!SQLValidation.validateIfСompanyNumberExist(company.getAccountNumberOfPayer(), connection)) {
+            if (!SQLValidation.ifСompanyNumberExist(company.getAccountNumberOfPayer(), connection)) {
                 statement = connection.prepareStatement(SQL_COMPANY_INSERT, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, company.getName());
                 statement.setInt(2, company.getAccountNumberOfPayer());
