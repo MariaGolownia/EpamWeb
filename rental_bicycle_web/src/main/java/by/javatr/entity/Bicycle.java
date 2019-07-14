@@ -4,6 +4,7 @@ import by.javatr.entity.en_um.BicycleType;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Bicycle extends Entity {
     private String model;
@@ -130,6 +131,29 @@ public class Bicycle extends Entity {
                 ", ifNotBooked=" + ifNotBooked +
                 ", ifFree=" + ifFree +
                 ", rentList=" + rentList +
-                '}';
+                "}\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Bicycle)) return false;
+        if (!super.equals(o)) return false;
+        Bicycle bicycle = (Bicycle) o;
+        return Objects.equals(getModel(), bicycle.getModel()) &&
+                getBicycleType() == bicycle.getBicycleType() &&
+                Objects.equals(getProductionYear(), bicycle.getProductionYear()) &&
+                Objects.equals(getProducer(), bicycle.getProducer()) &&
+                Objects.equals(getCurrentLocation(), bicycle.getCurrentLocation()) &&
+                Objects.equals(getPhoto(), bicycle.getPhoto()) &&
+                Objects.equals(getPrice(), bicycle.getPrice()) &&
+                Objects.equals(getIfNotBooked(), bicycle.getIfNotBooked()) &&
+                Objects.equals(getIfFree(), bicycle.getIfFree()) &&
+                Objects.equals(getRentList(), bicycle.getRentList());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getModel(), getBicycleType(), getProductionYear(), getProducer(), getCurrentLocation(), getPhoto(), getPrice(), getIfNotBooked(), getIfFree(), getRentList());
     }
 }

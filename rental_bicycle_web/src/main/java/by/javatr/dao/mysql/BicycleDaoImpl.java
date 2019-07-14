@@ -3,6 +3,7 @@ import by.javatr.dao.BicycleDao;
 import by.javatr.dao.PersistentException;
 import by.javatr.dao.valid.SQLValidation;
 import by.javatr.entity.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 import by.javatr.dao.pool.ConnectionSQL;
@@ -14,43 +15,66 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
     private static final String SQL_BICYCLE_INSERT =
             "INSERT INTO `bicycle` (`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`, " +
                     "`bicycle_currentLocation_id`, `bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_ifFree`,`bicycle_photo`)" +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_BICYCLE_BY_ID_SELECT =
             "SELECT `bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
                     " `bicycle_currentLocation_id`, `bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_ifFree`, `bicycle_photo`" +
                     " FROM `bicycle` WHERE `bicycle_id` = ?";
-
-
-    @Override
-    public List<Bicycle> readByModel(String search) throws PersistentException {
-        return null;
-    }
-
-    @Override
-    public List<Bicycle> readByType(Bicycle search) throws PersistentException {
-        return null;
-    }
+    private static final String SQL_BICYCLE_BY_CURRENT_LOCATION =
+            "SELECT `bicycle_id`,`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
+                    "`bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_ifFree`, `bicycle_photo`" +
+                    " FROM `bicycle` WHERE `bicycle_currentLocation_id` = ?";
+    private static final String SQL_BICYCLE_UPDATE =
+            "UPDATE `bicycle` SET `bicycle_model`= ?, `bicycle_type`= ?, `bicycle_productionYear`= ?," +
+                    " `bicycle_producer`= ?, `bicycle_currentLocation_id`= ?, `bicycle_price_id`= ?," +
+                    " `bicycle_ifNotBooked`= ?, `bicycle_ifFree`= ?, `bicycle_photo`= ? WHERE `bicycle_id` = ?";
+    private static final String SQL_BICYCLE_DELETE = "DELETE FROM `bicycle` WHERE `bicycle_id` = ?";
 
     @Override
-    public List<Bicycle> readByProductionYear(Integer search) throws PersistentException {
-        return null;
+    public List<Bicycle> readByCurrentLocation(Location location) throws PersistentException {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            ConnectionSQL connectionSQL = new ConnectionSQL();
+            connection = connectionSQL.getConnectionToDB();
+            statement = connection.prepareStatement(SQL_BICYCLE_BY_CURRENT_LOCATION);
+            statement.setInt(1, location.getId());
+            resultSet = statement.executeQuery();
+            List<Bicycle> bicycles = new ArrayList<>();
+            while(resultSet.next()) {
+                Bicycle bicycle = new Bicycle();
+                Integer bicycleID = resultSet.getInt("bicycle_id");
+                bicycle.setId(bicycleID);
+                bicycle.setModel(resultSet.getString("bicycle_model"));
+                BicycleType bicycleType = BicycleType.getBicycleType(resultSet.getString("bicycle_type"));
+                bicycle.setBicycleType(bicycleType);
+                bicycle.setProductionYear(resultSet.getShort("bicycle_productionYear"));
+                bicycle.setProducer(resultSet.getString("bicycle_producer"));
+                bicycle.setCurrentLocation(location);
+                bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
+                Price price = new Price();
+                PriceDaoImpl priceDao = new PriceDaoImpl();
+                price = priceDao.read(resultSet.getInt("bicycle_price_id"), connection);
+                bicycle.setPrice(price);
+                bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
+                bicycle.setIfFree(resultSet.getBoolean("bicycle_ifFree"));
+                bicycles.add(bicycle);
+            }
+            return bicycles;
+        } catch(SQLException e) {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch(SQLException | NullPointerException e) {}
+            try {
+                statement.close();
+                connection.close();
+            } catch(SQLException | NullPointerException e) {}
+        }
     }
 
-    @Override
-    public List<Bicycle> readByProducer(String search) throws PersistentException {
-        return null;
-    }
 
-    @Override
-    public List<Bicycle> readCurrentLocation(Location search) throws PersistentException {
-        return null;
-    }
-
-    @Override
-    public List<Bicycle> readCurrentLocation(Price search) throws PersistentException {
-        return null;
-    }
-    
     @Override
     public Integer create(Bicycle bicycle) throws PersistentException {
         PreparedStatement statement = null;
@@ -89,14 +113,15 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             }
             statement.setInt(7, bicycle.getIfNotBookedInt());
             statement.setInt(8, bicycle.getIfFreeInt());
-            if (!bicycle.getPhoto().equals(null)) {
-                statement.setBlob(8, bicycle.getPhoto());
+            statement.setInt(9, bicycle.getIfFreeInt());
+            if (bicycle.getPhoto().length() > 3) {
+                statement.setBlob(9, bicycle.getPhoto());
             }
             else {
                 Bicycle bicycleD = new Bicycle();
                 BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
                 bicycleD = bicycleDao.read(1);
-                statement.setBlob(1, bicycleD.getPhoto());
+                statement.setBlob(8, bicycleD.getPhoto());
             }
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
@@ -121,7 +146,6 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
         return idOfLocation;
     }
 
-
     @Override
     public Bicycle read(Integer id) throws PersistentException {
         PreparedStatement statement = null;
@@ -132,7 +156,7 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             statement = connection.prepareStatement(SQL_BICYCLE_BY_ID_SELECT);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
-            Bicycle bicycle = null;
+            Bicycle bicycle = new Bicycle();
             if(resultSet.next()) {
                 bicycle = new Bicycle();
                 bicycle.setId(id);
@@ -168,12 +192,63 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
     }
 
     @Override
-    public void update(Bicycle entity) throws PersistentException {
-
+    public void update(Bicycle bicycle) throws PersistentException {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Integer idOfLocation = null;
+        try {
+            ConnectionSQL connectionSQL = new ConnectionSQL();
+            connection = connectionSQL.getConnectionToDB();
+            SQLValidation sqlValidation = new SQLValidation();
+            statement = connection.prepareStatement(SQL_BICYCLE_UPDATE, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, bicycle.getModel());
+            statement.setString(2, bicycle.getBicycleType().getName());
+            statement.setShort(3, bicycle.getProductionYear());
+            statement.setString(4, bicycle.getProducer());
+            Location location = new Location();
+            LocationDaoImpl locationDao = new LocationDaoImpl();
+            location = locationDao.read(bicycle.getCurrentLocation().getId(),connection);
+            statement.setInt(5, location.getId());
+            Price price = new Price();
+            PriceDaoImpl priceDao = new PriceDaoImpl();
+            price = priceDao.read(bicycle.getPrice().getId(), connection);
+            statement.setInt(6, price.getId());
+            statement.setInt(7, bicycle.getIfNotBookedInt());
+            statement.setInt(8, bicycle.getIfFreeInt());
+            Integer companyNumber = location.getCompany().getAccountNumberOfPayer();
+            statement.setBlob(9, bicycle.getPhoto());
+            statement.setInt(10, bicycle.getId());
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+        } catch(SQLException e) {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch(SQLException | NullPointerException e) {}
+            try {
+                statement.close();
+                connection.close();
+            } catch(SQLException | NullPointerException e) {}
+        }
     }
 
     @Override
-    public void delete(Integer identity) throws PersistentException {
-
+    public void delete(Integer id) throws PersistentException {
+        PreparedStatement statement = null;
+        try {
+            ConnectionSQL connectionSQL = new ConnectionSQL();
+            connection = connectionSQL.getConnectionToDB();
+            statement = connection.prepareStatement(SQL_BICYCLE_DELETE);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch(SQLException e) {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                statement.close();
+                connection.close();
+            } catch(SQLException | NullPointerException e) {}
+        }
     }
 }

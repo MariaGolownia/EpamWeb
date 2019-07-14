@@ -1,7 +1,6 @@
 package by.javatr.entity;
-
+import by.javatr.entity.en_um.Currency;
 import java.math.BigDecimal;
-import java.util.Currency;
 
 public class VirtualCard extends Entity {
     private String name;
@@ -39,5 +38,15 @@ public class VirtualCard extends Entity {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    @Override
+    public String toString() {
+        return "VirtualCard{" +
+                "name='" + name + '\'' +
+                ", user=" + user +
+                ", balance=" + balance +
+                ", currency=" + currency +
+                "}\n";
     }
 }

@@ -1,11 +1,15 @@
 package by.javatr.controller;
+import by.javatr.dao.BicycleDao;
 import by.javatr.dao.PersistentException;
+import by.javatr.dao.mysql.BicycleDaoImpl;
 import by.javatr.dao.mysql.CompanyDaoImpl;
 import by.javatr.dao.mysql.LocationDaoImpl;
 import by.javatr.dao.mysql.PriceDaoImpl;
 import by.javatr.entity.*;
+import by.javatr.entity.en_um.BicycleType;
 import by.javatr.entity.en_um.City;
 import by.javatr.entity.en_um.Country;
+import com.mysql.jdbc.Blob;
 import com.sun.deploy.security.CertUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -313,5 +317,95 @@ public class Runner {
 //            e.printStackTrace();
 //        }}
 //------------------------------------------------------------------------------------------------------------
+// Тестирование получения bicycle by ID
+//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        try {
+//            Bicycle bicycle = new Bicycle();
+//            bicycle = bicycleDao.read(1);
+//            System.out.print(bicycle.toString());
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }}
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование создания bicycle
+//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        try {
+//            Bicycle bicycle = new Bicycle();
+//            bicycle.setModel("BY-1456");
+//            bicycle.setBicycleType(BicycleType.UNIVERSAL);
+//            Short year = 2019;
+//            bicycle.setProductionYear(year);
+//            bicycle.setProducer("Belarus");
+//            LocationDaoImpl locationDao = new LocationDaoImpl();
+//            Location location = new Location();
+//            location = locationDao.read(2);
+//            bicycle.setCurrentLocation(location);
+//            PriceDaoImpl priceDao = new PriceDaoImpl();
+//            Price price = new Price();
+//            price = priceDao.read(1);
+//            bicycle.setPrice(price);
+//            bicycle.setIfNotBooked(true);
+//            bicycle.setIfFree(true);
+//            Bicycle bicycleD = new Bicycle();
+//            bicycleD = bicycleDao.read(1);
+//            bicycle.setPhoto(bicycleD.getPhoto());
+//            bicycleDao.create(bicycle);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование поиска bicycle по Location
+//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        try {
+//            BicycleDaoImpl bicycleDao1 = new BicycleDaoImpl();
+//            LocationDaoImpl locationDao = new LocationDaoImpl();
+//            Location location = new Location();
+//            location = locationDao.read(3);
+//            List<Bicycle> bicycleList = new ArrayList<>();
+//            bicycleList = bicycleDao.readByCurrentLocation(location);
+//            for (Bicycle bicycle: bicycleList) {
+//            System.out.print(bicycle.toString());
+//        }
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование  update bicycle
+//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        try {
+//            Bicycle bicycle = new Bicycle();
+//            bicycle.setId(21);
+//            bicycle.setModel("BY-99999");
+//            bicycle.setBicycleType(BicycleType.UNIVERSAL);
+//            Short year = 2018;
+//            bicycle.setProductionYear(year);
+//            bicycle.setProducer("Belarus");
+//            LocationDaoImpl locationDao = new LocationDaoImpl();
+//            Location location = new Location();
+//            location = locationDao.read(2);
+//            bicycle.setCurrentLocation(location);
+//            PriceDaoImpl priceDao = new PriceDaoImpl();
+//            Price price = new Price();
+//            price = priceDao.read(1);
+//            bicycle.setPrice(price);
+//            bicycle.setIfNotBooked(true);
+//            bicycle.setIfFree(true);
+//            Bicycle bicycleD = new Bicycle();
+//            bicycleD = bicycleDao.read(1);
+//            bicycle.setPhoto(bicycleD.getPhoto());
+//            BicycleDaoImpl bicycleDao1 = new BicycleDaoImpl();
+//            bicycleDao1.update(bicycle);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование delete Bicycle
+//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        try {
+//            bicycleDao.delete(21);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+////------------------------------------------------------------------------------------------------------------
     }
 }

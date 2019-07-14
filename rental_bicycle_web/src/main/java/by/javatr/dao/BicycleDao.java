@@ -6,16 +6,5 @@ import java.util.List;
 
 public interface BicycleDao extends Dao<Bicycle> {
 
-    List<Bicycle> readByModel(String search) throws PersistentException;
-
-    List<Bicycle> readByType(Bicycle search) throws PersistentException;
-
-    List<Bicycle> readByProductionYear(Integer search) throws PersistentException;
-
-    List<Bicycle> readByProducer(String search) throws PersistentException;
-
-    List<Bicycle> readCurrentLocation(Location search) throws PersistentException;
-
-    List<Bicycle> readCurrentLocation(Price search) throws PersistentException;
-
+    List<Bicycle> readByCurrentLocation(Location search) throws PersistentException;
 }
