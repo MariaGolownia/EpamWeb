@@ -6,24 +6,31 @@ import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.ReentrantLock;
+
 import by.javatr.dao.PersistentException;
 import org.apache.logging.log4j.LogManager;
 
 final public class ConnectionPool {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
-
     private String url;
     private String user;
     private String password;
     private int maxSize;
     private int checkConnectionTimeout;
-
+    private ReentrantLock locker = new ReentrantLock();
     private BlockingQueue<PooledConnection> freeConnections = new LinkedBlockingQueue<>();
     private Set<PooledConnection> usedConnections = new ConcurrentSkipListSet<>();
+    private static ConnectionPool instance = new ConnectionPool();
 
     private ConnectionPool() {}
 
-    public synchronized Connection getConnection() throws PersistentException {
+    public static ConnectionPool getInstance() {
+        return instance;
+    }
+
+    public Connection getConnection() throws PersistentException {
+        locker.lock();
         PooledConnection connection = null;
         while(connection == null) {
             try {
@@ -48,10 +55,12 @@ final public class ConnectionPool {
         }
         usedConnections.add(connection);
         logger.debug(String.format("Connection was received from pool. Current pool size: %d used connections; %d free connection", usedConnections.size(), freeConnections.size()));
+        locker.unlock();
         return connection;
     }
 
-    synchronized void freeConnection(PooledConnection connection) {
+     void freeConnection(PooledConnection connection) {
+        locker.lock();
         try {
             if(connection.isValid(checkConnectionTimeout)) {
                 connection.clearWarnings();
@@ -66,9 +75,11 @@ final public class ConnectionPool {
                 connection.getConnection().close();
             } catch(SQLException e2) {}
         }
+        locker.unlock();
     }
 
-    public synchronized void init(String driverClass, String url, String user, String password, int startSize, int maxSize, int checkConnectionTimeout) throws PersistentException {
+    public  void init(String driverClass, String url, String user, String password, int startSize, int maxSize, int checkConnectionTimeout) throws PersistentException {
+        locker.lock();
         try {
             destroy();
             Class.forName(driverClass);
@@ -84,19 +95,16 @@ final public class ConnectionPool {
             logger.fatal("It is impossible to initialize connection pool", e);
             throw new PersistentException(e);
         }
+        locker.unlock();
     }
 
-    private static ConnectionPool instance = new ConnectionPool();
-
-    public static ConnectionPool getInstance() {
-        return instance;
-    }
 
     private PooledConnection createConnection() throws SQLException {
         return new PooledConnection(DriverManager.getConnection(url, user, password));
     }
 
-    public synchronized void destroy() {
+    public  void destroy() {
+        locker.lock();
         usedConnections.addAll(freeConnections);
         freeConnections.clear();
         for(PooledConnection connection : usedConnections) {
@@ -105,6 +113,7 @@ final public class ConnectionPool {
             } catch(SQLException e) {}
         }
         usedConnections.clear();
+        locker.unlock();
     }
 
     @Override

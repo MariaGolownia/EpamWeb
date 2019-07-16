@@ -27,14 +27,20 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                     " WHERE `user_id` = ?";
     private static final String SQL_USER_DELETE = "DELETE FROM `user` WHERE `user_id` = ?";
 
+    public UserDaoImpl(Connection connection) {
+        this.connection = connection;
+    }
+
+    protected UserDaoImpl() {
+        super();
+    }
+
     @Override
     public Integer create(User user) throws PersistentException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Integer idOfUser = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             SQLValidation SQLValidation = new SQLValidation();
             if (!SQLValidation.ifIdenticalLoginInDB(user.getLogin(), connection)) {
                 statement = connection.prepareStatement(SQL_USER_INSERT, Statement.RETURN_GENERATED_KEYS);
@@ -66,7 +72,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
         return idOfUser;
@@ -78,8 +83,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_ID_ROLE_STATUS_USER_SELECT);
             statement.setString(1, login);
             statement.setString(2, password);
@@ -102,7 +105,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -112,8 +114,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_ALL_USERS_SELECT);
             resultSet = statement.executeQuery();
             List<User> users = new ArrayList<>();
@@ -136,7 +136,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -146,8 +145,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_SELECT_USER_BY_ID);
             statement.setInt(1, id);
                     resultSet = statement.executeQuery();
@@ -169,7 +166,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -178,8 +174,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     public void update(User user) throws PersistentException {
         PreparedStatement statement = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_USER_UPDATE);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
@@ -192,7 +186,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         } finally {
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -201,8 +194,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     public void delete(Integer id) throws PersistentException {
         PreparedStatement statement = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_USER_DELETE);
             statement.setInt(1, id);
             statement.executeUpdate();
@@ -211,7 +202,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         } finally {
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }

@@ -1,20 +1,22 @@
 package by.javatr.controller;
 import by.javatr.dao.BicycleDao;
+import by.javatr.dao.Dao;
 import by.javatr.dao.PersistentException;
-import by.javatr.dao.mysql.BicycleDaoImpl;
-import by.javatr.dao.mysql.CompanyDaoImpl;
-import by.javatr.dao.mysql.LocationDaoImpl;
-import by.javatr.dao.mysql.PriceDaoImpl;
+import by.javatr.dao.mysql.*;
 import by.javatr.entity.*;
-import by.javatr.entity.en_um.BicycleType;
-import by.javatr.entity.en_um.City;
-import by.javatr.entity.en_um.Country;
+import by.javatr.entity.en_um.*;
 import com.mysql.jdbc.Blob;
 import com.sun.deploy.security.CertUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +27,20 @@ public class Runner {
         logger.info("Start runner");
 //------------------------------------------------------------------------------------------------------------
 // Тестирование ввода данных о user в БД
-//        User user1 = new User();
-//        user1.setLogin("black");
-//        user1.setPassword("0154896");
-//        user1.setRole(Role.USER);
-//        user1.setUserStatus(UserStatus.BLOCKED);
-//        UserDaoImpl userDaoTest1 = new UserDaoImpl();
-//        try {
-//            userDaoTest1.create(user1);
-//        } catch (PersistentException e) {
-//            e.printStackTrace();
-//        }
+        Dao dao = null;
+        User user1 = new User();
+        user1.setLogin("tera");
+        user1.setPassword("1111111111");
+        user1.setRole(Role.USER);
+        user1.setUserStatus(UserStatus.BLOCKED);
+        try {
+            dao = DAOSqlFactory.getInstance().get(DaoImpl.UserDaoImpl);
+            dao.create(user1);
+        } catch (PersistentException e) {
+            e.printStackTrace();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения списка всех user из БД
 //        List<User> userList = new ArrayList();
@@ -407,5 +412,108 @@ public class Runner {
 //            e.printStackTrace();
 //        }
 ////------------------------------------------------------------------------------------------------------------
+        // Тестирование создания userInfo
+        //Справочно:
+        // java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
+        //LocalDate localDate = sqlDate.toLocalDate();
+//        UserInfoDaoImpl userInfo = new UserInfoDaoImpl();
+//        try {
+//            UserInfo userInfoTest = new UserInfo();
+//            userInfoTest.setSurname("Svet");
+//            userInfoTest.setName("Marina");
+//            userInfoTest.setSecondName("Vladislavovna");
+//            LocalDate dateOfBirth = LocalDate.of( 1979, 1, 10);
+//            userInfoTest.setBirthDate(dateOfBirth);
+//            LocalDate dateOfPassport = LocalDate.of( 1980, 2, 11);
+//            userInfoTest.setPassportIssueDate(dateOfPassport);
+//            userInfoTest.setCountry(Country.BELARUS);
+//            userInfoTest.setPassportIssuingAuthority("Centralnoje ROVD");
+//            userInfoTest.setPassportIdentificationNumber("71555HH001PK3");
+//            userInfoTest.setPassportSerialNumber("MP1234589");
+//            userInfoTest.setPassportAddressRegistration("Minsk, Esenina, 127-3");
+//            userInfoTest.setPassportAddressResidence("Minsk, Esenina, 127-3");
+//            userInfoTest.setPhoneNumber(80297885858L);
+//            userInfoTest.setSecondPhoneNumber(80177855858L);
+//            userInfoTest.setEmail("leto@yandex.ru");
+//            userInfo.create(userInfoTest);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+        ////------------------------------------------------------------------------------------------------------------
+        // Тестирование update userInfo
+        //Справочно:
+        // java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
+        //LocalDate localDate = sqlDate.toLocalDate();
+//        UserInfoDaoImpl userInfo = new UserInfoDaoImpl();
+//        try {
+//            UserInfo userInfoTest = new UserInfo();
+//            userInfoTest.setId(6);
+//            userInfoTest.setSurname("Svet");
+//            userInfoTest.setName("Marina");
+//            userInfoTest.setSecondName("Vladislavovna");
+//            LocalDate dateOfBirth = LocalDate.of( 1977, 1, 10);
+//            userInfoTest.setBirthDate(dateOfBirth);
+//            LocalDate dateOfPassport = LocalDate.of( 1980, 2, 11);
+//            userInfoTest.setPassportIssueDate(dateOfPassport);
+//            userInfoTest.setCountry(Country.BELARUS);
+//            userInfoTest.setPassportIssuingAuthority("Centralnoje ROVD");
+//            userInfoTest.setPassportIdentificationNumber("71555HH001PK3");
+//            userInfoTest.setPassportSerialNumber("MP1234589");
+//            userInfoTest.setPassportAddressRegistration("Minsk, Esenina, 127-3");
+//            userInfoTest.setPassportAddressResidence("Minsk, Esenina, 127-3");
+//            userInfoTest.setPhoneNumber(80297885858L);
+//            userInfoTest.setSecondPhoneNumber(80177855858L);
+//            userInfoTest.setEmail("leto@yandex.ru");
+//            userInfo.update(userInfoTest);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+////------------------------------------------------------------------------------------------------------------
+// Тестирование update userInfo
+//        RentDaoImpl rentDao = new RentDaoImpl();
+//        try {
+//            Rent rent = new Rent();
+//            rent.setStartTime(LocalDateTime.now());
+//            User user = new User();
+//            UserDaoImpl userDao = new UserDaoImpl();
+//            user = userDao.read(2);
+//            Bicycle bicycle = new Bicycle();
+//            BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//            bicycle = bicycleDao.read(2);
+//            rent.setUser(user);
+//            rent.setBicycle(bicycle);
+//            rentDao.create(rent);
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        }
+////------------------------------------------------------------------------------------------------------------
+//// Тестирование rent: readByUserId
+////        RentDaoImpl rentDao = new RentDaoImpl();
+////        try {
+////            List<Rent>rentList = new ArrayList<>();
+////            rentList = rentDao.readByUserId(2);
+////            for (Rent rent : rentList) {
+////            System.out.print(rent.toString());
+////        }
+////        } catch (PersistentException e){
+////                e.printStackTrace();
+////
+////       }
+        ////------------------------------------------------------------------------------------------------------------
+// Тестирование rent: readByBicycle
+//        RentDaoImpl rentDao = new RentDaoImpl();
+//        try {
+//            Rent rent = new Rent();
+//            Bicycle bicycle = new Bicycle();
+//            BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//            bicycle = bicycleDao.read(4);
+//            rent = rentDao.readByBicycle(bicycle);
+//            System.out.print(rent.toString());
+//        } catch (PersistentException e){
+//                e.printStackTrace();
+//
+//       }
     }
 }
+
+

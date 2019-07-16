@@ -1,12 +1,14 @@
 package by.javatr.entity;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
 public class Rent extends Entity{
     private User user;
     private Bicycle bicycle;
-    private Date startTime;
-    private Date finishTime;
+    private LocalDateTime startTime;
+    private LocalDateTime finishTime;
     private Location finishLocation;
     private Payment payment;
 
@@ -26,19 +28,19 @@ public class Rent extends Entity{
         this.bicycle = bicycle;
     }
 
-    public Date getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public Date getFinishTime() {
+    public LocalDateTime getFinishTime() {
         return finishTime;
     }
 
-    public void setFinishTime(Date finishTime) {
+    public void setFinishTime(LocalDateTime finishTime) {
         this.finishTime = finishTime;
     }
 
@@ -56,5 +58,17 @@ public class Rent extends Entity{
 
     public void setPayment(Payment payment) {
         this.payment = payment;
+    }
+
+    @Override
+    public String toString() {
+        return "Rent{" +
+                "user=" + user +
+                ", bicycle=" + bicycle +
+                ", startTime=" + startTime +
+                ", finishTime=" + finishTime +
+                ", finishLocation=" + finishLocation +
+                ", payment=" + payment +
+                '}';
     }
 }

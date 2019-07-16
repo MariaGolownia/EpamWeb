@@ -30,13 +30,19 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
                     " `price_bookRate` = ? WHERE `price_id` = ?";
     private static final String SQL_PRICE_DELETE = "DELETE FROM `price` WHERE `price_id` = ?";
 
+    public PriceDaoImpl(Connection connection) {
+        this.connection = connection;
+    }
+
+    protected PriceDaoImpl() {
+        super();
+    }
+
     @Override
     public List<Price> readByCurrency(Currency currency) throws PersistentException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_SELECT_ALL_PRICES_BY_CURRENCY);
             Integer currencyInt = Integer.valueOf(currency.getName());
             statement.setInt(1, currencyInt);
@@ -64,7 +70,6 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -75,8 +80,6 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
         ResultSet resultSet = null;
         Integer idOfPrice = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
                 statement = connection.prepareStatement(SQL_PRICE_INSERT, Statement.RETURN_GENERATED_KEYS);
                 statement.setInt(1, Integer.valueOf(price.getCurrency().getName()));
                 statement.setString(2, price.getUnitTime().getName());
@@ -100,7 +103,6 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
         return idOfPrice;
@@ -112,8 +114,6 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_SELECT_PRICE_BY_ID);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -140,7 +140,6 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -184,8 +183,6 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_SELECT_ALL_PRICES);
             resultSet = statement.executeQuery();
             List<Price> prices = new ArrayList<>();
@@ -213,7 +210,6 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -222,8 +218,6 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
     public void update(Price price) throws PersistentException {
         PreparedStatement statement = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_PRICE_UPDATE);
             statement.setInt(1,Currency.getCodeOfCurrency(price.getCurrency()));
             statement.setString(2, price.getUnitTime().getName());
@@ -237,7 +231,6 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
         } finally {
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -246,8 +239,6 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
     public void delete(Integer id) throws PersistentException {
         PreparedStatement statement = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_PRICE_DELETE);
             statement.setInt(1, id);
             statement.executeUpdate();
@@ -256,7 +247,6 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
         } finally {
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }

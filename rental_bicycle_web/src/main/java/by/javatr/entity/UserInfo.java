@@ -2,19 +2,20 @@ package by.javatr.entity;
 import by.javatr.entity.en_um.City;
 import by.javatr.entity.en_um.Country;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class UserInfo extends Entity {
     private String surname;
     private String name;
     private String secondName;
-    private Date birthDate;
+    private LocalDate birthDate;
     private Country country;
-    private Date passportIssueDate;
+    private LocalDate passportIssueDate;
     private String passportIssuingAuthority;
     private String passportIdentificationNumber;
     private String passportSerialNumber;
-    private String passportAdressRegistration;
-    private String passportAdressResidence;
+    private String passportAddressRegistration;
+    private String passportAddressResidence;
     private Long phoneNumber;
     private Long secondPhoneNumber;
     private String email;
@@ -43,11 +44,11 @@ public class UserInfo extends Entity {
         this.secondName = secondName;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -59,11 +60,11 @@ public class UserInfo extends Entity {
         this.country = country;
     }
 
-    public Date getPassportIssueDate() {
+    public LocalDate getPassportIssueDate() {
         return passportIssueDate;
     }
 
-    public void setPassportIssueDate(Date passportIssueDate) {
+    public void setPassportIssueDate(LocalDate passportIssueDate) {
         this.passportIssueDate = passportIssueDate;
     }
 
@@ -91,20 +92,20 @@ public class UserInfo extends Entity {
         this.passportSerialNumber = passportSerialNumber;
     }
 
-    public String getPassportAdressRegistration() {
-        return passportAdressRegistration;
+    public String getPassportAddressRegistration() {
+        return passportAddressRegistration;
     }
 
-    public void setPassportAdressRegistration(String passportAdressRegistration) {
-        this.passportAdressRegistration = passportAdressRegistration;
+    public void setPassportAddressRegistration(String passportAdressRegistration) {
+        this.passportAddressRegistration = passportAdressRegistration;
     }
 
-    public String getPassportAdressResidence() {
-        return passportAdressResidence;
+    public String getPassportAddressResidence() {
+        return passportAddressResidence;
     }
 
-    public void setPassportAdressResidence(String passportAdressResidence) {
-        this.passportAdressResidence = passportAdressResidence;
+    public void setPassportAddressResidence(String passportAdressResidence) {
+        this.passportAddressResidence = passportAdressResidence;
     }
 
     public Long getPhoneNumber() {

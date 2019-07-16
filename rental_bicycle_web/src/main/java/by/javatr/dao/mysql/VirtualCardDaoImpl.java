@@ -1,18 +1,12 @@
 package by.javatr.dao.mysql;
 import by.javatr.dao.PersistentException;
-import by.javatr.dao.UserInfoDao;
 import by.javatr.dao.VirtualCardDao;
 import by.javatr.dao.pool.ConnectionSQL;
-import by.javatr.dao.valid.ValidationException;
 import by.javatr.entity.User;
 import by.javatr.entity.VirtualCard;
 import by.javatr.entity.en_um.Currency;
 import org.apache.logging.log4j.LogManager;
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +26,19 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
                     " `vitualCard_currency`) VALUES (?, ?, ?, ?)";
     private static final String SQL_VIRTUAL_CARD_DELETE = "DELETE FROM `vitualcard` WHERE `vitualCard_id` = ?";
 
+    public VirtualCardDaoImpl(Connection connection) {
+        this.connection = connection;
+    }
+
+    protected VirtualCardDaoImpl() {
+        super();
+    }
+
     @Override
     public List<VirtualCard> readByUser(User user) throws PersistentException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_SELECT_VIRTUAL_CARD_BY_USER);
             statement.setInt(1, user.getId());
             resultSet = statement.executeQuery();
@@ -62,7 +62,6 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -73,8 +72,6 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
         ResultSet resultSet = null;
         Integer idOfVirtualCard = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
                 statement = connection.prepareStatement(SQL_VIRTUAL_CARD_INSERT, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, virtualCard.getName());
                 statement.setInt(2, virtualCard.getUser().getId());
@@ -96,7 +93,6 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
         return idOfVirtualCard;
@@ -107,8 +103,6 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_SELECT_VIRTUAL_CARD_BY_ID);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -118,7 +112,7 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
                 virtualCard.setName(resultSet.getString("vitualrCard_name"));
                 Integer userID = resultSet.getInt("vitualCard_user_id");
                 User user = new User();
-                UserDaoImpl userDao = new UserDaoImpl();
+                UserDaoImpl userDao = new UserDaoImpl(connection);
                 user = userDao.read(userID);
                 virtualCard.setUser(user);
                 virtualCard.setBalance(resultSet.getBigDecimal("vitualCard_balance"));
@@ -133,7 +127,6 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -142,8 +135,6 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
     public void update(VirtualCard virtualCard) throws PersistentException {
         PreparedStatement statement = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_VIRTUAL_CARD_UPDATE);
             statement.setString(1, virtualCard.getName());
             statement.setBigDecimal(2, virtualCard.getBalance());
@@ -155,7 +146,6 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
         } finally {
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -164,8 +154,6 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
     public void delete(Integer id) throws PersistentException {
         PreparedStatement statement = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_VIRTUAL_CARD_DELETE);
             statement.setInt(1, id);
             statement.executeUpdate();
@@ -174,7 +162,6 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
         } finally {
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }

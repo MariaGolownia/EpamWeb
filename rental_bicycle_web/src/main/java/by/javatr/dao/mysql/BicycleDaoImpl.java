@@ -30,13 +30,21 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
                     " `bicycle_ifNotBooked`= ?, `bicycle_ifFree`= ?, `bicycle_photo`= ? WHERE `bicycle_id` = ?";
     private static final String SQL_BICYCLE_DELETE = "DELETE FROM `bicycle` WHERE `bicycle_id` = ?";
 
+    protected BicycleDaoImpl() {
+        super();
+    }
+
+    public BicycleDaoImpl(Connection connection) {
+        super(connection);
+    }
+
     @Override
     public List<Bicycle> readByCurrentLocation(Location location) throws PersistentException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
+//            ConnectionSQL connectionSQL = new ConnectionSQL();
+//            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_BICYCLE_BY_CURRENT_LOCATION);
             statement.setInt(1, location.getId());
             resultSet = statement.executeQuery();
@@ -69,7 +77,7 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
+//                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -81,9 +89,6 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
         ResultSet resultSet = null;
         Integer idOfLocation = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
-            SQLValidation sqlValidation = new SQLValidation();
             statement = connection.prepareStatement(SQL_BICYCLE_INSERT, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, bicycle.getModel());
             statement.setString(2, bicycle.getBicycleType().getName());
@@ -91,7 +96,7 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             statement.setString(4, bicycle.getProducer());
             // locationID
             Location location = new Location();
-            LocationDaoImpl locationDao = new LocationDaoImpl();
+            LocationDaoImpl locationDao = new LocationDaoImpl(connection);
             Integer locationID = bicycle.getCurrentLocation().getId();
             if (locationID != null) {
                 location = locationDao.read(locationID, connection);
@@ -102,7 +107,7 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             }
             // priceID
             Price price = new Price();
-            PriceDaoImpl priceDao = new PriceDaoImpl();
+            PriceDaoImpl priceDao = new PriceDaoImpl(connection);
             Integer priceID = bicycle.getPrice().getId();
             if (priceID != null) {
                 price = priceDao.read(priceID, connection);
@@ -119,7 +124,7 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             }
             else {
                 Bicycle bicycleD = new Bicycle();
-                BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+                BicycleDaoImpl bicycleDao = new BicycleDaoImpl(connection);
                 bicycleD = bicycleDao.read(1);
                 statement.setBlob(8, bicycleD.getPhoto());
             }
@@ -131,7 +136,6 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
                 logger.error("There is no autoincremented index after trying to add record into table `users`");
                 throw new PersistentException();
             }
-
         } catch(SQLException e) {
             throw new PersistentException(e);
         } finally {
@@ -140,7 +144,6 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
         return idOfLocation;
@@ -151,8 +154,6 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_BICYCLE_BY_ID_SELECT);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -166,12 +167,12 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
                 bicycle.setProductionYear(resultSet.getShort("bicycle_productionYear"));
                 bicycle.setProducer(resultSet.getString("bicycle_producer"));
                 Location location = new Location();
-                LocationDaoImpl locationDao = new LocationDaoImpl();
+                LocationDaoImpl locationDao = new LocationDaoImpl(connection);
                 location = locationDao.read(resultSet.getInt("bicycle_currentLocation_id"), connection);
                 bicycle.setCurrentLocation(location);
                 bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
                 Price price = new Price();
-                PriceDaoImpl priceDao = new PriceDaoImpl();
+                PriceDaoImpl priceDao = new PriceDaoImpl(connection);
                 price = priceDao.read(resultSet.getInt("bicycle_price_id"), connection);
                 bicycle.setPrice(price);
                 bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
@@ -186,7 +187,6 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -197,20 +197,17 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
         ResultSet resultSet = null;
         Integer idOfLocation = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
-            SQLValidation sqlValidation = new SQLValidation();
             statement = connection.prepareStatement(SQL_BICYCLE_UPDATE, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, bicycle.getModel());
             statement.setString(2, bicycle.getBicycleType().getName());
             statement.setShort(3, bicycle.getProductionYear());
             statement.setString(4, bicycle.getProducer());
             Location location = new Location();
-            LocationDaoImpl locationDao = new LocationDaoImpl();
+            LocationDaoImpl locationDao = new LocationDaoImpl(connection);
             location = locationDao.read(bicycle.getCurrentLocation().getId(),connection);
             statement.setInt(5, location.getId());
             Price price = new Price();
-            PriceDaoImpl priceDao = new PriceDaoImpl();
+            PriceDaoImpl priceDao = new PriceDaoImpl(connection);
             price = priceDao.read(bicycle.getPrice().getId(), connection);
             statement.setInt(6, price.getId());
             statement.setInt(7, bicycle.getIfNotBookedInt());
@@ -228,7 +225,6 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }
@@ -237,8 +233,6 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
     public void delete(Integer id) throws PersistentException {
         PreparedStatement statement = null;
         try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_BICYCLE_DELETE);
             statement.setInt(1, id);
             statement.executeUpdate();
@@ -247,7 +241,6 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
         } finally {
             try {
                 statement.close();
-                connection.close();
             } catch(SQLException | NullPointerException e) {}
         }
     }

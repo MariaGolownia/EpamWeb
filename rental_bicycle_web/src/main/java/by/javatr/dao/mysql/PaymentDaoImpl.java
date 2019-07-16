@@ -4,10 +4,20 @@ import by.javatr.dao.PaymentDao;
 import by.javatr.dao.PersistentException;
 import by.javatr.entity.Payment;
 
+import java.sql.Connection;
 import java.util.Date;
 import java.util.List;
 
 public class PaymentDaoImpl extends BaseDaoImpl implements PaymentDao {
+
+    public PaymentDaoImpl(Connection connection) {
+        this.connection = connection;
+    }
+
+    protected PaymentDaoImpl() {
+        super();
+    }
+
     @Override
     public List<Payment> readByDate(Date search) throws PersistentException {
         return null;

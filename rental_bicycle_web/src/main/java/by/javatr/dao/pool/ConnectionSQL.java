@@ -24,4 +24,18 @@ public class ConnectionSQL {
         }
         return connection;
     }
+
+    public void connectToDB () {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        Connection connection=null;
+        try {
+            connectionPool.init("java.sql.Driver",
+                    URL, USER_SQL_NAME, USER_SQL_PASSWORD,
+                    1,MAX_CONNECTIONS_SIZE, 10000);
+            connection = connectionPool.getConnection();
+        } catch (PersistentException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
