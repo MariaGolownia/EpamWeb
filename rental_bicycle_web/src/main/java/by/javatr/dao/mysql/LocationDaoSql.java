@@ -1,8 +1,6 @@
 package by.javatr.dao.mysql;
 import by.javatr.dao.LocationDao;
 import by.javatr.dao.PersistentException;
-import by.javatr.dao.pool.ConnectionSQL;
-import by.javatr.dao.valid.SQLValidation;
 import by.javatr.dao.valid.ValidationException;
 import by.javatr.entity.*;
 import by.javatr.entity.en_um.City;
@@ -13,7 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
+public class LocationDaoSql extends BaseDaoSql implements LocationDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
     private static final String SQL_LOCATION_INSERT =
             "INSERT INTO `location` " +
@@ -42,11 +40,11 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
                     " `location_phone` = ?, `location_secondPhone` =  ?, `location_photo` = ? WHERE `location_id` = ?";
     private static final String SQL_LOCATION_DELETE = "DELETE FROM `location` WHERE `location_id` = ?";
 
-    public LocationDaoImpl(Connection connection) {
+    public LocationDaoSql(Connection connection) {
         this.connection = connection;
     }
 
-    protected LocationDaoImpl() {
+    protected LocationDaoSql() {
         super();
     }
     @Override
@@ -64,7 +62,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
                 location.setId(resultSet.getInt("location_id"));
                 location.setName(resultSet.getString("location_name"));
                 Company company = new Company();
-                CompanyDaoImpl companyDao = new CompanyDaoImpl(connection);
+                CompanyDaoSql companyDao = new CompanyDaoSql(connection);
                 company = companyDao.read(resultSet.getInt("location_company_id"));
                 location.setCompany(company);
                 String countryStr = resultSet.getString("location_country");
@@ -117,7 +115,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
                 location.setId(resultSet.getInt("location_id"));
                 location.setName(resultSet.getString("location_name"));
                 Company company = new Company();
-                CompanyDaoImpl companyDao = new CompanyDaoImpl(connection);
+                CompanyDaoSql companyDao = new CompanyDaoSql(connection);
                 company = companyDao.read(resultSet.getInt("location_company_id"));
                 location.setCompany(company);
                 Country countryC = Country.getCountry(country);
@@ -169,7 +167,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
                 location.setId(resultSet.getInt("location_id"));
                 location.setName(resultSet.getString("location_name"));
                 Company company = new Company();
-                CompanyDaoImpl companyDao = new CompanyDaoImpl(connection);
+                CompanyDaoSql companyDao = new CompanyDaoSql(connection);
                 company = companyDao.read(resultSet.getInt("location_company_id"));
                 location.setCompany(company);
                 String countryStr = resultSet.getString("location_country");
@@ -215,7 +213,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
                 statement = connection.prepareStatement(SQL_LOCATION_INSERT, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, location.getName());
             Integer companyNumber = location.getCompany().getAccountNumberOfPayer();
-            CompanyDaoImpl companyDao = new CompanyDaoImpl(connection);
+            CompanyDaoSql companyDao = new CompanyDaoSql(connection);
             Company company = new Company();
             company = companyDao.readByAccountNumberOfPayer(companyNumber);
              if (!company.equals(null)) {
@@ -281,7 +279,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
                 location.setId(id);
                 location.setName(resultSet.getString("location_name"));
                 Company company = new Company();
-                CompanyDaoImpl companyDao = new CompanyDaoImpl(connection);
+                CompanyDaoSql companyDao = new CompanyDaoSql(connection);
                 company = companyDao.read(resultSet.getInt("location_company_id"));
                 location.setCompany(company);
                 String countryStr = resultSet.getString("location_country");
@@ -331,7 +329,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
                 location.setId(id);
                 location.setName(resultSet.getString("location_name"));
                 Company company = new Company();
-                CompanyDaoImpl companyDao = new CompanyDaoImpl(connection);
+                CompanyDaoSql companyDao = new CompanyDaoSql(connection);
                 company = companyDao.read(resultSet.getInt("location_company_id"));
                 location.setCompany(company);
                 String countryStr = resultSet.getString("location_country");
@@ -378,7 +376,7 @@ public class LocationDaoImpl extends BaseDaoImpl implements LocationDao {
             statement = connection.prepareStatement(SQL_LOCATION_UPDATE, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, location.getName());
             Integer companyNumber = location.getCompany().getAccountNumberOfPayer();
-            CompanyDaoImpl companyDao = new CompanyDaoImpl(connection);
+            CompanyDaoSql companyDao = new CompanyDaoSql(connection);
             Company company = new Company();
             company = companyDao.readByAccountNumberOfPayer(companyNumber);
             if (!company.equals(null)) {

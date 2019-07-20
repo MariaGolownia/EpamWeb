@@ -1,7 +1,7 @@
 package by.javatr.dao;
 import by.javatr.entity.Entity;
 
-public interface Dao<Type extends Entity> {
+public interface Dao<Type extends Entity > {
 
     Integer create(Type entity) throws PersistentException;
 

@@ -1,16 +1,15 @@
 package by.javatr.dao.mysql;
 import by.javatr.dao.BicycleDao;
 import by.javatr.dao.PersistentException;
-import by.javatr.dao.valid.SQLValidation;
 import by.javatr.entity.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
-import by.javatr.dao.pool.ConnectionSQL;
+
 import by.javatr.entity.en_um.BicycleType;
 import org.apache.logging.log4j.LogManager;
 
-public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
+public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
     private static final String SQL_BICYCLE_INSERT =
             "INSERT INTO `bicycle` (`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`, " +
@@ -30,11 +29,11 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
                     " `bicycle_ifNotBooked`= ?, `bicycle_ifFree`= ?, `bicycle_photo`= ? WHERE `bicycle_id` = ?";
     private static final String SQL_BICYCLE_DELETE = "DELETE FROM `bicycle` WHERE `bicycle_id` = ?";
 
-    protected BicycleDaoImpl() {
+    protected BicycleDaoSql() {
         super();
     }
 
-    public BicycleDaoImpl(Connection connection) {
+    public BicycleDaoSql(Connection connection) {
         super(connection);
     }
 
@@ -61,7 +60,7 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
                 bicycle.setCurrentLocation(location);
                 bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
                 Price price = new Price();
-                PriceDaoImpl priceDao = new PriceDaoImpl();
+                PriceDaoSql priceDao = new PriceDaoSql();
                 price = priceDao.read(resultSet.getInt("bicycle_price_id"), connection);
                 bicycle.setPrice(price);
                 bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
@@ -96,7 +95,7 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             statement.setString(4, bicycle.getProducer());
             // locationID
             Location location = new Location();
-            LocationDaoImpl locationDao = new LocationDaoImpl(connection);
+            LocationDaoSql locationDao = new LocationDaoSql(connection);
             Integer locationID = bicycle.getCurrentLocation().getId();
             if (locationID != null) {
                 location = locationDao.read(locationID, connection);
@@ -107,7 +106,7 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             }
             // priceID
             Price price = new Price();
-            PriceDaoImpl priceDao = new PriceDaoImpl(connection);
+            PriceDaoSql priceDao = new PriceDaoSql(connection);
             Integer priceID = bicycle.getPrice().getId();
             if (priceID != null) {
                 price = priceDao.read(priceID, connection);
@@ -124,7 +123,7 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             }
             else {
                 Bicycle bicycleD = new Bicycle();
-                BicycleDaoImpl bicycleDao = new BicycleDaoImpl(connection);
+                BicycleDaoSql bicycleDao = new BicycleDaoSql(connection);
                 bicycleD = bicycleDao.read(1);
                 statement.setBlob(8, bicycleD.getPhoto());
             }
@@ -167,12 +166,12 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
                 bicycle.setProductionYear(resultSet.getShort("bicycle_productionYear"));
                 bicycle.setProducer(resultSet.getString("bicycle_producer"));
                 Location location = new Location();
-                LocationDaoImpl locationDao = new LocationDaoImpl(connection);
+                LocationDaoSql locationDao = new LocationDaoSql(connection);
                 location = locationDao.read(resultSet.getInt("bicycle_currentLocation_id"), connection);
                 bicycle.setCurrentLocation(location);
                 bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
                 Price price = new Price();
-                PriceDaoImpl priceDao = new PriceDaoImpl(connection);
+                PriceDaoSql priceDao = new PriceDaoSql(connection);
                 price = priceDao.read(resultSet.getInt("bicycle_price_id"), connection);
                 bicycle.setPrice(price);
                 bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
@@ -203,11 +202,11 @@ public class BicycleDaoImpl extends BaseDaoImpl implements BicycleDao {
             statement.setShort(3, bicycle.getProductionYear());
             statement.setString(4, bicycle.getProducer());
             Location location = new Location();
-            LocationDaoImpl locationDao = new LocationDaoImpl(connection);
+            LocationDaoSql locationDao = new LocationDaoSql(connection);
             location = locationDao.read(bicycle.getCurrentLocation().getId(),connection);
             statement.setInt(5, location.getId());
             Price price = new Price();
-            PriceDaoImpl priceDao = new PriceDaoImpl(connection);
+            PriceDaoSql priceDao = new PriceDaoSql(connection);
             price = priceDao.read(bicycle.getPrice().getId(), connection);
             statement.setInt(6, price.getId());
             statement.setInt(7, bicycle.getIfNotBookedInt());

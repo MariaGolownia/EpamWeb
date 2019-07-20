@@ -7,14 +7,14 @@ import by.javatr.entity.Payment;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.List;
+//TODO: to realize
+public class PaymentDaoSql extends BaseDaoSql implements PaymentDao {
 
-public class PaymentDaoImpl extends BaseDaoImpl implements PaymentDao {
-
-    public PaymentDaoImpl(Connection connection) {
+    public PaymentDaoSql(Connection connection) {
         this.connection = connection;
     }
 
-    protected PaymentDaoImpl() {
+    protected PaymentDaoSql() {
         super();
     }
 

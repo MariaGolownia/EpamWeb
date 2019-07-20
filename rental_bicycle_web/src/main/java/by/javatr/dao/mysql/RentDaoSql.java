@@ -1,19 +1,18 @@
 package by.javatr.dao.mysql;
 import by.javatr.dao.PersistentException;
 import by.javatr.dao.RentDao;
-import by.javatr.dao.pool.ConnectionSQL;
 import by.javatr.entity.Bicycle;
 import by.javatr.entity.Location;
 import by.javatr.entity.Rent;
 import by.javatr.entity.User;
 import org.apache.logging.log4j.LogManager;
-import java.math.BigInteger;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RentDaoImpl extends BaseDaoImpl implements RentDao {
+public class RentDaoSql extends BaseDaoSql implements RentDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
     private static final String SQL_RENT_INSERT =
             "INSERT INTO `rent` " +
@@ -38,11 +37,11 @@ public class RentDaoImpl extends BaseDaoImpl implements RentDao {
                     " `rent_finishLocation_id`= ? WHERE `rent_id` = ?";
     private static final String SQL_RENT_DELETE = "DELETE FROM `rent` WHERE `rent_id` = ?";
 
-    public RentDaoImpl(Connection connection) {
+    public RentDaoSql(Connection connection) {
         this.connection = connection;
     }
 
-    protected RentDaoImpl() {
+    protected RentDaoSql() {
         super();
     }
 
@@ -59,11 +58,11 @@ public class RentDaoImpl extends BaseDaoImpl implements RentDao {
                 Rent rent =  new Rent();
                 rent.setId(resultSet.getInt("rent_id"));
                 Integer bicycleId = resultSet.getInt("rent_bicycle_id");
-                BicycleDaoImpl bicycleDao = new BicycleDaoImpl(connection);
+                BicycleDaoSql bicycleDao = new BicycleDaoSql(connection);
                 Bicycle bicycle = new Bicycle();
                 bicycle = bicycleDao.read(bicycleId);
                 rent.setBicycle(bicycle);
-                UserDaoImpl userDao = new UserDaoImpl(connection);
+                UserDaoSql userDao = new UserDaoSql(connection);
                 User user = userDao.read(userId);
                 rent.setUser(user);
                 rent.setStartTime(resultSet.getTimestamp("rent_start_time").toLocalDateTime());
@@ -75,7 +74,7 @@ public class RentDaoImpl extends BaseDaoImpl implements RentDao {
                 else {
                     rent.setFinishTime(null);
                 }
-                LocationDaoImpl locationDao = new LocationDaoImpl(connection);
+                LocationDaoSql locationDao = new LocationDaoSql(connection);
                 Location locationFinish = locationDao.read(resultSet.getInt("rent_finishLocation_id"), connection);
                 rent.setFinishLocation(locationFinish);
                 rentList.add(rent);
@@ -107,7 +106,7 @@ public class RentDaoImpl extends BaseDaoImpl implements RentDao {
                 rent.setId(resultSet.getInt("rent_id"));
                 rent.setBicycle(bicycle);
                 Integer userId = resultSet.getInt("rent_user_id");
-                UserDaoImpl userDao = new UserDaoImpl(connection);
+                UserDaoSql userDao = new UserDaoSql(connection);
                 User user = userDao.read(userId);
                 rent.setUser(user);
                 rent.setStartTime(resultSet.getTimestamp("rent_start_time").toLocalDateTime());
@@ -119,7 +118,7 @@ public class RentDaoImpl extends BaseDaoImpl implements RentDao {
                 else {
                     rent.setFinishTime(null);
                 }
-                LocationDaoImpl locationDao = new LocationDaoImpl(connection);
+                LocationDaoSql locationDao = new LocationDaoSql(connection);
                 Location locationFinish = locationDao.read(resultSet.getInt("rent_finishLocation_id"), connection);
                 rent.setFinishLocation(locationFinish);
             }

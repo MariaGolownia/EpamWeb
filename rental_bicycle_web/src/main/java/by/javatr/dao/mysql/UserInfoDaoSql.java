@@ -1,7 +1,6 @@
 package by.javatr.dao.mysql;
 import by.javatr.dao.PersistentException;
 import by.javatr.dao.UserInfoDao;
-import by.javatr.dao.pool.ConnectionSQL;
 import by.javatr.entity.EntityException;
 import by.javatr.entity.User;
 import by.javatr.entity.UserInfo;
@@ -11,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao {
+public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
     private static final String SQL_USER_INFO_INSERT =
             "INSERT INTO `userinfo` " +
@@ -39,11 +38,11 @@ public class UserInfoDaoImpl extends BaseDaoImpl implements UserInfoDao {
                     "`userInfo_email` = ? WHERE `userInfo_id` = ?";
     private static final String SQL_USER_INFO_DELETE = "DELETE FROM `userinfo` WHERE `userInfo_id` = ?";
 
-    public UserInfoDaoImpl(Connection connection) {
+    public UserInfoDaoSql(Connection connection) {
         this.connection = connection;
     }
 
-    protected UserInfoDaoImpl() {
+    protected UserInfoDaoSql() {
         super();
     }
 

@@ -7,4 +7,6 @@ public interface UserDao extends Dao<User> {
     User read(String login, String password) throws PersistentException;
 
     List<User> read() throws PersistentException;
+
+     User read(String login) throws PersistentException;
 }

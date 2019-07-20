@@ -1,8 +1,6 @@
 package by.javatr.dao.valid;
 import by.javatr.dao.PersistentException;
-import by.javatr.dao.mysql.CompanyDaoImpl;
 import by.javatr.dao.pool.ConnectionSQL;
-import by.javatr.entity.Company;
 
 import java.sql.*;
 

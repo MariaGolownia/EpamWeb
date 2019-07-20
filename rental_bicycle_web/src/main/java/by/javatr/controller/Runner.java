@@ -2,6 +2,7 @@ package by.javatr.controller;
 import by.javatr.dao.BicycleDao;
 import by.javatr.dao.Dao;
 import by.javatr.dao.PersistentException;
+import by.javatr.dao.UserDao;
 import by.javatr.dao.mysql.*;
 import by.javatr.entity.*;
 import by.javatr.entity.en_um.*;
@@ -27,44 +28,56 @@ public class Runner {
         logger.info("Start runner");
 //------------------------------------------------------------------------------------------------------------
 // Тестирование ввода данных о user в БД
-        Dao dao = null;
-        User user1 = new User();
-        user1.setLogin("tera");
-        user1.setPassword("1111111111");
-        user1.setRole(Role.USER);
-        user1.setUserStatus(UserStatus.BLOCKED);
-        try {
-            dao = DAOSqlFactory.getInstance().get(DaoImpl.UserDaoImpl);
-            dao.create(user1);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        } catch (DaoException e) {
-            e.printStackTrace();
-        }
-//------------------------------------------------------------------------------------------------------------
-        // Тестирование получения списка всех user из БД
-//        List<User> userList = new ArrayList();
-//        UserDaoImpl userDaoTest2 = new UserDaoImpl();
+//        Dao dao = null;
+//        User user1 = new User();
+//        user1.setLogin("tera");
+//        user1.setPassword("1111111111");
+//        user1.setRole(Role.USER);
+//        user1.setUserStatus(UserStatus.BLOCKED);
 //        try {
-//            userList = userDaoTest2.read();
+//            dao = FactoryService.getInstance().get(DaoSql.UserDaoSql);
+//            dao.create(user1);
 //        } catch (PersistentException e) {
 //            e.printStackTrace();
+//        } catch (DaoException e) {
+//            e.printStackTrace();
 //        }
-//        for (User user:userList) {
-//            System.out.print(user.toString());
+//------------------------------------------------------------------------------------------------------------
+        // Тестирование получения списка всех user из БД
+//        try {
+//           UserDao dao = (UserDao) FactoryService.getInstance().get(DaoSql.UserDaoSql);
+//            List<User> userList = new ArrayList();
+//            userList = dao.read();
+//            for (User user:userList) {
+//                System.out.print(user.toString());
+//            }
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        } catch (DaoException e) {
+//            e.printStackTrace();
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения  user по ID из БД
-//        UserDaoImpl userDaoTest3 = new UserDaoImpl();
 //        try {
-//            User userTest = userDaoTest3.read(2);
+//            Dao dao = FactoryService.getInstance().get(DaoSql.UserDaoSql);
+//            User userTest = (User) dao.read(2);
 //            System.out.print(userTest.toString());
 //        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        } catch (DaoException e) {
 //            e.printStackTrace();
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения user по login и password из БД
-//        UserDaoImpl userDaoTest4 = new UserDaoImpl();
+//        try {
+//            Dao dao = FactoryService.getInstance().get(DaoSql.UserDaoSql);
+//            UserDaoSql userDaoTest4 =
+//        } catch (PersistentException e) {
+//            e.printStackTrace();
+//        } catch (DaoException e) {
+//            e.printStackTrace();
+//        }
+//        UserDaoSql userDaoTest4 = new UserDaoSql();
 //        try {
 //            User userTest = userDaoTest4.read("swallow", "swallow111");
 //            System.out.print(userTest.toString());
@@ -73,7 +86,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
 //        // Тестирование получения update user
-//        UserDaoImpl userDaoTest5 = new UserDaoImpl();
+//        UserDaoSql userDaoTest5 = new UserDaoSql();
 //        try {
 //            User userTestUpdate = new User();
 //            userTestUpdate.setId(2);
@@ -87,7 +100,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование удаления user
-//        UserDaoImpl userDaoTest5 = new UserDaoImpl();
+//        UserDaoSql userDaoTest5 = new UserDaoSql();
 //        try {
 //            userDaoTest5.delete(8);
 //        } catch (PersistentException e) {
@@ -95,7 +108,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получение Company by ID
-//        CompanyDaoImpl companyDao = new CompanyDaoImpl();
+//        CompanyDaoSql companyDao = new CompanyDaoSql();
 //        try {
 //            Company company = new Company();
 //            company = companyDao.read(1);
@@ -105,7 +118,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получение Company by AccountNumber
-//        CompanyDaoImpl companyDao = new CompanyDaoImpl();
+//        CompanyDaoSql companyDao = new CompanyDaoSql();
 //        try {
 //            Company company = new Company();
 //            company = companyDao.readByAccountNumberOfPayer(192693197);
@@ -116,7 +129,7 @@ public class Runner {
 
 //------------------------------------------------------------------------------------------------------------
         // Тестирование создания Company by AccountNumber
-//        CompanyDaoImpl companyDao = new CompanyDaoImpl();
+//        CompanyDaoSql companyDao = new CompanyDaoSql();
 //        try {
 //            Company company = new Company();
 //            company.setName("Limited liability company Enjoyment");
@@ -129,7 +142,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование  удаления Company
-//        CompanyDaoImpl companyDao = new CompanyDaoImpl();
+//        CompanyDaoSql companyDao = new CompanyDaoSql();
 //        try {
 //            companyDao.delete(5);
 //        } catch (PersistentException e) {
@@ -137,7 +150,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения Location by ID
-//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        LocationDaoSql locationDao = new LocationDaoSql();
 //        try {
 //            Location location = new Location();
 //            location = locationDao.read(1);
@@ -147,7 +160,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения Location by Company_ID
-//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        LocationDaoSql locationDao = new LocationDaoSql();
 //        List<Location> locationList = new ArrayList();
 //        try {
 //            locationList = locationDao.readByCompanyId(1);
@@ -159,7 +172,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения Location by country
-//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        LocationDaoSql locationDao = new LocationDaoSql();
 //        List<Location> locationList = new ArrayList();
 //        try {
 //            locationList = locationDao.readByCountry("Poland");
@@ -171,7 +184,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения Location by city
-//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        LocationDaoSql locationDao = new LocationDaoSql();
 //        List<Location> locationList = new ArrayList();
 //        try {
 //            locationList = locationDao.readByCity("Poznan");
@@ -183,7 +196,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование создания Location
-//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        LocationDaoSql locationDao = new LocationDaoSql();
 //        Location location = new Location();
 //        location.setName("Basic");
 //        Company company = new Company();
@@ -205,7 +218,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование update Location
-//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        LocationDaoSql locationDao = new LocationDaoSql();
 //        Location location = new Location();
 //        location.setName("New");
 //        location.setId(18);
@@ -228,7 +241,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование  удаления Location
-//        LocationDaoImpl locationDao = new LocationDaoImpl();
+//        LocationDaoSql locationDao = new LocationDaoSql();
 //        try {
 //            locationDao.delete(18);
 //        } catch (PersistentException e) {
@@ -236,7 +249,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения Price by ID
-//        PriceDaoImpl priceDao = new PriceDaoImpl();
+//        PriceDaoSql priceDao = new PriceDaoSql();
 //        try {
 //            Price price = new Price();
 //            price = priceDao.read(1);
@@ -246,7 +259,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения всех Price By Currency
-//        PriceDaoImpl priceDao = new PriceDaoImpl();
+//        PriceDaoSql priceDao = new PriceDaoSql();
 //        try {
 //            List<Price> priceList = new ArrayList<>();
 //            Currency currencyTest = Currency.BYN;
@@ -259,7 +272,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование получения всех Price
-//        PriceDaoImpl priceDao = new PriceDaoImpl();
+//        PriceDaoSql priceDao = new PriceDaoSql();
 //        try {
 //            List<Price> priceList = new ArrayList<>();
 //            priceList = priceDao.read();
@@ -279,7 +292,7 @@ public class Runner {
 ////        priceTest.setRate(new BigDecimal(0.05));
 ////        priceTest.setBookRate(new BigDecimal(0));
 ////
-////    PriceDaoImpl priceDao = new PriceDaoImpl();
+////    PriceDaoSql priceDao = new PriceDaoSql();
 ////        try {
 ////            priceDao.create(priceTest);
 ////        } catch (PersistentException e) {
@@ -297,7 +310,7 @@ public class Runner {
 //        priceUpdate.setRate(new BigDecimal(0.01));
 //        priceUpdate.setBookRate(new BigDecimal(0));
 //
-//        PriceDaoImpl priceDao = new PriceDaoImpl();
+//        PriceDaoSql priceDao = new PriceDaoSql();
 //        try {
 //            priceDao.update(priceUpdate);
 //        } catch (PersistentException e) {
@@ -305,7 +318,7 @@ public class Runner {
 //        }
 ////------------------------------------------------------------------------------------------------------------
         // Тестирование delete Price
-//        PriceDaoImpl priceDaoImpl = new PriceDaoImpl();
+//        PriceDaoSql priceDaoImpl = new PriceDaoSql();
 //        try {
 //            priceDaoImpl.delete(5);
 //        } catch (PersistentException e) {
@@ -313,7 +326,7 @@ public class Runner {
 //        }
 ////------------------------------------------------------------------------------------------------------------
     // Тестирование получения bicycle by ID
-//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        BicycleDaoSql bicycleDao = new BicycleDaoSql();
 //        try {
 //            Bicycle bicycle = new Bicycle();
 //            bicycle = bicycleDao.read(1);
@@ -323,7 +336,7 @@ public class Runner {
 //        }}
 //------------------------------------------------------------------------------------------------------------
 // Тестирование получения bicycle by ID
-//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        BicycleDaoSql bicycleDao = new BicycleDaoSql();
 //        try {
 //            Bicycle bicycle = new Bicycle();
 //            bicycle = bicycleDao.read(1);
@@ -333,7 +346,7 @@ public class Runner {
 //        }}
 //------------------------------------------------------------------------------------------------------------
         // Тестирование создания bicycle
-//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        BicycleDaoSql bicycleDao = new BicycleDaoSql();
 //        try {
 //            Bicycle bicycle = new Bicycle();
 //            bicycle.setModel("BY-1456");
@@ -341,11 +354,11 @@ public class Runner {
 //            Short year = 2019;
 //            bicycle.setProductionYear(year);
 //            bicycle.setProducer("Belarus");
-//            LocationDaoImpl locationDao = new LocationDaoImpl();
+//            LocationDaoSql locationDao = new LocationDaoSql();
 //            Location location = new Location();
 //            location = locationDao.read(2);
 //            bicycle.setCurrentLocation(location);
-//            PriceDaoImpl priceDao = new PriceDaoImpl();
+//            PriceDaoSql priceDao = new PriceDaoSql();
 //            Price price = new Price();
 //            price = priceDao.read(1);
 //            bicycle.setPrice(price);
@@ -360,10 +373,10 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование поиска bicycle по Location
-//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        BicycleDaoSql bicycleDao = new BicycleDaoSql();
 //        try {
-//            BicycleDaoImpl bicycleDao1 = new BicycleDaoImpl();
-//            LocationDaoImpl locationDao = new LocationDaoImpl();
+//            BicycleDaoSql bicycleDao1 = new BicycleDaoSql();
+//            LocationDaoSql locationDao = new LocationDaoSql();
 //            Location location = new Location();
 //            location = locationDao.read(3);
 //            List<Bicycle> bicycleList = new ArrayList<>();
@@ -376,7 +389,7 @@ public class Runner {
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование  update bicycle
-//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        BicycleDaoSql bicycleDao = new BicycleDaoSql();
 //        try {
 //            Bicycle bicycle = new Bicycle();
 //            bicycle.setId(21);
@@ -385,11 +398,11 @@ public class Runner {
 //            Short year = 2018;
 //            bicycle.setProductionYear(year);
 //            bicycle.setProducer("Belarus");
-//            LocationDaoImpl locationDao = new LocationDaoImpl();
+//            LocationDaoSql locationDao = new LocationDaoSql();
 //            Location location = new Location();
 //            location = locationDao.read(2);
 //            bicycle.setCurrentLocation(location);
-//            PriceDaoImpl priceDao = new PriceDaoImpl();
+//            PriceDaoSql priceDao = new PriceDaoSql();
 //            Price price = new Price();
 //            price = priceDao.read(1);
 //            bicycle.setPrice(price);
@@ -398,14 +411,14 @@ public class Runner {
 //            Bicycle bicycleD = new Bicycle();
 //            bicycleD = bicycleDao.read(1);
 //            bicycle.setPhoto(bicycleD.getPhoto());
-//            BicycleDaoImpl bicycleDao1 = new BicycleDaoImpl();
+//            BicycleDaoSql bicycleDao1 = new BicycleDaoSql();
 //            bicycleDao1.update(bicycle);
 //        } catch (PersistentException e) {
 //            e.printStackTrace();
 //        }
 //------------------------------------------------------------------------------------------------------------
         // Тестирование delete Bicycle
-//        BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//        BicycleDaoSql bicycleDao = new BicycleDaoSql();
 //        try {
 //            bicycleDao.delete(21);
 //        } catch (PersistentException e) {
@@ -416,7 +429,7 @@ public class Runner {
         //Справочно:
         // java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
         //LocalDate localDate = sqlDate.toLocalDate();
-//        UserInfoDaoImpl userInfo = new UserInfoDaoImpl();
+//        UserInfoDaoSql userInfo = new UserInfoDaoSql();
 //        try {
 //            UserInfo userInfoTest = new UserInfo();
 //            userInfoTest.setSurname("Svet");
@@ -444,7 +457,7 @@ public class Runner {
         //Справочно:
         // java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
         //LocalDate localDate = sqlDate.toLocalDate();
-//        UserInfoDaoImpl userInfo = new UserInfoDaoImpl();
+//        UserInfoDaoSql userInfo = new UserInfoDaoSql();
 //        try {
 //            UserInfo userInfoTest = new UserInfo();
 //            userInfoTest.setId(6);
@@ -470,15 +483,15 @@ public class Runner {
 //        }
 ////------------------------------------------------------------------------------------------------------------
 // Тестирование update userInfo
-//        RentDaoImpl rentDao = new RentDaoImpl();
+//        RentDaoSql rentDao = new RentDaoSql();
 //        try {
 //            Rent rent = new Rent();
 //            rent.setStartTime(LocalDateTime.now());
 //            User user = new User();
-//            UserDaoImpl userDao = new UserDaoImpl();
+//            UserDaoSql userDao = new UserDaoSql();
 //            user = userDao.read(2);
 //            Bicycle bicycle = new Bicycle();
-//            BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//            BicycleDaoSql bicycleDao = new BicycleDaoSql();
 //            bicycle = bicycleDao.read(2);
 //            rent.setUser(user);
 //            rent.setBicycle(bicycle);
@@ -488,7 +501,7 @@ public class Runner {
 //        }
 ////------------------------------------------------------------------------------------------------------------
 //// Тестирование rent: readByUserId
-////        RentDaoImpl rentDao = new RentDaoImpl();
+////        RentDaoSql rentDao = new RentDaoSql();
 ////        try {
 ////            List<Rent>rentList = new ArrayList<>();
 ////            rentList = rentDao.readByUserId(2);
@@ -501,11 +514,11 @@ public class Runner {
 ////       }
         ////------------------------------------------------------------------------------------------------------------
 // Тестирование rent: readByBicycle
-//        RentDaoImpl rentDao = new RentDaoImpl();
+//        RentDaoSql rentDao = new RentDaoSql();
 //        try {
 //            Rent rent = new Rent();
 //            Bicycle bicycle = new Bicycle();
-//            BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+//            BicycleDaoSql bicycleDao = new BicycleDaoSql();
 //            bicycle = bicycleDao.read(4);
 //            rent = rentDao.readByBicycle(bicycle);
 //            System.out.print(rent.toString());

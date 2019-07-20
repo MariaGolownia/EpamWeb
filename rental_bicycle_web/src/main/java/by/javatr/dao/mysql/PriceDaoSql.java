@@ -1,7 +1,6 @@
 package by.javatr.dao.mysql;
 import by.javatr.dao.PersistentException;
 import by.javatr.dao.PriceDao;
-import by.javatr.dao.pool.ConnectionSQL;
 import by.javatr.entity.Price;
 import by.javatr.entity.en_um.TimeUnit;
 import by.javatr.entity.en_um.Currency;
@@ -10,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
+public class PriceDaoSql extends BaseDaoSql implements PriceDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
     private static final String SQL_PRICE_INSERT =
             "INSERT INTO `price` " +
@@ -30,11 +29,11 @@ public class PriceDaoImpl extends BaseDaoImpl implements PriceDao {
                     " `price_bookRate` = ? WHERE `price_id` = ?";
     private static final String SQL_PRICE_DELETE = "DELETE FROM `price` WHERE `price_id` = ?";
 
-    public PriceDaoImpl(Connection connection) {
+    public PriceDaoSql(Connection connection) {
         this.connection = connection;
     }
 
-    protected PriceDaoImpl() {
+    protected PriceDaoSql() {
         super();
     }
 

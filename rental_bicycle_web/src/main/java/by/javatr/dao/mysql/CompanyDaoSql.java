@@ -8,7 +8,7 @@ import by.javatr.entity.Company;
 import org.apache.logging.log4j.LogManager;
 import java.sql.*;
 
-public class CompanyDaoImpl extends BaseDaoImpl implements CompanyDao {
+public class CompanyDaoSql extends BaseDaoSql implements CompanyDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
      private static final String SQL_SELECT_COMPANY_BY_ID =
             "SELECT `company_name`, `company_accountNumberOfPayer` FROM `company` WHERE `company_id` = ?";
@@ -20,10 +20,10 @@ public class CompanyDaoImpl extends BaseDaoImpl implements CompanyDao {
             "INSERT INTO `company` (`company_name`, `company_accountNumberOfPayer`) VALUES (?, ?)";
     private static final String SQL_COMPANY_DELETE = "DELETE FROM `company` WHERE `company_id` = ?";
 
-    public CompanyDaoImpl(Connection connection) {
+    public CompanyDaoSql(Connection connection) {
         this.connection = connection;
     }
-    protected CompanyDaoImpl() {
+    protected CompanyDaoSql() {
         super();
     }
     @Override

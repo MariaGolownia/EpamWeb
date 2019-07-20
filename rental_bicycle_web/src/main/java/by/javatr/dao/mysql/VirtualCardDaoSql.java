@@ -1,7 +1,6 @@
 package by.javatr.dao.mysql;
 import by.javatr.dao.PersistentException;
 import by.javatr.dao.VirtualCardDao;
-import by.javatr.dao.pool.ConnectionSQL;
 import by.javatr.entity.User;
 import by.javatr.entity.VirtualCard;
 import by.javatr.entity.en_um.Currency;
@@ -10,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
+public class VirtualCardDaoSql extends BaseDaoSql implements VirtualCardDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
     private static final String SQL_SELECT_VIRTUAL_CARD_BY_ID =
             "SELECT `vitualrCard_name`, `vitualCard_user_id`, `vitualCard_balance`, `vitualCard_currency`" +
@@ -26,11 +25,11 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
                     " `vitualCard_currency`) VALUES (?, ?, ?, ?)";
     private static final String SQL_VIRTUAL_CARD_DELETE = "DELETE FROM `vitualcard` WHERE `vitualCard_id` = ?";
 
-    public VirtualCardDaoImpl(Connection connection) {
+    public VirtualCardDaoSql(Connection connection) {
         this.connection = connection;
     }
 
-    protected VirtualCardDaoImpl() {
+    protected VirtualCardDaoSql() {
         super();
     }
 
@@ -112,7 +111,7 @@ public class VirtualCardDaoImpl extends BaseDaoImpl implements VirtualCardDao {
                 virtualCard.setName(resultSet.getString("vitualrCard_name"));
                 Integer userID = resultSet.getInt("vitualCard_user_id");
                 User user = new User();
-                UserDaoImpl userDao = new UserDaoImpl(connection);
+                UserDaoSql userDao = new UserDaoSql(connection);
                 user = userDao.read(userID);
                 virtualCard.setUser(user);
                 virtualCard.setBalance(resultSet.getBigDecimal("vitualCard_balance"));
