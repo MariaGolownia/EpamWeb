@@ -1,25 +1,18 @@
 package by.javatr.controller;
-import by.javatr.dao.BicycleDao;
-import by.javatr.dao.Dao;
-import by.javatr.dao.PersistentException;
-import by.javatr.dao.UserDao;
-import by.javatr.dao.mysql.*;
-import by.javatr.entity.*;
-import by.javatr.entity.en_um.*;
-import com.mysql.jdbc.Blob;
-import com.sun.deploy.security.CertUtils;
+import by.javatr.dao.mysql.DaoSql;
+import by.javatr.entity.DateConverter;
+import by.javatr.entity.User;
+import by.javatr.entity.UserInfo;
+import by.javatr.entity.en_um.Role;
+import by.javatr.entity.en_um.UserStatus;
+import by.javatr.service.FactoryService;
+import by.javatr.service.ServiceException;
+import by.javatr.service.impl.UserInfoServiceImpl;
+import by.javatr.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Runner {
     private static final Logger logger = LogManager.getLogger();
@@ -325,7 +318,7 @@ public class Runner {
 //            e.printStackTrace();
 //        }
 ////------------------------------------------------------------------------------------------------------------
-    // Тестирование получения bicycle by ID
+        // Тестирование получения bicycle by ID
 //        BicycleDaoSql bicycleDao = new BicycleDaoSql();
 //        try {
 //            Bicycle bicycle = new Bicycle();
@@ -526,6 +519,68 @@ public class Runner {
 //                e.printStackTrace();
 //
 //       }
+
+        //       FactoryService factoryService = FactoryService.getInstance();
+//        UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
+//        User user = userService.findByLoginAndPassword("admin", "12345fhedfhe");
+//        System.out.print(user.toString());
+
+//        FactoryService factoryService = FactoryService.getInstance();
+//        UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
+//        User userByLogin = userService.findByLogin("admin");
+//        if (userByLogin == null)
+//            System.out.print("11111111111111111111111111111111");
+//        else
+//            System.out.print("22222222222222222222222222222222");
+//        FactoryService factoryService = FactoryService.getInstance();
+//        UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
+//        User userNew = new User();
+//        userNew.setLogin("Maria");
+//        userNew.setPassword("kdvm;kwgvlwjg");
+//        userNew.setUserStatus(UserStatus.ACTIVE);
+//        userNew.setRole(Role.USER);
+//        try {
+//            userService.save(userNew);
+//        } catch (ServiceException e) {
+//            e.printStackTrace();
+//        }
+//
+//            String date = "11-12-2010";
+//        LocalDate localDate = DateConverter.converterDateFromString(date);
+//        System.out.print(localDate);
+        try {
+            FactoryService factoryService = FactoryService.getInstance();
+            UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
+            User userNew = new User();
+            userNew.setLogin("Pol");
+            userNew.setPassword("123456kjbjhgjyg");
+            userNew.setUserStatus(UserStatus.ACTIVE);
+            userNew.setRole(Role.USER);
+
+            Integer id = userService.save(userNew);
+
+            UserInfoServiceImpl userInfoService = factoryService.get(DaoSql.UserInfoDao);
+            UserInfo userInfo = new UserInfo();
+            userInfo.setId(id);
+            userInfo.setSurname("Tio");
+            userInfo.setName("Pol");
+            userInfo.setSecondName("Pol");
+            userInfo.setCountry("Pol");
+            userInfo.setPassportIssueDate(DateConverter.converterDateFromString("25-02-2010"));
+            userInfo.setPassportSerialNumber("1");
+            userInfo.setPassportIdentificationNumber("2");
+            userInfo.setPassportIssuingAuthority("3");
+            userInfo.setPassportAddressRegistration("4");
+            userInfo.setPassportAddressResidence("5");
+            userInfo.setPhoneNumber(6L);
+            userInfo.setSecondPhoneNumber(7L);
+            userInfo.setEmail("8");
+
+            userInfoService.save(userInfo);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+
     }
 }
 

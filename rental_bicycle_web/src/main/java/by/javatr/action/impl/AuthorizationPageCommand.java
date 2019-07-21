@@ -1,6 +1,8 @@
 package by.javatr.action.impl;
-
 import by.javatr.action.BaseCommand;
+import by.javatr.dao.mysql.DaoSql;
+import by.javatr.entity.User;
+import by.javatr.service.impl.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,7 +19,7 @@ public class AuthorizationPageCommand extends BaseCommand {
 //        Доступ к RequestDispatcher можно получить с помощью метода getRequestDispatcher(String url)
 //        интерфейса ServletContext.
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorization_page.jsp");
+ RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorization_page.jsp");
         try {
             dispatcher.forward(request, response);
             // передача запроса/управления другому ресурсу на сервере;

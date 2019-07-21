@@ -7,6 +7,8 @@ import by.javatr.dao.mysql.DaoException;
 import by.javatr.dao.mysql.FactoryDaoSql;
 import by.javatr.entity.User;
 
+import java.sql.SQLException;
+
 public class UserServiceValidation {
 
     public Boolean ifUserExists (User user) {
@@ -20,7 +22,10 @@ public class UserServiceValidation {
             e.printStackTrace();
         } catch (DaoException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         if (userValid != null) {
             ifUserExists = true;
         }
@@ -38,6 +43,8 @@ public class UserServiceValidation {
         } catch (PersistentException e) {
             e.printStackTrace();
         } catch (DaoException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         if (userValid != null) {

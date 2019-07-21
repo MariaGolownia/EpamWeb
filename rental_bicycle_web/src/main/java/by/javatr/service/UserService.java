@@ -9,9 +9,11 @@ public interface UserService  {
 
     User findByIdentity(Integer identity) throws PersistentException;
 
+    User findByLogin(String login);
+
     User findByLoginAndPassword(String login, String password) throws PersistentException;
 
-    void save(User user) throws PersistentException;
+    Integer save(User user) throws PersistentException, ServiceException;
 
     void update(User user, User userUpdate) throws PersistentException;
 

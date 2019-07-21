@@ -7,6 +7,7 @@ import by.javatr.entity.UserInfo;
 import by.javatr.entity.en_um.Country;
 import org.apache.logging.log4j.LogManager;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +15,11 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
     private static final String SQL_USER_INFO_INSERT =
             "INSERT INTO `userinfo` " +
-                    "(`userInfo_surname`, `userInfo_name`, `userInfo_secondName`, `userInfo_birthDate`,`userInfo_country`," +
+                    "(`userInfo_id`, `userInfo_surname`, `userInfo_name`, `userInfo_secondName`, `userInfo_birthDate`,`userInfo_country`," +
                     " `userInfo_passportIssueDate`, `userInfo_passportIssuingAuthority`, `userInfo_passportIdentificationNumber` ," +
                     " `userInfo_passportSerialNumber`,`userInfo_passportAddressRegistration`,`userInfo_passportAddressResidence`" +
                     ",`userInfo_phoneNumber`,`userInfo_secondPhoneNumber`,`userInfo_email`)" +
-                    " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_SELECT_USER_INFO =
             "SELECT  userInfo_surname`, `userInfo_name`, `userInfo_secondName`, `userInfo_birthDate`,`userInfo_country`," +
                     "`userInfo_passportIssueDate`, `userInfo_passportIssuingAuthority`, `userInfo_passportIdentificationNumber`, " +
@@ -134,37 +135,41 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
         Integer idOfLocation = null;
         try {
             statement = connection.prepareStatement(SQL_USER_INFO_INSERT, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, userInfo.getSurname());
-            statement.setString(2, userInfo.getName());
-            statement.setString(3, userInfo.getSecondName());
-            statement.setDate(4, Date.valueOf(userInfo.getBirthDate()));
-            statement.setString(5, userInfo.getCountry().getName());
-            statement.setDate(6, Date.valueOf(userInfo.getPassportIssueDate()));
-            statement.setString(7, userInfo.getPassportIssuingAuthority());
-            statement.setString(8, userInfo.getPassportIdentificationNumber());
-            statement.setString(9, userInfo.getPassportSerialNumber());
-            statement.setString(10, userInfo.getPassportAddressRegistration());
-            statement.setString(11, userInfo.getPassportAddressResidence());
-            statement.setLong(12, userInfo.getPhoneNumber());
-            statement.setLong(13, userInfo.getSecondPhoneNumber());
-            statement.setString(14, userInfo.getEmail());
-                    statement.executeUpdate();
-                    resultSet = statement.getGeneratedKeys();
-                    if (resultSet.next()) {
-                        idOfLocation = resultSet.getInt(1);
-                    } else {
-                        logger.error("There is no autoincremented index after trying to add record into table `users`");
-                        throw new PersistentException();
+            statement.setInt(1, userInfo.getId());
+            statement.setString(2, userInfo.getSurname());
+            statement.setString(3, userInfo.getName());
+            statement.setString(4, userInfo.getSecondName());
+            statement.setDate(5, (userInfo.getBirthDate() == null) ? null : Date.valueOf(userInfo.getBirthDate()));
+            statement.setString(6, (userInfo.getCountry() == null) ? null : userInfo.getCountry().getName());
+            statement.setDate(7, (userInfo.getPassportIssueDate() == null) ? null : Date.valueOf(userInfo.getPassportIssueDate()));
+            statement.setString(8, userInfo.getPassportIssuingAuthority());
+            statement.setString(9, userInfo.getPassportIdentificationNumber());
+            statement.setString(10, userInfo.getPassportSerialNumber());
+            statement.setString(11, userInfo.getPassportAddressRegistration());
+            statement.setString(12, userInfo.getPassportAddressResidence());
+            statement.setLong(13, userInfo.getPhoneNumber());
+            statement.setLong(14, (userInfo.getSecondPhoneNumber() == null) ? 0L : userInfo.getSecondPhoneNumber());
+            statement.setString(15, userInfo.getEmail());
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idOfLocation = resultSet.getInt(1);
+            } else {
+                logger.error("There is no autoincremented index after trying to add record into table `users`");
+                throw new PersistentException();
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new PersistentException(e);
-        } finally {
+        }
+        finally {
             try {
                 resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (SQLException | NullPointerException e) {
+            }
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (SQLException | NullPointerException e) {
+            }
         }
         return idOfLocation;
     }

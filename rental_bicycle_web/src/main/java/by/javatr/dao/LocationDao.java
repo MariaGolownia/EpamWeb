@@ -11,5 +11,5 @@ public interface LocationDao extends Dao<Location> {
 
     List<Location> readByCity(String search) throws PersistentException;
 
-
+    List<Location> readByCountryAndCity(String country, String city) throws PersistentException;
 }

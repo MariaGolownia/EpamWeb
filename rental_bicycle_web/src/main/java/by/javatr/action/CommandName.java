@@ -2,9 +2,14 @@ package by.javatr.action;
 
 public enum CommandName {
     AUTHORIZATION_PAGE,
-    USER_ADD,
-    USER_SUBMIT
+    AUTHORIZATION_PAGE_USER_SUBMIT,
 
-//    SEARCH_PRODUCT,
-//    REGISTRATION_PAGE;
+    LOCATION_PAGE,
+    USER_PAGE,
+
+    REGISTRATION_PAGE,
+
+    RENT_PAGE,
+    RENT_LOCATION_SELECTION;
+
 }

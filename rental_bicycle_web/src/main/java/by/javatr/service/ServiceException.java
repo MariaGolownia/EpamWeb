@@ -1,7 +1,6 @@
 package by.javatr.service;
 
-public class ServiceException  extends Exception{
-
+public class ServiceException extends  Exception{
     public ServiceException(){
         super();
     };
@@ -17,5 +16,4 @@ public class ServiceException  extends Exception{
     public ServiceException(Exception ex){
         super(ex);
     };
-
 }

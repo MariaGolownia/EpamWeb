@@ -1,7 +1,8 @@
 package by.javatr.service;
-import by.javatr.dao.Dao;
-import by.javatr.dao.PersistentException;
 import by.javatr.dao.mysql.*;
+import by.javatr.service.impl.LocationServiceImpl;
+import by.javatr.service.impl.UserInfoServiceImpl;
+import by.javatr.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 
 final public class FactoryService {
@@ -21,77 +22,27 @@ final public class FactoryService {
         return instance;
     }
 
-    public  <Type extends Dao<?>> Type get (DaoSql entityDao) {
+    public <Type extends Service> Type  get (DaoSql entityDao) {
         switch (entityDao) {
             case BicycleDao:
-                try {
-                    return (Type)FactoryDaoSql.getInstance().get(DaoSql.BicycleDao);
-                } catch (PersistentException e) {
-                    e.printStackTrace();
-                } catch (DaoException e) {
-                    e.printStackTrace();
-                }
             case CompanyDao:
-                try {
-                    return (Type)FactoryDaoSql.getInstance().get(DaoSql.CompanyDao);
-                } catch (PersistentException e) {
-                    e.printStackTrace();
-                } catch (DaoException e) {
-                    e.printStackTrace();
-                }
             case LocationDao:
-                try {
-                    return (Type)FactoryDaoSql.getInstance().get(DaoSql.LocationDao);
-                } catch (PersistentException e) {
-                    e.printStackTrace();
-                } catch (DaoException e) {
-                    e.printStackTrace();
-                }
+                return (Type) new LocationServiceImpl();
+            case PaymentDao:
+                break;
             case PriceDao:
-                try {
-                    return (Type)FactoryDaoSql.getInstance().get(DaoSql.PriceDao);
-                } catch (PersistentException e) {
-
-                } catch (DaoException e) {
-                    e.printStackTrace();
-                    e.printStackTrace();
-                }
+             break;
             case RentDao:
-                try {
-                    return (Type)FactoryDaoSql.getInstance().get(DaoSql.RentDao);
-                } catch (PersistentException e) {
-                    e.printStackTrace();
-                } catch (DaoException e) {
-                    e.printStackTrace();
-                }
+                break;
             case UserDao:
-                try {
-                    return (Type)FactoryDaoSql.getInstance().get(DaoSql.UserDao);
-                } catch (PersistentException e) {
-                    e.printStackTrace();
-                } catch (DaoException e) {
-                    e.printStackTrace();
-                }
+                return (Type) new UserServiceImpl();
             case UserInfoDao:
-                try {
-                    return (Type)FactoryDaoSql.getInstance().get(DaoSql.UserInfoDao);
-                } catch (PersistentException e) {
-                    e.printStackTrace();
-                } catch (DaoException e) {
-                    e.printStackTrace();
-                }
+                return (Type) new UserInfoServiceImpl();
             case VirtualCardDao:
-                try {
-                    return (Type)FactoryDaoSql.getInstance().get(DaoSql.VirtualCardDao);
-                } catch (PersistentException e) {
-                    e.printStackTrace();
-                } catch (DaoException e) {
-                    e.printStackTrace();
-                }
             default:
                 try {
-                    throw new DaoException("Check the existence of the desired entity! " + entityDao);
-                } catch (DaoException e) {
+                    throw new ServiceException("Check the existence of the desired entity! " + entityDao);
+                } catch (ServiceException e) {
                     e.printStackTrace();
                 }
         }

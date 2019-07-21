@@ -57,7 +57,13 @@ public class UserInfo extends Entity {
     }
 
     public void setCountry(Country country) {
+        if (Country.ifCountryInSystem(country.getName()))
         this.country = country;
+    }
+
+    public void setCountry(String country) {
+        if (Country.ifCountryInSystem(country))
+            this.country = Country.valueOf(country);
     }
 
     public LocalDate getPassportIssueDate() {

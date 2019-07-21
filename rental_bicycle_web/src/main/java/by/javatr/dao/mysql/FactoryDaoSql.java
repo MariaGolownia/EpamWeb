@@ -3,6 +3,8 @@ import by.javatr.dao.Dao;
 import by.javatr.dao.PersistentException;
 import by.javatr.dao.pool.ConnectionSQL;
 import org.apache.logging.log4j.LogManager;
+
+import javax.servlet.ServletException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -16,15 +18,10 @@ final public class FactoryDaoSql {
     }
 
     private FactoryDaoSql(){
-        try {
-            ConnectionSQL connectionSQL = new ConnectionSQL();
-            connection = connectionSQL.getConnectionToDB();
-            if (connection == null) {
-                throw new DaoException ("Initialization of connection pool failed!");
+            if (this.connection == null) {
+                ConnectionSQL connectionSQL = new ConnectionSQL();
+                connection = connectionSQL.getConnectionToDB();
             }
-        } catch (DaoException e) {
-            logger.error(e.getMessage(), e);
-        }
     }
 
 

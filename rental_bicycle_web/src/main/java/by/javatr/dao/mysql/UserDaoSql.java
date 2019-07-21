@@ -37,36 +37,35 @@ public class UserDaoSql extends BaseDaoSql implements UserDao {
     }
 
     @Override
-    public Integer create(User user) throws PersistentException {
+    public Integer create(User user) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Integer idOfUser = null;
         try {
             SQLValidation SQLValidation = new SQLValidation();
-            if (!SQLValidation.ifIdenticalLoginInDB(user.getLogin(), connection)) {
-                statement = connection.prepareStatement(SQL_USER_INSERT, Statement.RETURN_GENERATED_KEYS);
-                statement.setString(1, user.getLogin());
-                statement.setString(2, user.getPassword());
-                statement.setInt(3, user.getRole().getId());
-                statement.setInt(4, user.getUserStatus().getId());
-                statement.executeUpdate();
-                resultSet = statement.getGeneratedKeys();
-                if (resultSet.next()) {
-                    idOfUser = resultSet.getInt(1);
-                } else {
-                    logger.error("There is no autoincremented index after trying to add record into table `users`");
-                    throw new PersistentException();
-                }
-            }
-            else {
+            statement = connection.prepareStatement(SQL_USER_INSERT, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getPassword());
+            statement.setInt(3, user.getRole().getId());
+            statement.setInt(4, user.getUserStatus().getId());
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idOfUser = resultSet.getInt(1);
+            } else {
+                logger.error("There is no autoincremented index after trying to add record into table `users`");
                 try {
-                    throw new ValidationException("A user with this login already exists!");
-                } catch (ValidationException e) {
-                    logger.debug("ValidationException: A user with this login already exists");
+                    throw new PersistentException();
+                } catch (PersistentException e) {
+                    e.printStackTrace();
                 }
             }
         } catch(SQLException e) {
-            throw new PersistentException(e);
+            try {
+                throw new SQLException(e);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         } finally {
             try {
                 resultSet.close();
@@ -80,15 +79,15 @@ public class UserDaoSql extends BaseDaoSql implements UserDao {
 
 
     @Override
-    public User read(String login, String password) throws PersistentException {
+    public User read(String login, String password) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+        User user = null;
         try {
             statement = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN_AND_PASSWORD);
             statement.setString(1, login);
             statement.setString(2, password);
             resultSet = statement.executeQuery();
-            User user = null;
             if(resultSet.next()) {
                 user = new User();
                 user.setId(resultSet.getInt("user_id"));
@@ -97,115 +96,128 @@ public class UserDaoSql extends BaseDaoSql implements UserDao {
                 user.setRole(Role.getById(resultSet.getInt("user_role")));
                 user.setUserStatus(UserStatus.getById(resultSet.getInt("user_status")));
             }
-            return user;
         } catch(SQLException e) {
-            throw new PersistentException(e);
+            try {
+                throw new SQLException(e);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         } finally {
             try {
                 resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch(SQLException |NullPointerException e) {}
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch(SQLException |NullPointerException e) {}
         }
+        return user;
     }
 
     @Override
-    public User read(String login) throws PersistentException {
+    public User read(String login) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+        User user = null;
         try {
-            statement = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
-            statement.setString(1, login);
-            resultSet = statement.executeQuery();
-            User user = null;
-            if(resultSet.next()) {
-                user = new User();
-                user.setId(resultSet.getInt("user_id"));
-                user.setLogin(login);
-                user.setRole(Role.getById(resultSet.getInt("user_role")));
-                user.setUserStatus(UserStatus.getById(resultSet.getInt("user_status")));
-                user.setPassword(resultSet.getString("user_password"));
+            try {
+                statement = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN);
+                statement.setString(1, login);
+                resultSet = statement.executeQuery();
+                if (resultSet != null && resultSet.next()) {
+                    user = new User();
+                    user.setId(resultSet.getInt("user_id"));
+                    user.setLogin(login);
+                    user.setRole(Role.getById(resultSet.getInt("user_role")));
+                    user.setUserStatus(UserStatus.getById(resultSet.getInt("user_status")));
+                    user.setPassword(resultSet.getString("user_password"));
+                    resultSet = statement.executeQuery();
+                }
+            }catch (SQLException e) {
+                e.printStackTrace();
             }
-            return user;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
         } finally {
             try {
-                resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
+                if (resultSet != null) resultSet.close();
+            } catch(SQLException |NullPointerException e) {}
             try {
-                statement.close();
-            } catch(SQLException | NullPointerException e) {}
+                if (statement != null) statement.close();
+            } catch(SQLException |NullPointerException e) {}
         }
+        return user;
     }
 
     @Override
-    public List<User> read() throws PersistentException {
+    public List<User> read()  {
+        List<User> users = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-//            ConnectionSQL connectionSQL = new ConnectionSQL();
-//            connection = connectionSQL.getConnectionToDB();
-            statement = connection.prepareStatement(SQL_ALL_USERS_SELECT);
-            resultSet = statement.executeQuery();
-            List<User> users = new ArrayList<>();
-            User user = null;
-            while(resultSet.next()) {
-                user = new User();
-                user.setId(resultSet.getInt("user_id"));
-                user.setLogin(resultSet.getString("user_login"));
-                user.setPassword(resultSet.getString("user_password"));
-                user.setRole(Role.getById(resultSet.getInt("user_role")));
-                user.setUserStatus(UserStatus.getById(resultSet.getInt("user_status")));
-                users.add(user);
+            try {
+                statement = connection.prepareStatement(SQL_ALL_USERS_SELECT);
+                resultSet = statement.executeQuery();
+                User user = null;
+                while (resultSet.next()) {
+                    user = new User();
+                    user.setId(resultSet.getInt("user_id"));
+                    user.setLogin(resultSet.getString("user_login"));
+                    user.setPassword(resultSet.getString("user_password"));
+                    user.setRole(Role.getById(resultSet.getInt("user_role")));
+                    user.setUserStatus(UserStatus.getById(resultSet.getInt("user_status")));
+                    users.add(user);
+                }
+            }catch (SQLException e) {
+                e.printStackTrace();
             }
-            return users;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
         } finally {
             try {
                 resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (SQLException |NullPointerException e) {
+            }
             try {
                 statement.close();
 //                connection.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (SQLException |NullPointerException e) {
+            }
         }
+        return users;
     }
 
+
     @Override
-    public User read(Integer id) throws PersistentException {
+    public User read(Integer id) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+        User user = null;
         try {
-            statement = connection.prepareStatement(SQL_SELECT_USER_BY_ID);
-            statement.setInt(1, id);
-                    resultSet = statement.executeQuery();
-            User user = null;
-            if(resultSet.next()) {
-                user = new User();
-                user.setId(id);
-                user.setLogin(resultSet.getString("user_login"));
-                user.setPassword(resultSet.getString("user_password"));
-                user.setRole(Role.getById(resultSet.getInt("user_role")));
-                user.setUserStatus(UserStatus.getById(resultSet.getInt("user_status")));
+            try {
+                statement = connection.prepareStatement(SQL_SELECT_USER_BY_ID);
+                statement.setInt(1, id);
+                resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    user = new User();
+                    user.setId(id);
+                    user.setLogin(resultSet.getString("user_login"));
+                    user.setPassword(resultSet.getString("user_password"));
+                    user.setRole(Role.getById(resultSet.getInt("user_role")));
+                    user.setUserStatus(UserStatus.getById(resultSet.getInt("user_status")));
+                    return user;
+                }
+            }catch (SQLException e) {
+                e.printStackTrace();
             }
             return user;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
         } finally {
             try {
                 resultSet.close();
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch(SQLException |NullPointerException e) {}
         }
     }
 
     @Override
-    public void update(User user) throws PersistentException {
+    public void update(User user) {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_USER_UPDATE);
@@ -216,23 +228,29 @@ public class UserDaoSql extends BaseDaoSql implements UserDao {
             statement.setInt(5, user.getId());
             statement.executeUpdate();
         } catch(SQLException e) {
-            throw new PersistentException(e);
+            try {
+                throw new SQLException(e);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         } finally {
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch(SQLException |NullPointerException e) {}
         }
     }
 
-//    @Override
-    public void delete(Integer id) throws PersistentException {
+    //    @Override
+    public void delete(Integer id)  {
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(SQL_USER_DELETE);
-            statement.setInt(1, id);
-            statement.executeUpdate();
-        } catch(SQLException e) {
-            throw new PersistentException(e);
+            try {
+                statement = connection.prepareStatement(SQL_USER_DELETE);
+                statement.setInt(1, id);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } finally {
             try {
                 statement.close();

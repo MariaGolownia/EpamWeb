@@ -15,11 +15,14 @@ public class ConnectionSQL {
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection connection=null;
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             connectionPool.init("java.sql.Driver",
                     URL, USER_SQL_NAME, USER_SQL_PASSWORD,
                     1,MAX_CONNECTIONS_SIZE, 10000);
             connection = connectionPool.getConnection();
         } catch (PersistentException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;

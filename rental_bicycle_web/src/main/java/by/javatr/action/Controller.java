@@ -1,10 +1,18 @@
 package by.javatr.action;
+import by.javatr.action.Command;
+import by.javatr.action.CommandProvider;
+
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
+@WebServlet("/submit")
+@MultipartConfig
 public class Controller extends HttpServlet {
 
     private static final String COMMAND_NAME = "command";
@@ -13,6 +21,7 @@ public class Controller extends HttpServlet {
         super();
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CommandProvider commandProvider = CommandProvider.getInstance();
         Command command =
@@ -20,6 +29,7 @@ public class Controller extends HttpServlet {
         command.execute(request, response);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }

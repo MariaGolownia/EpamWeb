@@ -33,4 +33,20 @@ public enum Country {
         }
         return country;
     }
+
+    public static Boolean ifCountryInSystem(String str) {
+        Boolean ifCountryInSystem = false;
+        if (str != null) {
+            Country country = null;
+            for (int i = 0; i < Country.values().length; i++) {
+                String countryFromEnum = Country.values()[i].toString();
+                if (countryFromEnum.equals(str.toUpperCase())) {
+                    ifCountryInSystem = true;
+                }
+            }
+        }
+        return ifCountryInSystem;
+    }
+
+
 }

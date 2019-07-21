@@ -1,5 +1,4 @@
 package by.javatr.service;
 
-public interface Service {
-
+abstract public class Service {
 }
