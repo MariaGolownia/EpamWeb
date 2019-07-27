@@ -1,8 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="by.javatr.entity.en_um.City" %>
-<%@ page import="by.javatr.entity.en_um.Country" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,51 +10,198 @@
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="./css/signin.css" rel="stylesheet">
+    <link href="./css/location.css" rel="stylesheet">
+    <link href="./css/location2.css" rel="stylesheet">
+    <link href="./css/owner.css" rel="stylesheet">
     <script src="./js/ie-emulation-modes-warning.js"></script>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+    <script>
+
+        // -----------------------------------------------------------------------------------------------------
+        // Выбор города в рамках страны
+        // -----------------------------------------------------------------------------------------------------
+        $(document).ready(function() {
+// Работа с объектом по id = countryName
+// Вызов апплета происходит по событию change
+            $('#countryName').on('change', function() {
+                $.ajax({
+                    url : 'GetCity',
+                    data : {
+                        // Структура данных, которую передаем
+                        countryName : $('#countryName').val()
+                    },
+                    // Структура данных, которую принимаем
+                    success : function(responseJson) {
+                        var $select = $('#cityName');
+                        // Очищаем предыдущие значения в combobox
+                        $select.find('option').remove();
+                        $('#locationName').find('option').remove();
+                        $('#bicyclesName').find('option').remove();
+                        $('#loc1').attr('src', '');
+                        $('#loc2').attr('src', '');
+                        // Добавляем пустую строчку
+                        $select.append($('<option>').text("").attr('value', ""));
+                        // Сооружаем конструкцию типа <option value="City">City
+                        $.each(JSON.parse(responseJson), function(i, city) {
+                            $select.append($('<option>').text(city).attr('value', city));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <script>
+ //-----------------------------------------------------------------------------------------------------
+ //Выбор локации в рамках города
+//-----------------------------------------------------------------------------------------------------
+        $(document).ready(function() {
+// Работа с объектом по id = countryName
+// Вызов апплета происходит по событию change
+            $('#cityName').on('change', function() {
+                $.ajax({
+                    url : 'GetLocation',
+                    data : {
+                        // Структура данных, которую передаем
+                        cityName : $('#cityName').val(),
+                        countryName : $('#countryName').val()
+                    },
+                    // Структура данных, которую принимаем
+                    success : function(responseJson) {
+                        var $select = $('#locationName');
+                        // Очищаем предыдущие значения в combobox
+                        $select.find('option').remove();
+                        $('#loc1').attr('src', '');
+                        $('#loc2').attr('src', '');
+                        $('#bicyclesName').find('option').remove();
+                        // Добавляем пустую строчку
+                        $select.append($('<option>').text("").attr('value', ""));
+                        // Сооружаем конструкцию типа <option value="City">City
+                        $.each(JSON.parse(responseJson), function(i, city) {
+                            var valueForLocationStr = city.street + ", house: " + city.house + ", office: " + city.office;
+                            $select.append($('<option>').text(valueForLocationStr).attr('value', city.id));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+
+        // -----------------------------------------------------------------------------------------------------
+        // Выбор велосипеда в рамках локации
+        // -----------------------------------------------------------------------------------------------------
+        $(document).ready(function() {
+// Работа с объектом по id = countryName
+// Вызов апплета происходит по событию change
+            $('#locationName').on('change', function() {
+                $.ajax({
+                    url : 'GetFreeBicycles',
+                    data : {
+                        // Структура данных, которую передаем
+                        locationId : $('#locationName').val()
+                    },
+                    // Структура данных, которую принимаем
+                    success : function(responseJson) {
+                        var $select = $('#bicyclesName');
+                        // Очищаем предыдущие значения в combobox
+                        $select.find('option').remove();
+                        // Добавляем пустую строчку
+                        $select.append($('<option>').text("").attr('value', ""));
+                        // Сооружаем конструкцию типа <option value="Bicycle">Bicycle
+                        $.each(JSON.parse(responseJson), function(i, bicycle) {
+                            var valueForBicycleStr = "Model: " + bicycle.model + ", type: " + bicycle.bicycleType.toLowerCase() +
+                                ", producer: " + bicycle.producer + ", production year: " + bicycle.productionYear;
+                            $select.append($('<option>').text(valueForBicycleStr).attr('value', bicycle.id));
+                        });
+                    }
+                });
+
+                $.ajax({
+                    url : 'GetLocationImg?locationId='+$('#locationName').val(),
+                    // Структура данных, которую принимаем
+                    success : function(responseJson) {
+                        $('#loc1').attr('src', "." + responseJson.toString().replace('"', '').replace('"', ''));
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        // -----------------------------------------------------------------------------------------------------
+        // Выбор велосипеда в рамках локации
+        // -----------------------------------------------------------------------------------------------------
+        $(document).ready(function() {
+// Работа с объектом по id = countryName
+// Вызов апплета происходит по событию change
+            $('#bicyclesName').on('change', function() {
+                $.ajax({
+                    url : 'GetBicycleImg?bicycleId='+$('#bicyclesName').val(),
+                    // Структура данных, которую принимаем
+                    success : function(imageString) {
+                        var img = document.getElementById('loc2');
+                        img.src = "data:image/jpg;base64," + imageString;
+                        img.show;
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
 User: ${userL}
-Role: ${userR}
 </br>
-Info: ${userT}
+Role: ${userR}
 
-<div class="container">
 
-    <form class="form-signin" action="Controller?command=authorization_page_user_submit" method="post">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputLogin" class="sr-only">Data</label>
-        <!---------------------------------------Login----------------------------------------------------------------->
-        <label for="inputLogin" class="sr-only">Work with user with login:</label>
-        <input type="login" id="inputLogin" name="userLogin" class="form-control" placeholder=${userL} required autofocus>
-        <!---------------------------------------Country----------------------------------------------------------------->
-        <label for="inputLogin" class="sr-only">Country</label>
-        <select class="form-control" name = "country">
-            <option>Belarus</option>
-            <option>Poland</option>
-            <option>Lithuania</option>
-        </select>
-        <!---------------------------------------Cities??????????????????????????----------------------------------------------------------------->
-        <label for="inputLogin" class="sr-only">Country</label>
-        <%
-            List<City> list = new ArrayList<>();
+<div class="flex">
+    <div class="item">
 
-            list = City.getByCountry(Country.valueOf(request.getParameter("country")));
-            request.setAttribute("listCity", list);
-        %>
-        <select class="form-control">
-            <c:forEach items="${listCity}" var="city">
-                <option> ${city} </option>
-            </c:forEach>
-        </select>
-        <!----------------------------------------Location-------------------------------------------------------------------->
+        <form class="form-location" action="Controller?command=authorization_page_user_submit" method="post">
+            <h2 class="form-signin-heading">Select locations:</h2>
+            <label class="sr-only">Data</label>
+            <!---------------------------------------Country----------------------------------------------------------------->
+            <label class="sr-show">Country</label>
+            <form class="form-location">
+                <!--value объекта countryName (обращение по id) забираем request.getParameter("countryName")  -->
+                <select id="countryName" class="form-control">
+                    <option value="">
+                    <option value="Belarus">Belarus
+                    <option value="Poland">Poland
+                    <option value="Lithuania">Lithuania
+                </select>
+                <!----------------------------------------Cities------------------------------------------------------------->
+                <label class="sr-show">City</label>
+                <select id="cityName" class="form-control">
+                </select>
+                <!----------------------------------------Location----------------------------------------------------------->
+                <label class="sr-show">Location</label>
+                <select id="locationName" class="form-control">
+                </select>
+                <label class="sr-show">Free bicycles</label>
+                <select id="bicyclesName" class="form-control">
+                </select>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit" >Submit</button>
-    </form>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" >Submit</button>
+            </form>
+            <!-- btn btn-lg btn-primary btn-block-->
+        </form>
+    </div>
+
+    <div class="item">
+        <div class="item">
+            <img id="loc1" width="200px" height="133px">
+        </div>
+        <div class="item">
+            <img id="loc2" width="200px" height="133px">
+        </div>
+    </div>
+
 </div> <!-- /container -->
-
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="./js/ie10-viewport-bug-workaround.js"></script>

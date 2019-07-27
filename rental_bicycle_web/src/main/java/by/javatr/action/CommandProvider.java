@@ -15,7 +15,8 @@ public class CommandProvider {
         this.commands.put(CommandName.AUTHORIZATION_PAGE_USER_SUBMIT, new AuthorizationPageUserSubmitCommand());
         this.commands.put(CommandName.REGISTRATION_PAGE, new RegistrationPageCommand());
         this.commands.put(CommandName.LOCATION_PAGE, new LocationPageCommand());
-        this.commands.put(CommandName.USER_PAGE, new UserPageCommand());
+        this.commands.put(CommandName.USER_PAGE, new UserPageCommand());;
+
     }
 
     public static CommandProvider getInstance() {

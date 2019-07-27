@@ -53,6 +53,7 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
     }
     @Override
     public List<Location> readByCompanyId(Integer companyID) throws PersistentException {
+        List<Location> locationList = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -60,7 +61,6 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
             statement.setInt(1, companyID);
             resultSet = statement.executeQuery();
             Location location = null;
-            List<Location> locationList = new ArrayList<>();
             while(resultSet.next()) {
                 location = new Location();
                 location.setId(resultSet.getInt("location_id"));
@@ -91,9 +91,10 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                 location.setPhoto(resultSet.getString("location_photo"));
                 locationList.add(location);
             }
-            return locationList;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch(PersistentException ep) {
+           ep.printStackTrace();
         } finally {
             try {
                 resultSet.close();
@@ -102,18 +103,19 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
         }
+        return locationList;
     }
 
     @Override
     public List<Location> readByCountry(String country) throws PersistentException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+        List<Location> locationList = new ArrayList<>();
         try {
             statement = connection.prepareStatement(SQL_SELECT_LOCATIONS_BY_COUNTRY);
             statement.setString(1, country);
             resultSet = statement.executeQuery();
             Location location = null;
-            List<Location> locationList = new ArrayList<>();
             while(resultSet.next()) {
                 location = new Location();
                 location.setId(resultSet.getInt("location_id"));
@@ -143,9 +145,9 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                 location.setPhoto(resultSet.getString("location_photo"));
                 locationList.add(location);
             }
-            return locationList;
+
         } catch(SQLException e) {
-            throw new PersistentException(e);
+            e.printStackTrace();
         } finally {
             try {
                 resultSet.close();
@@ -153,43 +155,6 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
             try {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
-        }
-    }
-
-    @Override
-    public List<Location> readByCountryAndCity(String country, String city) throws PersistentException {
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        List<Location> locationList = new ArrayList<>();
-        try {
-            statement = connection.prepareStatement(SQL_SELECT_LOCATIONS_BY_CITY_AND_COUNTRY);
-            statement.setString(1, country);
-            statement.setString(2, city);
-            resultSet = statement.executeQuery();
-            Location location = null;
-
-            while(resultSet.next()) {
-                location = new Location();
-                location.setId(resultSet.getInt("location_id"));
-                location.setName(resultSet.getString("location_name"));
-                Company company = new Company();
-                CompanyDaoSql companyDao = new CompanyDaoSql(connection);
-                company = companyDao.read(resultSet.getInt("location_company_id"));
-                location.setCompany(company);
-                Country countryEn = Country.valueOf(country);
-                City cityEn = City.valueOf(city);
-                location.setCountry(countryEn);
-                location.setCity(cityEn);
-                location.setStreet(resultSet.getString("location_street"));
-                location.setHouse(resultSet.getString("location_house"));
-                location.setOffice(resultSet.getString("location_office"));
-                location.setPhone(resultSet.getLong("location_phone"));
-                location.setSecondPhone(resultSet.getLong("location_secondPhone"));
-                location.setPhoto(resultSet.getString("location_photo"));
-                locationList.add(location);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         return locationList;
     }
@@ -244,6 +209,82 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
         }
+    }
+
+    @Override
+    public List<String> readByCountryAndCity(String country, String city) throws PersistentException {
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
+            List<String> locationList = new ArrayList<>();
+            try {
+                statement = connection.prepareStatement(SQL_SELECT_LOCATIONS_BY_CITY_AND_COUNTRY);
+                statement.setString(1, country);
+                statement.setString(2, city);
+                resultSet = statement.executeQuery();
+                Location location = null;
+
+                while(resultSet.next()) {
+                    location = new Location();
+                    location.setId(resultSet.getInt("location_id"));
+                    location.setName(resultSet.getString("location_name"));
+                    Company company = new Company();
+                    CompanyDaoSql companyDao = new CompanyDaoSql(connection);
+                    company = companyDao.read(resultSet.getInt("location_company_id"));
+                    location.setCompany(company);
+                    Country countryEn = Country.getCountry(country);
+                    City cityEn = City.getCity(city);
+                    location.setCountry(countryEn);
+                    location.setCity(cityEn);
+                    location.setStreet(resultSet.getString("location_street"));
+                    location.setHouse(resultSet.getString("location_house"));
+                    location.setOffice(resultSet.getString("location_office"));
+                    location.setPhone(resultSet.getLong("location_phone"));
+                    location.setSecondPhone(resultSet.getLong("location_secondPhone"));
+                    location.setPhoto(resultSet.getString("location_photo"));
+                    locationList.add(location.withoutCountryAndCityToString());
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return locationList;
+    }
+
+    @Override
+    public List<Location> readByCountryAndCity(Country country, City city) throws PersistentException {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Location> locationList = new ArrayList<>();
+        try {
+            statement = connection.prepareStatement(SQL_SELECT_LOCATIONS_BY_CITY_AND_COUNTRY);
+            statement.setString(1, country.getName());
+            statement.setString(2, city.getName());
+            resultSet = statement.executeQuery();
+            Location location = null;
+
+            while(resultSet.next()) {
+                location = new Location();
+                location.setId(resultSet.getInt("location_id"));
+                location.setName(resultSet.getString("location_name"));
+                Company company = new Company();
+                CompanyDaoSql companyDao = new CompanyDaoSql(connection);
+                company = companyDao.read(resultSet.getInt("location_company_id"));
+                location.setCompany(company);
+                Country countryEn = country;
+                City cityEn = city;
+                location.setCountry(countryEn);
+                location.setCity(cityEn);
+                location.setStreet(resultSet.getString("location_street"));
+                location.setHouse(resultSet.getString("location_house"));
+                location.setOffice(resultSet.getString("location_office"));
+                location.setPhone(resultSet.getLong("location_phone"));
+                location.setSecondPhone(resultSet.getLong("location_secondPhone"));
+                location.setPhoto(resultSet.getString("location_photo"));
+                locationList.add(location);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return locationList;
     }
 
     @Override

@@ -23,6 +23,10 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
             "SELECT `bicycle_id`,`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
                     "`bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_ifFree`, `bicycle_photo`" +
                     " FROM `bicycle` WHERE `bicycle_currentLocation_id` = ?";
+    private static final String SQL_BICYCLE_BY_CURRENT_LOCATION_AND_FREEDOM =
+            "SELECT `bicycle_id`,`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
+                    "`bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_photo`" +
+                    " FROM `bicycle` WHERE `bicycle_currentLocation_id` = ? AND `bicycle_ifFree` = ?";
     private static final String SQL_BICYCLE_UPDATE =
             "UPDATE `bicycle` SET `bicycle_model`= ?, `bicycle_type`= ?, `bicycle_productionYear`= ?," +
                     " `bicycle_producer`= ?, `bicycle_currentLocation_id`= ?, `bicycle_price_id`= ?," +
@@ -35,6 +39,53 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
 
     public BicycleDaoSql(Connection connection) {
         super(connection);
+    }
+
+    @Override
+    public List<Bicycle> readByCurrentLocation(Integer idLocation) throws PersistentException {
+        List<Bicycle> bicycles = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_BICYCLE_BY_CURRENT_LOCATION);
+            statement.setInt(1, idLocation);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()) {
+                Bicycle bicycle = new Bicycle();
+                Integer bicycleID = resultSet.getInt("bicycle_id");
+                bicycle.setId(bicycleID);
+                bicycle.setModel(resultSet.getString("bicycle_model"));
+                BicycleType bicycleType = BicycleType.getBicycleType(resultSet.getString("bicycle_type"));
+                bicycle.setBicycleType(bicycleType);
+                bicycle.setProductionYear(resultSet.getShort("bicycle_productionYear"));
+                bicycle.setProducer(resultSet.getString("bicycle_producer"));
+                Location locationBicycle = new Location();
+                LocationDaoSql locationDao = FactoryDaoSql.getInstance().get(DaoSql.LocationDao);
+                locationBicycle = locationDao.read(idLocation);
+                bicycle.setCurrentLocation(locationBicycle);
+                bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
+                Price price = new Price();
+                PriceDaoSql priceDao = new PriceDaoSql();
+                price = priceDao.read(resultSet.getInt("bicycle_price_id"), connection);
+                bicycle.setPrice(price);
+                bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
+                bicycle.setIfFree(resultSet.getBoolean("bicycle_ifFree"));
+                bicycles.add(bicycle);
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } catch(SQLException e) {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch(SQLException | NullPointerException e) {}
+            try {
+                statement.close();
+//                connection.close();
+            } catch(SQLException | NullPointerException e) {}
+        }
+        return bicycles;
     }
 
     @Override
@@ -81,6 +132,54 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
         }
     }
 
+
+    @Override
+    public List<Bicycle> readByCurrentLocationAndFreedom (Integer idLocation, Boolean ifFree) throws PersistentException {
+        List<Bicycle> bicycles = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_BICYCLE_BY_CURRENT_LOCATION_AND_FREEDOM);
+            statement.setInt(1, idLocation);
+            if (ifFree == true)
+                statement.setInt(2, 1);
+            else statement.setInt(2, 0);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()) {
+                Bicycle bicycle = new Bicycle();
+                Integer bicycleID = resultSet.getInt("bicycle_id");
+                bicycle.setId(bicycleID);
+                bicycle.setModel(resultSet.getString("bicycle_model"));
+                BicycleType bicycleType = BicycleType.getBicycleType(resultSet.getString("bicycle_type"));
+                bicycle.setBicycleType(bicycleType);
+                bicycle.setProductionYear(resultSet.getShort("bicycle_productionYear"));
+                bicycle.setProducer(resultSet.getString("bicycle_producer"));
+                Location locationBicycle = new Location();
+                LocationDaoSql locationDao = FactoryDaoSql.getInstance().get(DaoSql.LocationDao);
+                locationBicycle = locationDao.read(idLocation);
+                bicycle.setCurrentLocation(locationBicycle);
+                bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
+                Price price = new Price();
+                PriceDaoSql priceDao = new PriceDaoSql();
+                price = priceDao.read(resultSet.getInt("bicycle_price_id"), connection);
+                bicycle.setPrice(price);
+                bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
+                bicycles.add(bicycle);
+            }
+    } catch (DaoException e) {
+        e.printStackTrace();
+    }catch(SQLException e) {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch(SQLException | NullPointerException e) {}
+            try {
+                statement.close();
+            } catch(SQLException | NullPointerException e) {}
+        }
+        return bicycles;
+    }
 
     @Override
     public Integer create(Bicycle bicycle) throws PersistentException {

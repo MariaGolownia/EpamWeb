@@ -13,6 +13,8 @@ public class LocationPageCommand extends BaseCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = null;
 
+        request.setAttribute("userL", request.getParameter("userL"));
+        request.setAttribute("userR", request.getParameter("userR"));
         dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/location_page.jsp");
 
         try {

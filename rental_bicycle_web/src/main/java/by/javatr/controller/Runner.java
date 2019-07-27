@@ -1,18 +1,25 @@
 package by.javatr.controller;
+import by.javatr.dao.LocationDao;
 import by.javatr.dao.mysql.DaoSql;
-import by.javatr.entity.DateConverter;
-import by.javatr.entity.User;
-import by.javatr.entity.UserInfo;
+import by.javatr.dao.mysql.LocationDaoSql;
+import by.javatr.entity.*;
+import by.javatr.entity.en_um.City;
+import by.javatr.entity.en_um.Country;
 import by.javatr.entity.en_um.Role;
 import by.javatr.entity.en_um.UserStatus;
 import by.javatr.service.FactoryService;
 import by.javatr.service.ServiceException;
+import by.javatr.service.impl.BicycleServiceImpl;
+import by.javatr.service.impl.LocationServiceImpl;
 import by.javatr.service.impl.UserInfoServiceImpl;
 import by.javatr.service.impl.UserServiceImpl;
+import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Runner {
     private static final Logger logger = LogManager.getLogger();
@@ -548,39 +555,60 @@ public class Runner {
 //            String date = "11-12-2010";
 //        LocalDate localDate = DateConverter.converterDateFromString(date);
 //        System.out.print(localDate);
-        try {
-            FactoryService factoryService = FactoryService.getInstance();
-            UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
-            User userNew = new User();
-            userNew.setLogin("Pol");
-            userNew.setPassword("123456kjbjhgjyg");
-            userNew.setUserStatus(UserStatus.ACTIVE);
-            userNew.setRole(Role.USER);
+//        try {
+//            FactoryService factoryService = FactoryService.getInstance();
+//            UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
+//            User userNew = new User();
+//            userNew.setLogin("Pol");
+//            userNew.setPassword("123456kjbjhgjyg");
+//            userNew.setUserStatus(UserStatus.ACTIVE);
+//            userNew.setRole(Role.USER);
+//
+//            Integer id = userService.save(userNew);
+//
+//            UserInfoServiceImpl userInfoService = factoryService.get(DaoSql.UserInfoDao);
+//            UserInfo userInfo = new UserInfo();
+//            userInfo.setId(id);
+//            userInfo.setSurname("Tio");
+//            userInfo.setName("Pol");
+//            userInfo.setSecondName("Pol");
+//            userInfo.setCountry("Pol");
+//            userInfo.setPassportIssueDate(DateConverter.converterDateFromString("25-02-2010"));
+//            userInfo.setPassportSerialNumber("1");
+//            userInfo.setPassportIdentificationNumber("2");
+//            userInfo.setPassportIssuingAuthority("3");
+//            userInfo.setPassportAddressRegistration("4");
+//            userInfo.setPassportAddressResidence("5");
+//            userInfo.setPhoneNumber(6L);
+//            userInfo.setSecondPhoneNumber(7L);
+//            userInfo.setEmail("8");
+//
+//            userInfoService.save(userInfo);
+//        } catch (ServiceException e) {
+//            e.printStackTrace();
+//        }
+//---------------------------------------------
+//        List<String> list = new ArrayList<>();
+//        FactoryService factoryService = FactoryService.getInstance();
+//            LocationServiceImpl locationService = factoryService.get(DaoSql.LocationDao);
+//            list = locationService.findByCountryAndCity("Belarus", "Minsk");
+//            for (String location : list)
 
-            Integer id = userService.save(userNew);
+//                System.out.println(location);
+//        List<Location> list = new ArrayList<>();
+//        FactoryService factoryService = FactoryService.getInstance();
+//        LocationServiceImpl locationService = factoryService.get(DaoSql.LocationDao);
+//        list = locationService.findByCountryAndCity(Country.valueOf("Belarus".toUpperCase()), City.valueOf("Minsk".toUpperCase()));
 
-            UserInfoServiceImpl userInfoService = factoryService.get(DaoSql.UserInfoDao);
-            UserInfo userInfo = new UserInfo();
-            userInfo.setId(id);
-            userInfo.setSurname("Tio");
-            userInfo.setName("Pol");
-            userInfo.setSecondName("Pol");
-            userInfo.setCountry("Pol");
-            userInfo.setPassportIssueDate(DateConverter.converterDateFromString("25-02-2010"));
-            userInfo.setPassportSerialNumber("1");
-            userInfo.setPassportIdentificationNumber("2");
-            userInfo.setPassportIssuingAuthority("3");
-            userInfo.setPassportAddressRegistration("4");
-            userInfo.setPassportAddressResidence("5");
-            userInfo.setPhoneNumber(6L);
-            userInfo.setSecondPhoneNumber(7L);
-            userInfo.setEmail("8");
+//        FactoryService factoryService = FactoryService.getInstance();
+//        List<Bicycle> list = new ArrayList<>();
+//            BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+//            list = bicycleService.findByFreeStatus(2, true);
 
-            userInfoService.save(userInfo);
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
-
+        FactoryService factoryService = FactoryService.getInstance();
+        Location location = new Location();
+        LocationServiceImpl locationService = factoryService.get(DaoSql.LocationDao);
+        location = locationService.findById(2);
     }
 }
 

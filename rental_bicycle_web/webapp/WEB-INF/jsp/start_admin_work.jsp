@@ -18,13 +18,15 @@
 
 <body>
 User: ${userL}
+</br>
 Role: ${userR}
+</br>
 
 <div class="container">
-    <form action="Controller?command=location_page" method="post">
+    <form class="form-signin" action="Controller?command=location_page" method="post">
         <button class="btn btn-lg btn-primary btn-block" type="submit" >Choose location</button>
     </form>
-    <form action="Controller?command=user_page" method="post">
+    <form class="form-signin" action="Controller?command=user_page" method="post">
     <button class="btn btn-lg btn-primary btn-block" type="submit" >Choose user</button>
     </form>
 </div> <!-- /container -->

@@ -1,6 +1,8 @@
 package by.javatr.dao.pool;
 import by.javatr.dao.PersistentException;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 public class ConnectionSQL {
@@ -12,6 +14,12 @@ public class ConnectionSQL {
     private static final String USER_SQL_PASSWORD = "admin";
 
     public Connection getConnectionToDB () {
+        // Регистрация драйвера
+        try {
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection connection=null;
         try {

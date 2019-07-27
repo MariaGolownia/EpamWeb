@@ -110,6 +110,12 @@ public class Location extends Entity {
                 ", photo='" + photo + '\'' +
                 '}';
     }
+
+    public String withoutCountryAndCityToString() {
+        return (street + ", house: " + house + ", office: " + office);
+    }
+
+
 }
 
 

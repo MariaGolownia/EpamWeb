@@ -38,7 +38,7 @@ public enum City {
         return City.values()[id];
     }
 
-    public static List<City> getByCountry(Country country) {
+    public static List<City> getCitiesByCountry(Country country) {
         List<City>cityList = new ArrayList<>();
         if (country!=null) {
                 if (country.equals(Country.BELARUS)) {
@@ -62,6 +62,41 @@ public enum City {
                     }
                 }
             }
+        else {
+            try {
+                throw new EntityException("The option of the country doesn't matter!");
+            } catch (EntityException e) {
+                e.printStackTrace();
+            }
+        }
+        return cityList;
+    }
+
+
+    public static List<String> getCitiesStrByCountry(Country country) {
+        List<String>cityList = new ArrayList<>();
+        if (country!=null) {
+            if (country.equals(Country.BELARUS)) {
+                for (int i = START_INDEX_BELARUS_CITIES; i < FINISH_INDEX_BELARUS_CITIES +1; i++) {
+                    cityList.add(City.getById(i).getName());
+                }
+            } else if (country.equals(Country.POLAND)) {
+                for (int i = START_INDEX_POLAND_CITIES; i < FINISH_INDEX_POLAND_CITIES +1; i++) {
+                    cityList.add(City.getById(i).getName());
+                }
+            } else if (country.equals(Country.LITHUANIA)) {
+                for (int i = START_INDEX_LITHUANIA_CITIES; i < FINISH_INDEX_LITHUANIA_CITIES +1; i++) {
+                    cityList.add(City.getById(i).getName());
+                }
+            } else {
+                try {
+                    throw new EntityException("Please contact the developer to extend the software application" +
+                            " to the level of your region!");
+                } catch (EntityException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         else {
             try {
                 throw new EntityException("The option of the country doesn't matter!");

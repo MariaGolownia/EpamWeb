@@ -1,5 +1,7 @@
 package by.javatr.service;
+import by.javatr.dao.PersistentException;
 import by.javatr.dao.mysql.*;
+import by.javatr.service.impl.BicycleServiceImpl;
 import by.javatr.service.impl.LocationServiceImpl;
 import by.javatr.service.impl.UserInfoServiceImpl;
 import by.javatr.service.impl.UserServiceImpl;
@@ -25,9 +27,10 @@ final public class FactoryService {
     public <Type extends Service> Type  get (DaoSql entityDao) {
         switch (entityDao) {
             case BicycleDao:
+                return (Type) new BicycleServiceImpl();
             case CompanyDao:
             case LocationDao:
-                return (Type) new LocationServiceImpl();
+                    return (Type) new LocationServiceImpl();
             case PaymentDao:
                 break;
             case PriceDao:

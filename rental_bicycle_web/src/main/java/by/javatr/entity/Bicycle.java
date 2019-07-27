@@ -1,6 +1,5 @@
 package by.javatr.entity;
 import by.javatr.entity.en_um.BicycleType;
-
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;

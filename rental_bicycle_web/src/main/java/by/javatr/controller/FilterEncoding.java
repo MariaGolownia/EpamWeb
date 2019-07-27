@@ -7,7 +7,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
 
-public class EncodingFilter implements Filter  {
+public class FilterEncoding implements Filter  {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 

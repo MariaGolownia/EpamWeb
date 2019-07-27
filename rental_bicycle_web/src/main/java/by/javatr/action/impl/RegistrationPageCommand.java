@@ -10,7 +10,6 @@ import by.javatr.entity.en_um.UserStatus;
 import by.javatr.service.ServiceException;
 import by.javatr.service.impl.UserInfoServiceImpl;
 import by.javatr.service.impl.UserServiceImpl;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
