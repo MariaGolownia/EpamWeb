@@ -9,7 +9,7 @@ public interface Dao<Type extends Entity > {
 
     Type read(Integer identity) throws PersistentException, SQLException;
 
-    void update(Type entity) throws PersistentException;
+    void update(Type entity) throws PersistentException, SQLException;
 
     void delete(Integer identity) throws PersistentException;
 }

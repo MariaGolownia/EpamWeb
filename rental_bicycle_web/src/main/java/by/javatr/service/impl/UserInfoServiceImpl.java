@@ -16,33 +16,58 @@ import java.util.List;
 
 public class UserInfoServiceImpl  extends Service implements UserInfoService {
     @Override
-    public List<User> findAll() throws PersistentException {
+    public List<User> findAll() {
         return null;
     }
 
     @Override
-    public User findByIdentity(Integer identity) throws PersistentException {
-        return null;
+    public UserInfo findByIdNumberPassport(String idPassport) {
+        UserInfo userInfo = new UserInfo();
+        try {
+            UserInfoDao dao = FactoryDaoSql.getInstance().get(DaoSql.UserInfoDao);
+            userInfo = dao.readByPassportId(idPassport);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        return userInfo;
     }
 
     @Override
-    public void save(UserInfo userInfo) throws ServiceException {
+    public UserInfo findByIdentity(Integer identity) {
+        UserInfo userInfo = new UserInfo();
+        try {
+            UserInfoDao dao = FactoryDaoSql.getInstance().get(DaoSql.UserInfoDao);
+            userInfo = dao.read(identity);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        catch (PersistentException e) {
+            e.printStackTrace();
+        }
+         catch (SQLException e) {
+        e.printStackTrace();
+    }
+        return userInfo;
+    }
+
+    @Override
+    public void save(UserInfo userInfo) {
         UserInfoDao dao = null;
         try {
             dao = FactoryDaoSql.getInstance().get(DaoSql.UserInfoDao);
-                dao.create(userInfo);
+            dao.create(userInfo);
         } catch (DaoException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         catch (PersistentException e) {
-        e.printStackTrace();
-    }
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void update(UserInfo userInfo, UserInfo userInfoUpdate) throws PersistentException {
+    public void update(UserInfo userInfo, UserInfo userInfoUpdate){
 
     }
 

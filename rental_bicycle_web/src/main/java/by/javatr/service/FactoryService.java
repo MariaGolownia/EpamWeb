@@ -1,10 +1,7 @@
 package by.javatr.service;
 import by.javatr.dao.PersistentException;
 import by.javatr.dao.mysql.*;
-import by.javatr.service.impl.BicycleServiceImpl;
-import by.javatr.service.impl.LocationServiceImpl;
-import by.javatr.service.impl.UserInfoServiceImpl;
-import by.javatr.service.impl.UserServiceImpl;
+import by.javatr.service.impl.*;
 import org.apache.logging.log4j.LogManager;
 
 final public class FactoryService {
@@ -42,6 +39,7 @@ final public class FactoryService {
             case UserInfoDao:
                 return (Type) new UserInfoServiceImpl();
             case VirtualCardDao:
+                return (Type) new VirtualCardServiceImpl();
             default:
                 try {
                     throw new ServiceException("Check the existence of the desired entity! " + entityDao);

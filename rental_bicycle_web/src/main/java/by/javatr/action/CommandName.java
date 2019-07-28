@@ -9,6 +9,8 @@ public enum CommandName {
 
     REGISTRATION_PAGE,
 
+    MAIN_PAGE,
+
     RENT_PAGE,
     RENT_LOCATION_SELECTION;
 

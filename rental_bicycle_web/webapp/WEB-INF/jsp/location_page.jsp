@@ -39,8 +39,8 @@
                         $select.find('option').remove();
                         $('#locationName').find('option').remove();
                         $('#bicyclesName').find('option').remove();
-                        $('#loc1').attr('src', '');
-                        $('#loc2').attr('src', '');
+                        document.getElementById('loc1').style.visibility='hidden';
+                        document.getElementById('loc2').style.visibility='hidden';
                         // Добавляем пустую строчку
                         $select.append($('<option>').text("").attr('value', ""));
                         // Сооружаем конструкцию типа <option value="City">City
@@ -74,8 +74,8 @@
                         var $select = $('#locationName');
                         // Очищаем предыдущие значения в combobox
                         $select.find('option').remove();
-                        $('#loc1').attr('src', '');
-                        $('#loc2').attr('src', '');
+                        document.getElementById('loc1').style.visibility='hidden';
+                        document.getElementById('loc2').style.visibility='hidden';
                         $('#bicyclesName').find('option').remove();
                         // Добавляем пустую строчку
                         $select.append($('<option>').text("").attr('value', ""));
@@ -111,6 +111,7 @@
                         $select.find('option').remove();
                         // Добавляем пустую строчку
                         $select.append($('<option>').text("").attr('value', ""));
+                        document.getElementById('loc2').style.visibility='hidden';
                         // Сооружаем конструкцию типа <option value="Bicycle">Bicycle
                         $.each(JSON.parse(responseJson), function(i, bicycle) {
                             var valueForBicycleStr = "Model: " + bicycle.model + ", type: " + bicycle.bicycleType.toLowerCase() +
@@ -120,11 +121,15 @@
                     }
                 });
 
+                // -----------------------------------------------------------------------------------------------------
+                // Выбор фото точки локации
+                // -----------------------------------------------------------------------------------------------------
                 $.ajax({
                     url : 'GetLocationImg?locationId='+$('#locationName').val(),
                     // Структура данных, которую принимаем
                     success : function(responseJson) {
                         $('#loc1').attr('src', "." + responseJson.toString().replace('"', '').replace('"', ''));
+                        document.getElementById('loc1').style.visibility='visible';
                     }
                 });
             });
@@ -132,7 +137,7 @@
     </script>
     <script>
         // -----------------------------------------------------------------------------------------------------
-        // Выбор велосипеда в рамках локации
+        // Выбор фото велосипеда
         // -----------------------------------------------------------------------------------------------------
         $(document).ready(function() {
 // Работа с объектом по id = countryName
@@ -144,7 +149,7 @@
                     success : function(imageString) {
                         var img = document.getElementById('loc2');
                         img.src = "data:image/jpg;base64," + imageString;
-                        img.show;
+                        document.getElementById('loc2').style.visibility='visible';
                     }
                 });
             });
@@ -161,7 +166,7 @@ Role: ${userR}
 <div class="flex">
     <div class="item">
 
-        <form class="form-location" action="Controller?command=authorization_page_user_submit" method="post">
+        <form class="form-location" action="Controller?command=main_page" method="post">
             <h2 class="form-signin-heading">Select locations:</h2>
             <label class="sr-only">Data</label>
             <!---------------------------------------Country----------------------------------------------------------------->
@@ -186,7 +191,7 @@ Role: ${userR}
                 <select id="bicyclesName" class="form-control">
                 </select>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit" >Submit</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" >Choose location</button>
             </form>
             <!-- btn btn-lg btn-primary btn-block-->
         </form>

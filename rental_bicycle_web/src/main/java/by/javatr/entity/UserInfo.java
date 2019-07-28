@@ -137,4 +137,24 @@ public class UserInfo extends Entity {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", birthDate=" + birthDate +
+                ", country=" + country +
+                ", passportIssueDate=" + passportIssueDate +
+                ", passportIssuingAuthority='" + passportIssuingAuthority + '\'' +
+                ", passportIdentificationNumber='" + passportIdentificationNumber + '\'' +
+                ", passportSerialNumber='" + passportSerialNumber + '\'' +
+                ", passportAddressRegistration='" + passportAddressRegistration + '\'' +
+                ", passportAddressResidence='" + passportAddressResidence + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", secondPhoneNumber=" + secondPhoneNumber +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

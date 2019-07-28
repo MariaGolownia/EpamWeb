@@ -21,7 +21,7 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
                     ",`userInfo_phoneNumber`,`userInfo_secondPhoneNumber`,`userInfo_email`)" +
                     " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_SELECT_USER_INFO =
-            "SELECT  userInfo_surname`, `userInfo_name`, `userInfo_secondName`, `userInfo_birthDate`,`userInfo_country`," +
+            "SELECT  `userInfo_surname`, `userInfo_name`, `userInfo_secondName`, `userInfo_birthDate`,`userInfo_country`," +
                     "`userInfo_passportIssueDate`, `userInfo_passportIssuingAuthority`, `userInfo_passportIdentificationNumber`, " +
                     "`userInfo_passportSerialNumber`,`userInfo_passportAddressRegistration`,`userInfo_passportAddressResidence`," +
                     "`userInfo_phoneNumber`,`userInfo_secondPhoneNumber`,`userInfo_email` FROM `userinfo` WHERE `userInfo_id` = ?";
@@ -38,6 +38,12 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
                     "`userInfo_passportAddressResidence` = ?, `userInfo_phoneNumber`  = ?,`userInfo_secondPhoneNumber` = ?," +
                     "`userInfo_email` = ? WHERE `userInfo_id` = ?";
     private static final String SQL_USER_INFO_DELETE = "DELETE FROM `userinfo` WHERE `userInfo_id` = ?";
+    private static final String SQL_SELECT_USER_INFO_BY_PASSPORT_ID =
+            "SELECT `userInfo_id`, `userInfo_country`, `userInfo_surname`, `userInfo_name`, `userInfo_secondName`, `userInfo_birthDate`," +
+                    "`userInfo_passportIssueDate`, `userInfo_passportIssuingAuthority`," +
+                    "`userInfo_passportSerialNumber`,`userInfo_passportAddressRegistration`,`userInfo_passportAddressResidence`," +
+                    "`userInfo_phoneNumber`,`userInfo_secondPhoneNumber`,`userInfo_email` FROM `userinfo`" +
+                    " WHERE `userInfo_passportIdentificationNumber` = ?";
 
     public UserInfoDaoSql(Connection connection) {
         this.connection = connection;
@@ -127,6 +133,46 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
             } catch(SQLException | NullPointerException e) {}
         }
     }
+
+    @Override
+    public UserInfo readByPassportId(String search) {
+        UserInfo userInfo = new UserInfo();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_SELECT_USER_INFO_BY_PASSPORT_ID);
+            statement.setString(1, search);
+            resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                userInfo.setId(resultSet.getInt("userInfo_id"));
+                userInfo.setCountry(Country.getCountry(resultSet.getString("userInfo_country")));
+                userInfo.setSurname(resultSet.getString("userInfo_surname"));
+                userInfo.setName(resultSet.getString("userInfo_name"));
+                userInfo.setSecondName(resultSet.getString("userInfo_secondName"));
+                userInfo.setBirthDate(resultSet.getDate("userInfo_birthDate").toLocalDate());
+                userInfo.setPassportIdentificationNumber(search);
+                userInfo.setPassportIssueDate(resultSet.getDate("userInfo_passportIssueDate").toLocalDate());
+                userInfo.setPassportIssuingAuthority(resultSet.getString("userInfo_passportIssuingAuthority"));
+                userInfo.setPassportSerialNumber(resultSet.getString("userInfo_passportSerialNumber"));
+                userInfo.setPassportAddressRegistration(resultSet.getString("userInfo_passportAddressRegistration"));
+                userInfo.setPassportAddressResidence(resultSet.getString("userInfo_passportAddressResidence"));
+                userInfo.setPhoneNumber(resultSet.getLong("userInfo_phoneNumber"));
+                userInfo.setSecondPhoneNumber(resultSet.getLong("userInfo_secondPhoneNumber"));
+                userInfo.setEmail(resultSet.getString("userInfo_email"));
+            }
+
+        } catch(SQLException e) {
+         e.printStackTrace();
+        } finally {
+            try {
+                resultSet.close();
+            } catch(SQLException | NullPointerException e) {}
+            try {
+                statement.close();
+            } catch(SQLException | NullPointerException e) {}
+        }
+        return userInfo;
+}
 
     @Override
     public Integer create(UserInfo userInfo) throws PersistentException {

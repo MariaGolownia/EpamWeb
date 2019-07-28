@@ -34,7 +34,7 @@ public class VirtualCardDaoSql extends BaseDaoSql implements VirtualCardDao {
     }
 
     @Override
-    public List<VirtualCard> readByUser(User user) throws PersistentException {
+    public List<VirtualCard> readByUser(User user) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -43,7 +43,7 @@ public class VirtualCardDaoSql extends BaseDaoSql implements VirtualCardDao {
             resultSet = statement.executeQuery();
             List<VirtualCard> virtualCards = new ArrayList<>();
             VirtualCard virtualCard = new VirtualCard();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 virtualCard = new VirtualCard();
                 virtualCard.setId(resultSet.getInt("vitualCard_id"));
                 virtualCard.setName(resultSet.getString("vitualrCard_name"));
@@ -53,8 +53,6 @@ public class VirtualCardDaoSql extends BaseDaoSql implements VirtualCardDao {
                 virtualCards.add(virtualCard);
             }
             return virtualCards;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
         } finally {
             try {
                 resultSet.close();
@@ -66,24 +64,61 @@ public class VirtualCardDaoSql extends BaseDaoSql implements VirtualCardDao {
     }
 
     @Override
+    public List<VirtualCard> readByUserId(Integer id)  {
+        List<VirtualCard> virtualCards = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_SELECT_VIRTUAL_CARD_BY_USER);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            VirtualCard virtualCard = new VirtualCard();
+            while (resultSet.next()) {
+                virtualCard = new VirtualCard();
+                virtualCard.setId(resultSet.getInt("vitualCard_id"));
+                virtualCard.setName(resultSet.getString("vitualrCard_name"));
+                UserDaoSql userDaoSql = null;
+                userDaoSql = FactoryDaoSql.getInstance().get(DaoSql.UserDao);
+                User user = userDaoSql.read(id);
+                virtualCard.setUser(user);
+                virtualCard.setBalance(resultSet.getBigDecimal("vitualCard_balance"));
+                virtualCard.setCurrency(Currency.getCurrency(resultSet.getString("vitualCard_currency")));
+                virtualCards.add(virtualCard);
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                resultSet.close();
+            } catch(SQLException | NullPointerException e) {}
+            try {
+                statement.close();
+            } catch(SQLException | NullPointerException e) {}
+        }
+        return virtualCards;
+    }
+
+    @Override
     public Integer create(VirtualCard virtualCard) throws PersistentException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Integer idOfVirtualCard = null;
         try {
-                statement = connection.prepareStatement(SQL_VIRTUAL_CARD_INSERT, Statement.RETURN_GENERATED_KEYS);
-                statement.setString(1, virtualCard.getName());
-                statement.setInt(2, virtualCard.getUser().getId());
-                statement.setBigDecimal(3, virtualCard.getBalance());
-                statement.setString(4, virtualCard.getCurrency().toString());
-                statement.executeUpdate();
-                resultSet = statement.getGeneratedKeys();
-                if (resultSet.next()) {
-                    idOfVirtualCard = resultSet.getInt(1);
-                } else {
-                    logger.error("There is no autoincremented index after trying to add record into table `users`");
-                    throw new PersistentException();
-                }
+            statement = connection.prepareStatement(SQL_VIRTUAL_CARD_INSERT, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, virtualCard.getName());
+            statement.setInt(2, virtualCard.getUser().getId());
+            statement.setBigDecimal(3, virtualCard.getBalance());
+            statement.setString(4, virtualCard.getCurrency().toString());
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                idOfVirtualCard = resultSet.getInt(1);
+            } else {
+                logger.error("There is no autoincremented index after trying to add record into table `users`");
+                throw new PersistentException();
+            }
         } catch(SQLException e) {
             throw new PersistentException(e);
         } finally {
@@ -98,7 +133,7 @@ public class VirtualCardDaoSql extends BaseDaoSql implements VirtualCardDao {
     }
 
     @Override
-    public VirtualCard read(Integer id) throws PersistentException {
+    public VirtualCard read(Integer id) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -118,8 +153,6 @@ public class VirtualCardDaoSql extends BaseDaoSql implements VirtualCardDao {
                 virtualCard.setCurrency(Currency.getCurrency(resultSet.getString("vitualCard_currency")));
             }
             return virtualCard;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
         } finally {
             try {
                 resultSet.close();
@@ -131,17 +164,15 @@ public class VirtualCardDaoSql extends BaseDaoSql implements VirtualCardDao {
     }
 
     @Override
-    public void update(VirtualCard virtualCard) throws PersistentException {
+    public void update(VirtualCard virtualCard) throws SQLException {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(SQL_VIRTUAL_CARD_UPDATE);
             statement.setString(1, virtualCard.getName());
             statement.setBigDecimal(2, virtualCard.getBalance());
-            statement.setString(3, virtualCard.getCurrency().toString());
+            statement.setString(3, virtualCard.getCurrency().getName());
             statement.setInt(4, virtualCard.getId());
             statement.executeUpdate();
-        } catch(SQLException e) {
-            throw new PersistentException(e);
         } finally {
             try {
                 statement.close();

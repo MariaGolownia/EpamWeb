@@ -25,7 +25,7 @@ final public class FactoryDaoSql {
     }
 
 
-    public <Type extends Dao<?>> Type get (DaoSql entityDao) throws  PersistentException, DaoException  {
+    public <Type extends Dao<?>> Type get (DaoSql entityDao) throws DaoException  {
         switch (entityDao) {
             case BicycleDao:
                 return (Type) new BicycleDaoSql(connection);

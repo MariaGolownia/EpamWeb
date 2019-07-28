@@ -1,6 +1,8 @@
 package by.javatr.service;
 import by.javatr.dao.PersistentException;
 import by.javatr.entity.User;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public interface UserService  {
@@ -15,7 +17,7 @@ public interface UserService  {
 
     Integer save(User user) throws PersistentException, ServiceException;
 
-    void update(User user, User userUpdate) throws PersistentException;
+    void update(User user, User userUpdate) throws PersistentException, SQLException;
 
     void delete(Integer identity) throws PersistentException;
 

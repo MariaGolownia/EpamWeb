@@ -1,7 +1,5 @@
 package by.javatr.action.impl;
-
 import by.javatr.action.BaseCommand;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +11,7 @@ public class UserPageCommand extends BaseCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = null;
 
-        dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/user_page.jsp");
+        dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/selected_user_page.jsp");
 
         try {
             dispatcher.forward(request, response);

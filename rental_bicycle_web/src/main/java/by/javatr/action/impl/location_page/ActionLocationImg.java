@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/GetLocationImg/*")
@@ -28,6 +29,10 @@ public class ActionLocationImg extends HttpServlet {
             Integer locationId = Integer.valueOf(locationIdStr);
             LocationServiceImpl locationService = factoryService.get(DaoSql.LocationDao);
             location = locationService.findById(locationId);
+            HttpSession session = request.getSession();
+            if ((Location)session.getAttribute("selectedLocation") != null)
+                session.removeAttribute("selectedLocation");
+            session.setAttribute("selectedLocation", location);
             String locationIng = location.getPhoto();
             json = new Gson().toJson(locationIng);
         }

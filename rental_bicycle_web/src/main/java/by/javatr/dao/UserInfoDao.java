@@ -8,4 +8,6 @@ public interface UserInfoDao extends Dao<UserInfo> {
     UserInfo readByUser(User search) throws PersistentException;
 
     List<UserInfo> readByCountry(String search) throws PersistentException;
+
+    UserInfo readByPassportId(String search);
 }

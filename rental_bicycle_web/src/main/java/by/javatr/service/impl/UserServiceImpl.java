@@ -56,6 +56,7 @@ public class UserServiceImpl extends Service implements UserService {
         return user;
     }
 
+
     @Override
     public User findByLogin(String login) {
         UserDao dao = null;
@@ -130,17 +131,21 @@ public class UserServiceImpl extends Service implements UserService {
     }
 
     @Override
-    public void update(User user, User userUpdate) throws PersistentException {
+    public void update(User user, User userUpdate) throws SQLException {
         UserDao dao = null;
         UserServiceValidation userServiceValidation = new UserServiceValidation();
         if (userServiceValidation.ifUserExists(user)) {
             UserDao userDao = null;
             try {
+                userDao.update(userUpdate);
                 userDao = FactoryDaoSql.getInstance().get(DaoSql.UserDao);
-            } catch (DaoException e) {
+            } catch (PersistentException e) {
                 e.printStackTrace();
             }
-            userDao.update(userUpdate);
+             catch (DaoException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

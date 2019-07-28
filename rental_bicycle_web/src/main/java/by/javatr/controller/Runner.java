@@ -9,14 +9,12 @@ import by.javatr.entity.en_um.Role;
 import by.javatr.entity.en_um.UserStatus;
 import by.javatr.service.FactoryService;
 import by.javatr.service.ServiceException;
-import by.javatr.service.impl.BicycleServiceImpl;
-import by.javatr.service.impl.LocationServiceImpl;
-import by.javatr.service.impl.UserInfoServiceImpl;
-import by.javatr.service.impl.UserServiceImpl;
+import by.javatr.service.impl.*;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -605,10 +603,30 @@ public class Runner {
 //            BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
 //            list = bicycleService.findByFreeStatus(2, true);
 
+//        FactoryService factoryService = FactoryService.getInstance();
+//        Location location = new Location();
+//        LocationServiceImpl locationService = factoryService.get(DaoSql.LocationDao);
+//        location = locationService.findById(2);
+
         FactoryService factoryService = FactoryService.getInstance();
-        Location location = new Location();
-        LocationServiceImpl locationService = factoryService.get(DaoSql.LocationDao);
-        location = locationService.findById(2);
+        UserInfoServiceImpl userInfoService = factoryService.get (DaoSql.UserInfoDao);
+//        Integer number = 9;
+//        UserInfo userInfo1 = userInfoService.findByIdentity(number);
+//
+        //System.out.println(userInfo1.toString());
+        UserInfo userInfo2 = userInfoService.findByIdNumberPassport("7123456A001PB3" );
+        System.out.println(userInfo2.toString());
+
+//        FactoryService factoryService = FactoryService.getInstance();
+//        List<VirtualCard> virtualCards = new ArrayList<>();
+//        VirtualCardServiceImpl virtualCardService = factoryService.get(DaoSql.VirtualCardDao);
+//        virtualCards = virtualCardService.findByUserPassportId("71555LK001PL43");
+//        for (VirtualCard card : virtualCards)
+//            System.out.println(card);
+
+//        FactoryService factoryService = FactoryService.getInstance();
+//        VirtualCardServiceImpl virtualCardService = factoryService.get(DaoSql.VirtualCardDao);
+//        virtualCardService.topUp(3, new BigDecimal(2.00));
     }
 }
 

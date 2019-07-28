@@ -27,7 +27,7 @@ public class AuthorizationPageUserSubmitCommand extends BaseCommand {
             if (userByLoginAndPassword.getRole() == Role.ADMIN) {
                 request.setAttribute("userL", userByLoginAndPassword.getLogin());
                 request.setAttribute("userR", userByLoginAndPassword.getRole());
-                dispatcherSuccess = request.getRequestDispatcher("/WEB-INF/jsp/start_admin_work.jsp");
+                dispatcherSuccess = request.getRequestDispatcher("/WEB-INF/jsp/main_page.jsp");
             }
         else {
                 request.setAttribute("userL", userByLoginAndPassword.getLogin());

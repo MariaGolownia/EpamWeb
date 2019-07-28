@@ -10,7 +10,9 @@ public interface UserInfoService {
 
     List<User> findAll() throws PersistentException;
 
-    User findByIdentity(Integer identity) throws PersistentException;
+    UserInfo findByIdNumberPassport(String idPassport) throws PersistentException;
+
+    UserInfo findByIdentity(Integer identity) throws PersistentException;
 
     void save(UserInfo userInfo) throws PersistentException, ServiceException;
 
