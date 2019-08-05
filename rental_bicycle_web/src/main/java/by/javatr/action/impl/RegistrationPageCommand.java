@@ -95,7 +95,7 @@ public class RegistrationPageCommand extends BaseCommand {
         }
 
         if (sts)
-            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/rent_page.jsp");
+            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/payment_page.jsp");
         else
             dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/error_page.jsp");
 

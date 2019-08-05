@@ -1,13 +1,12 @@
 package by.javatr.dao.mysql;
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.dao.UserInfoDao;
-import by.javatr.entity.EntityException;
 import by.javatr.entity.User;
 import by.javatr.entity.UserInfo;
 import by.javatr.entity.en_um.Country;
+import com.google.gson.internal.bind.SqlDateTypeAdapter;
 import org.apache.logging.log4j.LogManager;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,10 +53,9 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
     }
 
     @Override
-    public UserInfo readByUser(User user) throws PersistentException {
+    public UserInfo readByUser(User user) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        try {
             statement = connection.prepareStatement(SQL_SELECT_USER_INFO);
             statement.setInt(1, user.getId());
             resultSet = statement.executeQuery();
@@ -79,24 +77,19 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
                 userInfo.setSecondPhoneNumber(resultSet.getLong("userInfo_secondPhoneNumber"));
                 userInfo.setEmail(resultSet.getString("userInfo_email"));
             }
-            return userInfo;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
             try {
                 resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch( NullPointerException e) {}
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
-        }
+            } catch( NullPointerException e) {}
+        return userInfo;
     }
 
     @Override
-    public List<UserInfo> readByCountry(String country) throws PersistentException {
+    public List<UserInfo> readByCountry(String country) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        try {
             statement = connection.prepareStatement(SQL_SELECT_USER_INFO_BY_COUNTRY);
             statement.setString(1, country);
             resultSet = statement.executeQuery();
@@ -121,17 +114,13 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
                 userInfo.setEmail(resultSet.getString("userInfo_email"));
                 userInfoList.add(userInfo);
             }
-            return userInfoList;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
             try {
                 resultSet.close();
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
-        }
+        return userInfoList;
     }
 
     @Override
@@ -175,7 +164,7 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
 }
 
     @Override
-    public Integer create(UserInfo userInfo) throws PersistentException {
+    public Integer create(UserInfo userInfo) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Integer idOfLocation = null;
@@ -204,8 +193,8 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
                 logger.error("There is no autoincremented index after trying to add record into table `users`");
                 throw new PersistentException();
             }
-        } catch (SQLException e) {
-            throw new PersistentException(e);
+        } catch (PersistentException e) {
+           e.printStackTrace();
         }
         finally {
             try {
@@ -221,10 +210,9 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
     }
 
     @Override
-    public UserInfo read(Integer id) throws PersistentException {
+    public UserInfo read(Integer id) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        try {
             statement = connection.prepareStatement(SQL_SELECT_USER_INFO);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -246,24 +234,19 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
                 userInfo.setSecondPhoneNumber(resultSet.getLong("userInfo_secondPhoneNumber"));
                 userInfo.setEmail(resultSet.getString("userInfo_email"));
             }
-            return userInfo;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
             try {
                 resultSet.close();
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
-        }
+        return userInfo;
     }
 
     @Override
-    public void update(UserInfo userInfo) throws PersistentException {
+    public void update(UserInfo userInfo) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        try {
             statement = connection.prepareStatement(SQL_USER_INFO_UPDATE, Statement.RETURN_GENERATED_KEYS);
             Integer userInfoId = userInfo.getId();
             if (userInfoId != null) {
@@ -284,8 +267,8 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
             }
             else  {
                 try {
-                    throw new EntityException("Check the input id and its presence in the database!");
-                } catch (EntityException e) {
+                    throw new PersistentException("Check the input id and its presence in the database!");
+                } catch (PersistentException e) {
                     e.printStackTrace();
                 }
             }
@@ -293,31 +276,24 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
             statement.setInt(15, userInfo.getId());
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
             try {
                 resultSet.close();
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
-        }
+
     }
 
     @Override
-    public void delete(Integer id) throws PersistentException {
+    public void delete(Integer id) throws SQLException  {
         PreparedStatement statement = null;
-        try {
+
             statement = connection.prepareStatement(SQL_USER_INFO_DELETE);
             statement.setInt(1, id);
             statement.executeUpdate();
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
             try {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
-        }
     }
 }

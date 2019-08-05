@@ -11,7 +11,7 @@ public class User extends Entity {
     private Role role;
     private UserStatus userStatus;
     private List<VirtualCard> virtualCardList = new ArrayList<>();
-    private List<Rent> rentList = new ArrayList<>();
+    private List<Order> rentList = new ArrayList<>();
 
     public String getLogin() {
         return login;
@@ -45,11 +45,11 @@ public class User extends Entity {
         this.virtualCardList = virtualCardList;
     }
 
-    public List<Rent> getRentList() {
+    public List<Order> getRentList() {
         return rentList;
     }
 
-    public void setRentList(List<Rent> rentList) {
+    public void setRentList(List<Order> rentList) {
         this.rentList = rentList;
     }
 

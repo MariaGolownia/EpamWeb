@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.ReentrantLock;
 
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import org.apache.logging.log4j.LogManager;
 
 final public class ConnectionPool {

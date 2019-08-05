@@ -1,5 +1,5 @@
 package by.javatr.dao.pool;
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

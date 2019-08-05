@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Runner {
@@ -481,7 +482,7 @@ public class Runner {
 //        }
 ////------------------------------------------------------------------------------------------------------------
 // Тестирование update userInfo
-//        RentDaoSql rentDao = new RentDaoSql();
+//        OrderDaoSql rentDao = new OrderDaoSql();
 //        try {
 //            Rent rent = new Rent();
 //            rent.setStartTime(LocalDateTime.now());
@@ -499,7 +500,7 @@ public class Runner {
 //        }
 ////------------------------------------------------------------------------------------------------------------
 //// Тестирование rent: readByUserId
-////        RentDaoSql rentDao = new RentDaoSql();
+////        OrderDaoSql rentDao = new OrderDaoSql();
 ////        try {
 ////            List<Rent>rentList = new ArrayList<>();
 ////            rentList = rentDao.readByUserId(2);
@@ -512,7 +513,7 @@ public class Runner {
 ////       }
         ////------------------------------------------------------------------------------------------------------------
 // Тестирование rent: readByBicycle
-//        RentDaoSql rentDao = new RentDaoSql();
+//        OrderDaoSql rentDao = new OrderDaoSql();
 //        try {
 //            Rent rent = new Rent();
 //            Bicycle bicycle = new Bicycle();
@@ -608,14 +609,14 @@ public class Runner {
 //        LocationServiceImpl locationService = factoryService.get(DaoSql.LocationDao);
 //        location = locationService.findById(2);
 
-        FactoryService factoryService = FactoryService.getInstance();
-        UserInfoServiceImpl userInfoService = factoryService.get (DaoSql.UserInfoDao);
-//        Integer number = 9;
-//        UserInfo userInfo1 = userInfoService.findByIdentity(number);
-//
-        //System.out.println(userInfo1.toString());
-        UserInfo userInfo2 = userInfoService.findByIdNumberPassport("7123456A001PB3" );
-        System.out.println(userInfo2.toString());
+//        FactoryService factoryService = FactoryService.getInstance();
+//        UserInfoServiceImpl userInfoService = factoryService.get (DaoSql.UserInfoDao);
+////        Integer number = 9;
+////        UserInfo userInfo1 = userInfoService.findByIdentity(number);
+////
+//        //System.out.println(userInfo1.toString());
+//        UserInfo userInfo2 = userInfoService.findByIdNumberPassport("7123456A001PB3" );
+//        System.out.println(userInfo2.toString());
 
 //        FactoryService factoryService = FactoryService.getInstance();
 //        List<VirtualCard> virtualCards = new ArrayList<>();
@@ -627,6 +628,18 @@ public class Runner {
 //        FactoryService factoryService = FactoryService.getInstance();
 //        VirtualCardServiceImpl virtualCardService = factoryService.get(DaoSql.VirtualCardDao);
 //        virtualCardService.topUp(3, new BigDecimal(2.00));
+
+//        Integer number;
+//        FactoryService factoryService = FactoryService.getInstance();
+//        OrderServiceImpl orderService = factoryService.get(DaoSql.OrderDao);
+//        number = orderService.getLastOrderId();
+//        System.out.println(number);
+
+        List<Bicycle> bicycles = new ArrayList<>();
+        FactoryService factoryService = FactoryService.getInstance();
+        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+        bicycles = bicycleService.findByFreeStatus(2, true);
+        System.out.println(Arrays.toString(bicycles.toArray()));
     }
 }
 

@@ -1,13 +1,15 @@
 package by.javatr.service;
-import by.javatr.dao.PersistentException;
 import by.javatr.entity.Bicycle;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface BicycleService {
 
-    List<Bicycle> findByCurrentLocation(Integer locationId) throws PersistentException;
+    List<Bicycle> findByCurrentLocation(Integer locationId) throws SQLException;
 
-    List<Bicycle> findByFreeStatus(Integer idLocation, Boolean ifFree) throws PersistentException;
+    List<Bicycle> findByFreeStatus(Integer idLocation, Boolean ifFree) throws SQLException;
 
-    Bicycle findById(Integer bicycleId) throws PersistentException;
+    Bicycle findById(Integer bicycleId) throws SQLException;
+
+    void changeFreeStatus (List <Integer> bicyclesId, Boolean freeStatus) throws SQLException;
 }

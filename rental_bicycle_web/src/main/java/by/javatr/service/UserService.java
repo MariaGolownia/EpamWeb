@@ -1,5 +1,5 @@
 package by.javatr.service;
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.entity.User;
 
 import java.sql.SQLException;
@@ -19,6 +19,6 @@ public interface UserService  {
 
     void update(User user, User userUpdate) throws PersistentException, SQLException;
 
-    void delete(Integer identity) throws PersistentException;
+    void delete(Integer identity) throws PersistentException, SQLException;
 
 }

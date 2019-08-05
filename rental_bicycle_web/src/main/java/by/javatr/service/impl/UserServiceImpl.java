@@ -1,5 +1,5 @@
 package by.javatr.service.impl;
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.dao.UserDao;
 import by.javatr.dao.mysql.DaoException;
 import by.javatr.dao.mysql.DaoSql;
@@ -39,7 +39,6 @@ public class UserServiceImpl extends Service implements UserService {
     public User findByIdentity(Integer id) {
         UserDao dao = null;
         User user = null;
-        try {
             try {
                 dao = FactoryDaoSql.getInstance().get(DaoSql.UserDao);
                 try {
@@ -47,10 +46,8 @@ public class UserServiceImpl extends Service implements UserService {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            } catch (PersistentException e) {
-                e.printStackTrace();
             }
-        } catch (DaoException e) {
+        catch (DaoException e) {
             e.printStackTrace();
         }
         return user;
@@ -103,7 +100,6 @@ public class UserServiceImpl extends Service implements UserService {
     public Integer save(User user) throws ServiceException {
         UserDao dao = null;
         Integer id = null;
-        try {
             try {
                 dao = FactoryDaoSql.getInstance().get(DaoSql.UserDao);
                 if (user.getPassword() != null || user.getLogin() != null) {
@@ -124,9 +120,6 @@ public class UserServiceImpl extends Service implements UserService {
             } catch (DaoException e) {
                 e.printStackTrace();
             }
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
         return  id;
     }
 
@@ -139,8 +132,6 @@ public class UserServiceImpl extends Service implements UserService {
             try {
                 userDao.update(userUpdate);
                 userDao = FactoryDaoSql.getInstance().get(DaoSql.UserDao);
-            } catch (PersistentException e) {
-                e.printStackTrace();
             }
              catch (DaoException e) {
                 e.printStackTrace();
@@ -150,13 +141,17 @@ public class UserServiceImpl extends Service implements UserService {
     }
 
     @Override
-    public void delete(Integer id) throws PersistentException {
+    public void delete(Integer id) throws SQLException {
         UserDao userDao = null;
         try {
             userDao = FactoryDaoSql.getInstance().get(DaoSql.UserDao);
+            userDao.delete(id);
         } catch (DaoException e) {
             e.printStackTrace();
         }
-        userDao.delete(id);
+        catch (PersistentException e) {
+            e.printStackTrace();
+        }
+
     }
 }

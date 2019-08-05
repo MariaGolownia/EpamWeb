@@ -15,7 +15,7 @@ public class Bicycle extends Entity {
     private Price price;
     private Boolean ifNotBooked;
     private Boolean ifFree;
-    private List<Rent> rentList = new ArrayList<>();
+    private List<Order> rentList = new ArrayList<>();
 
     public String getModel() {
         return model;
@@ -73,11 +73,11 @@ public class Bicycle extends Entity {
         this.price = price;
     }
 
-    public List<Rent> getRentList() {
+    public List<Order> getRentList() {
         return rentList;
     }
 
-    public void setRentList(List<Rent> rentList) {
+    public void setRentList(List<Order> rentList) {
         this.rentList = rentList;
     }
 

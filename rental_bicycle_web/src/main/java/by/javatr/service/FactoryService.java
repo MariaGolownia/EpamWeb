@@ -1,5 +1,4 @@
 package by.javatr.service;
-import by.javatr.dao.PersistentException;
 import by.javatr.dao.mysql.*;
 import by.javatr.service.impl.*;
 import org.apache.logging.log4j.LogManager;
@@ -32,8 +31,8 @@ final public class FactoryService {
                 break;
             case PriceDao:
              break;
-            case RentDao:
-                break;
+            case OrderDao:
+                return (Type) new OrderServiceImpl();
             case UserDao:
                 return (Type) new UserServiceImpl();
             case UserInfoDao:

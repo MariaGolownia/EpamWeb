@@ -1,16 +1,17 @@
 package by.javatr.service.impl;
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.dao.mysql.DaoException;
 import by.javatr.dao.mysql.DaoSql;
 import by.javatr.dao.mysql.FactoryDaoSql;
 import by.javatr.dao.mysql.LocationDaoSql;
-import by.javatr.entity.EntityException;
 import by.javatr.entity.Location;
 import by.javatr.entity.en_um.City;
 import by.javatr.entity.en_um.Country;
 import by.javatr.entity.valid.EntityValidation;
 import by.javatr.service.LocationService;
 import by.javatr.service.Service;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +29,12 @@ public class LocationServiceImpl extends Service implements LocationService {
                 locationList = dao.readByCountryAndCity(country, city);
             }
             else try {
-                throw  new EntityException("\n" +
+                throw  new PersistentException("\n" +
                         "It is necessary to clarify the country in which the selected city is located!");
-            } catch (EntityException e) {
+            } catch (PersistentException e) {
                 e.printStackTrace();
             }
-        } catch (PersistentException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } catch (DaoException e) {
             e.printStackTrace();
@@ -52,12 +53,12 @@ public class LocationServiceImpl extends Service implements LocationService {
                 locationList = dao.readByCountryAndCity(country, city);
             }
             else try {
-                throw  new EntityException("\n" +
+                throw  new PersistentException("\n" +
                         "It is necessary to clarify the country in which the selected city is located!");
-            } catch (EntityException e) {
+            } catch (PersistentException e) {
                 e.printStackTrace();
             }
-        } catch (PersistentException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } catch (DaoException e) {
             e.printStackTrace();
@@ -73,7 +74,7 @@ public class LocationServiceImpl extends Service implements LocationService {
             dao = FactoryDaoSql.getInstance().get(DaoSql.LocationDao);
             EntityValidation entityValidation = new EntityValidation();
             location = dao.read(locationId);
-            } catch (PersistentException e) {
+            } catch (SQLException e) {
             e.printStackTrace();
         } catch (DaoException e) {
             e.printStackTrace();

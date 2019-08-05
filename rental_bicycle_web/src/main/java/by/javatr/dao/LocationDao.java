@@ -4,18 +4,19 @@ import by.javatr.entity.Location;
 import by.javatr.entity.en_um.City;
 import by.javatr.entity.en_um.Country;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface LocationDao extends Dao<Location> {
 
-    List<Location> readByCompanyId(Integer search) throws PersistentException;
+    List<Location> readByCompanyId(Integer search) throws SQLException;
 
-    List<Location> readByCountry(String search) throws PersistentException;
+    List<Location> readByCountry(String search) throws SQLException;
 
-    List<Location> readByCity(String search) throws PersistentException;
+    List<Location> readByCity(String search) throws SQLException;
 
-    List<String> readByCountryAndCity(String country, String city) throws PersistentException;
+    List<String> readByCountryAndCity(String country, String city) throws SQLException;
 
-    List<Location> readByCountryAndCity(Country country, City city) throws PersistentException;
+    List<Location> readByCountryAndCity(Country country, City city) throws SQLException;
 
 }

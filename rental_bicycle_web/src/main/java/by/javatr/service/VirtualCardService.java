@@ -1,5 +1,4 @@
 package by.javatr.service;
-import by.javatr.dao.PersistentException;
 import by.javatr.entity.VirtualCard;
 
 import java.math.BigDecimal;

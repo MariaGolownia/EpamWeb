@@ -32,7 +32,7 @@ public class AuthorizationPageUserSubmitCommand extends BaseCommand {
         else {
                 request.setAttribute("userL", userByLoginAndPassword.getLogin());
                 request.setAttribute("userP", userByLoginAndPassword.getRole());
-                dispatcherSuccess = request.getRequestDispatcher("/WEB-INF/jsp/rent_page.jsp");
+                dispatcherSuccess = request.getRequestDispatcher("/WEB-INF/jsp/payment_page.jsp");
         }
 
             try {

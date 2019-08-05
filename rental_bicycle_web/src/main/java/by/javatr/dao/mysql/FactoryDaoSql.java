@@ -1,10 +1,8 @@
 package by.javatr.dao.mysql;
 import by.javatr.dao.Dao;
-import by.javatr.dao.PersistentException;
 import by.javatr.dao.pool.ConnectionSQL;
 import org.apache.logging.log4j.LogManager;
 
-import javax.servlet.ServletException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -35,8 +33,8 @@ final public class FactoryDaoSql {
                 return (Type)new LocationDaoSql(connection);
             case PriceDao:
                 return (Type)new PriceDaoSql(connection);
-            case RentDao:
-                return (Type)new RentDaoSql(connection);
+            case OrderDao:
+                return (Type)new OrderDaoSql(connection);
             case UserDao:
                 return (Type)new UserDaoSql(connection);
             case UserInfoDao:

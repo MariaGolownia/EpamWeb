@@ -1,16 +1,17 @@
 package by.javatr.service;
 
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.entity.User;
 import by.javatr.entity.UserInfo;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface UserInfoService {
 
     List<User> findAll() throws PersistentException;
 
-    UserInfo findByIdNumberPassport(String idPassport) throws PersistentException;
+    UserInfo findByIdNumberPassport(String idPassport) throws PersistentException, SQLException;
 
     UserInfo findByIdentity(Integer identity) throws PersistentException;
 

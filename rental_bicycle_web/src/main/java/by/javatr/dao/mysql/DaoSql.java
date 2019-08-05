@@ -6,7 +6,7 @@ public enum DaoSql {
     LocationDao,
     PaymentDao,
     PriceDao,
-    RentDao,
+    OrderDao,
     UserDao,
     UserInfoDao,
     VirtualCardDao

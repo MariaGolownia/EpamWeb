@@ -1,6 +1,6 @@
 package by.javatr.service.valid;
 
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.dao.UserDao;
 import by.javatr.dao.mysql.DaoSql;
 import by.javatr.dao.mysql.DaoException;

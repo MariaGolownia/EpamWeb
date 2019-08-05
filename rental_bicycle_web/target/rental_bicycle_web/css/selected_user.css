@@ -1,4 +1,4 @@
-body{ font-family:arial; padding:20px; }
+body{ font-family:arial; padding:0px; }
 input{ display:none; }
 label{ padding:.2em .5em; }
 label:hover{ background:#ccc; cursor:pointer; }
@@ -8,7 +8,7 @@ input:checked + label{ font-weight:bold; background:#ccc; }
   display: flex;
 
   max-width: 700px; /* макс ширина блока */
-  margin: 0 auto; /* выравниваем блок по центру */
+  margin: 0px; /* выравниваем блок по центру */
 
 }
 .item2{ padding:5px; background:#b5ced8; border-radius:3px; }

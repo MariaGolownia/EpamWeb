@@ -1,5 +1,5 @@
 package by.javatr.dao.valid;
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.dao.pool.ConnectionSQL;
 
 import java.sql.*;

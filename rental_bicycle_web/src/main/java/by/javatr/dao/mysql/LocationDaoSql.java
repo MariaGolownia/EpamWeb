@@ -1,6 +1,6 @@
 package by.javatr.dao.mysql;
 import by.javatr.dao.LocationDao;
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.dao.valid.ValidationException;
 import by.javatr.entity.*;
 import by.javatr.entity.en_um.City;
@@ -52,11 +52,10 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
         super();
     }
     @Override
-    public List<Location> readByCompanyId(Integer companyID) throws PersistentException {
+    public List<Location> readByCompanyId(Integer companyID) throws SQLException {
         List<Location> locationList = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        try {
             statement = connection.prepareStatement(SQL_SELECT_LOCATIONS_BY_COMPANY_ID);
             statement.setInt(1, companyID);
             resultSet = statement.executeQuery();
@@ -79,8 +78,8 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                     location.setCity(city);
                 }
                 else try {
-                    throw new EntityException("Check the correctness of the country and city located in the country!");
-                } catch (EntityException e) {
+                    throw new PersistentException("Check the correctness of the country and city located in the country!");
+                } catch (PersistentException e) {
                     e.printStackTrace();
                 }
                 location.setStreet(resultSet.getString("location_street"));
@@ -91,23 +90,17 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                 location.setPhoto(resultSet.getString("location_photo"));
                 locationList.add(location);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch(PersistentException ep) {
-           ep.printStackTrace();
-        } finally {
             try {
                 resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch(NullPointerException e) {}
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
-        }
+            } catch( NullPointerException e) {}
         return locationList;
     }
 
     @Override
-    public List<Location> readByCountry(String country) throws PersistentException {
+    public List<Location> readByCountry(String country) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Location> locationList = new ArrayList<>();
@@ -133,8 +126,8 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                     location.setCity(city);
                 }
                 else try {
-                    throw new EntityException("Check the correctness of the country and city located in the country!");
-                } catch (EntityException e) {
+                    throw new PersistentException("Check the correctness of the country and city located in the country!");
+                } catch (PersistentException e) {
                     e.printStackTrace();
                 }
                 location.setStreet(resultSet.getString("location_street"));
@@ -160,10 +153,9 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
     }
 
     @Override
-    public List<Location> readByCity(String city) throws PersistentException {
+    public List<Location> readByCity(String city) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        try {
             statement = connection.prepareStatement(SQL_SELECT_LOCATIONS_BY_CITY);
             statement.setString(1, city);
             resultSet = statement.executeQuery();
@@ -186,8 +178,8 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                     location.setCity(cityC);
                 }
                 else try {
-                    throw new EntityException("Check the correctness of the country and city located in the country!");
-                } catch (EntityException e) {
+                    throw new PersistentException("Check the correctness of the country and city located in the country!");
+                } catch (PersistentException e) {
                     e.printStackTrace();
                 }
                 location.setStreet(resultSet.getString("location_street"));
@@ -198,31 +190,25 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                 location.setPhoto(resultSet.getString("location_photo"));
                 locationList.add(location);
             }
-            return locationList;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
             try {
                 resultSet.close();
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
-        }
+        return locationList;
     }
 
     @Override
-    public List<String> readByCountryAndCity(String country, String city) throws PersistentException {
+    public List<String> readByCountryAndCity(String country, String city) throws SQLException {
             PreparedStatement statement = null;
             ResultSet resultSet = null;
             List<String> locationList = new ArrayList<>();
-            try {
                 statement = connection.prepareStatement(SQL_SELECT_LOCATIONS_BY_CITY_AND_COUNTRY);
                 statement.setString(1, country);
                 statement.setString(2, city);
                 resultSet = statement.executeQuery();
                 Location location = null;
-
                 while(resultSet.next()) {
                     location = new Location();
                     location.setId(resultSet.getInt("location_id"));
@@ -243,14 +229,11 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                     location.setPhoto(resultSet.getString("location_photo"));
                     locationList.add(location.withoutCountryAndCityToString());
                 }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
             return locationList;
     }
 
     @Override
-    public List<Location> readByCountryAndCity(Country country, City city) throws PersistentException {
+    public List<Location> readByCountryAndCity(Country country, City city) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Location> locationList = new ArrayList<>();
@@ -288,7 +271,7 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
     }
 
     @Override
-    public Integer create(Location location) throws PersistentException {
+    public Integer create(Location location) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Integer idOfLocation = null;
@@ -323,8 +306,8 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                         }
                     }
                     else try {
-                        throw new EntityException("Check the correctness of the country and city located in the country!");
-                    } catch (EntityException e) {
+                        throw new PersistentException("Check the correctness of the country and city located in the country!");
+                    } catch (PersistentException e) {
                         e.printStackTrace();
                     }
                 }
@@ -335,8 +318,8 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                         e.printStackTrace();
                     }
                 }
-        } catch(SQLException e) {
-            throw new PersistentException(e);
+        } catch(PersistentException e) {
+            e.printStackTrace();
         } finally {
             try {
                 resultSet.close();
@@ -349,10 +332,9 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
     }
 
     @Override
-    public Location read(Integer id) throws PersistentException {
+    public Location read(Integer id) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        try {
             statement = connection.prepareStatement(SQL_SELECT_LOCATION_BY_ID);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -375,8 +357,8 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                     location.setCity(city);
                 }
                 else try {
-                    throw new EntityException("Check the correctness of the country and city located in the country!");
-                } catch (EntityException e) {
+                    throw new PersistentException("Check the correctness of the country and city located in the country!");
+                } catch (PersistentException e) {
                     e.printStackTrace();
                 }
                 location.setStreet(resultSet.getString("location_street"));
@@ -386,23 +368,18 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                 location.setSecondPhone(resultSet.getLong("location_secondPhone"));
                 location.setPhoto(resultSet.getString("location_photo"));
             }
-            return location;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
             try {
                 resultSet.close();
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
-        }
+        return location;
     }
 
-    public Location read(Integer id, Connection connection) throws PersistentException {
+    public Location read(Integer id, Connection connection) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        try {
             statement = connection.prepareStatement(SQL_SELECT_LOCATION_BY_ID);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -425,8 +402,8 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                     location.setCity(city);
                 }
                 else try {
-                    throw new EntityException("Check the correctness of the country and city located in the country!");
-                } catch (EntityException e) {
+                    throw new PersistentException("Check the correctness of the country and city located in the country!");
+                } catch (PersistentException e) {
                     e.printStackTrace();
                 }
                 location.setStreet(resultSet.getString("location_street"));
@@ -436,26 +413,21 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                 location.setSecondPhone(resultSet.getLong("location_secondPhone"));
                 location.setPhoto(resultSet.getString("location_photo"));
             }
-            return location;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
             try {
                 resultSet.close();
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
-        }
+        return location;
     }
 
 
     @Override
-    public void update(Location location) throws PersistentException {
+    public void update(Location location) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Integer idOfLocation = null;
-        try {
             statement = connection.prepareStatement(SQL_LOCATION_UPDATE, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, location.getName());
             Integer companyNumber = location.getCompany().getAccountNumberOfPayer();
@@ -481,8 +453,8 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                     resultSet = statement.getGeneratedKeys();
                 }
                 else try {
-                    throw new EntityException("Check the correctness of the country and city located in the country!");
-                } catch (EntityException e) {
+                    throw new PersistentException("Check the correctness of the country and city located in the country!");
+                } catch (PersistentException e) {
                     e.printStackTrace();
                 }
             }
@@ -493,16 +465,14 @@ public class LocationDaoSql extends BaseDaoSql implements LocationDao {
                     e.printStackTrace();
                 }
             }
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
+
             try {
                 resultSet.close();
             } catch(SQLException | NullPointerException e) {}
             try {
                 statement.close();
             } catch(SQLException | NullPointerException e) {}
-        }
+
     }
 
     @Override

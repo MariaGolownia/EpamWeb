@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +16,7 @@
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/owner.css" rel="stylesheet">
+    <link href="./css/selected_user.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
@@ -29,74 +32,288 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+    <script>
+
+        // -----------------------------------------------------------------------------------------------------
+        // Выбор велосипеда в рамках локации
+        // -----------------------------------------------------------------------------------------------------
+        $(document).ready(function() {
+// Работа с объектом по id = countryName
+// Вызов апплета происходит по событию change
+            $('#freeBicycles').on('change', function () {
+                $.ajax({
+                    url : 'GetBicycleImg?bicycleId='+$('#freeBicycles').val(),
+                    // Структура данных, которую принимаем
+                    success : function(imageString) {
+                        var img = document.getElementById('pictBycicle');
+                        img.src = "data:image/jpg;base64," + imageString;
+                        document.getElementById('pictBycicle').style.visibility='visible';
+                    }
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function getBicycle() {
+            var freeBic=document.getElementById('freeBicycles');
+            var selBic=document.getElementById('selectedBicycles');
+            <!--Вставляем в конец -->
+            selBic.options[selBic.options.length] = new Option(freeBic.options[freeBic.selectedIndex].text, freeBic.value);
+            freeBic.options[freeBic.selectedIndex].remove();
+            document.getElementById('pictBycicle').style.visibility='hidden';
+        }
+    </script>
+    <script type="text/javascript">
+        function removeBicycle() {
+            var freeBic=document.getElementById('freeBicycles');
+            var selBic=document.getElementById('selectedBicycles');
+            freeBic.options[freeBic.options.length] = new Option(selBic.options[selBic.selectedIndex].text, selBic.value);
+            selBic.options[selBic.selectedIndex].remove();
+        }
+    </script>
+    <script>
+        //-----------------------------------------------------------------------------------------------------
+        // Пополнение баланса
+        //-----------------------------------------------------------------------------------------------------
+        $(document).ready(function() {
+            $('#buttonOrder').on('click', function() {
+                var idVal='';
+                var idPassport= document.getElementById("choosedIDPassport");
+                var selBic= document.getElementById("selectedBicycles");
+                for (var i = 0; i < selBic.options.length; i++) {
+                    idVal += selBic.options[i].value + ',';
+                }
+                $.ajax({
+                    url: 'startOrder',
+                    data:{
+                        idOfPassport:idPassport.value,
+                        idVal: idVal},
+                    // Структура данных, которую принимаем
+                    success : function(order) {
+                        $('#orderID').attr('value', JSON.parse(order).id);
+                        $('#startTime').attr('value', JSON.parse(order).startTimeStr);
+
+                        var $select = $('#selectedBicycles');
+                        $select.find('option').remove();
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        //-----------------------------------------------------------------------------------------------------
+        //
+        //-----------------------------------------------------------------------------------------------------
+        $(document).ready(function() {
+            $('#buttonFinish').on('click', function() {
+                var idOrder= document.getElementById("orderID");
+                $.ajax({
+                    url: 'finishOrder',
+                    data:{
+                        idOrder:idOrder.value
+                    },
+                    // Структура данных, которую принимаем
+                    success : function(order) {
+                        $('#finishTime').attr('value', order);
+
+                        var $select = $('#countryName');
+                        $select.find('option').remove();
+                        $select.append($('<option>').text("").attr('value', ""));
+                        $select.append($('<option>').text("Belarus").attr('value', "Belarus"));
+                        $select.append($('<option>').text("Poland").attr('value', "Poland"));
+                        $select.append($('<option>').text("Lithuania").attr('value', "Lithuania"));
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // -----------------------------------------------------------------------------------------------------
+        // Выбор города в рамках страны
+        // -----------------------------------------------------------------------------------------------------
+        $(document).ready(function() {
+// Работа с объектом по id = countryName
+// Вызов апплета происходит по событию change
+            $('#countryName').on('change', function() {
+                $.ajax({
+                    url : 'GetCity',
+                    data : {
+                        // Структура данных, которую передаем
+                        countryName : $('#countryName').val()
+                    },
+                    // Структура данных, которую принимаем
+                    success : function(responseJson) {
+                        var $select = $('#cityName');
+                        // Очищаем предыдущие значения в combobox
+                        $select.find('option').remove();
+                        // Добавляем пустую строчку
+                        $select.append($('<option>').text("").attr('value', ""));
+                        // Сооружаем конструкцию типа <option value="City">City
+                        $.each(JSON.parse(responseJson), function(i, city) {
+                            $select.append($('<option>').text(city).attr('value', city));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        //-----------------------------------------------------------------------------------------------------
+        //Выбор локации в рамках города
+        //-----------------------------------------------------------------------------------------------------
+        $(document).ready(function() {
+// Работа с объектом по id = countryName
+// Вызов апплета происходит по событию change
+            $('#cityName').on('change', function() {
+                $.ajax({
+                    url : 'GetLocation',
+                    data : {
+                        // Структура данных, которую передаем
+                        cityName : $('#cityName').val(),
+                        countryName : $('#countryName').val()
+                    },
+                    // Структура данных, которую принимаем
+                    success : function(responseJson) {
+                        var $select = $('#locationName');
+                        // Очищаем предыдущие значения в combobox
+                        $select.find('option').remove();
+                        // Добавляем пустую строчку
+                        $select.append($('<option>').text("").attr('value', ""));
+                        // Сооружаем конструкцию типа <option value="City">City
+                        $.each(JSON.parse(responseJson), function(i, city) {
+                            var valueForLocationStr = city.street + ", house: " + city.house + ", office: " + city.office;
+                            $select.append($('<option>').text(valueForLocationStr).attr('value', city.id));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
 
-<div class="container">
+<div class="flex2">
+    <!--<h2 class="form-signin-heading">Select a user by key parameters: </h2>-->
+    <label for="orderID" class="sr-show">ID of order</label>
+    <input id="orderID" class="form-control" placeholder="" value="${numberOrder}" required autofocus>
+    </br>
+</div>
 
-    <form class="form-signin" action="Controller?command=registration_page" method="post">
-        <h2 class="form-signin-heading">Order: </h2>
-        <!---------------------------------------Customer-------------------------------------------------------------------------->
-        <label for="inputCustomer" class="sr-show"> Customer / selected user </label>
-        <input type="customer" id="inputCustomer" name="orderCustomer" class="form-control" value="User" readonly autofocus>
-        <!----------------------------------------------------------------------------------------------------------------->
-        <label for="inputOrderlocation" class="sr-show">Order location</label>
-        <input type="status" id="inputOrderlocation" name="userStatus" class="form-control" value="Active" readonly autofocus>
-        <!---------------------------------------Login----------------------------------------------------------------->
-        <label for="inputLogin" class="sr-show">Login</label>
-        <input type="login" id="inputLogin" name="userLogin" class="form-control" placeholder="Enter your login" value="${loginUser}" required autofocus>
-        <!---------------------------------------Password----------------------------------------------------------------->
-        <label for="inputPassword" class="sr-show">Password</label>
-        <input type="password" id="inputPassword" name="userPassword" class="form-control" placeholder="Enter your password" required>
-        <!-----------------------------------------Surname--------------------------------------------------------------->
-        <label for="inputSurname" class="sr-show">Surname</label>
-        <input type="surname" id="inputSurname" name="userSurname" class="form-control" placeholder="" required autofocus>
-        <!-----------------------------------------name--------------------------------------------------------------->
-        <label for="inputName" class="sr-show">Name</label>
-        <input type="name" id="inputName" name="userName" class="form-control" placeholder="" required autofocus>
-        <!-----------------------------------------secondName--------------------------------------------------------------->
-        <label for="inputSecondName" class="sr-show">Second name</label>
-        <input type="secondName" id="inputSecondName" name="userSecondName" class="form-control" placeholder=""  autofocus>
-        <!-----------------------------------------birthDate--------------------------------------------------------------->
-        <label for="inputBirthDate" class="sr-show">Birth date</label>
-        <input type="birthDate" id="inputBirthDate" name="userBirthDate" class="form-control" placeholder=""  autofocus>
-        <!-----------------------------------------country--------------------------------------------------------------->
-        <label for="inputCountry" class="sr-show">Country</label>
-        <input type="country" id="inputCountry" name="userCountry" class="form-control" placeholder=""  autofocus>
-        <!-----------------------------------------passportIssueDate--------------------------------------------------------------->
-        <label for="inputPassportIssueDate" class="sr-show">Passport issue date</label>
-        <input type="passportIssueDate" id="inputPassportIssueDate" name="userPassportIssueDate" class="form-control"  placeholder="" autofocus>
-        <!-----------------------------------------passportIssuingAuthority--------------------------------------------------------------->
-        <label for="inputPassportIssuingAuthority" class="sr-show">Passport issuing authority</label>
-        <input type="passportIssuingAuthority" id="inputPassportIssuingAuthority" name="userPassportIssuingAuthority" class="form-control" placeholder="" autofocus>
-        <!-----------------------------------------passportIdentificationNumber--------------------------------------------------------------->
-        <label for="inputPassportIdentificationNumber" class="sr-show">Passport identification number</label>
-        <input type="passportIdentificationNumber" id="inputPassportIdentificationNumber" name="userPassportIdentificationNumber" class="form-control" placeholder="" autofocus>
-        <!-----------------------------------------passportSerialNumber--------------------------------------------------------------->
-        <label for="inputPassportSerialNumber" class="sr-show">Passport serial number</label>
-        <input type="passportSerialNumber" id="inputPassportSerialNumber" name="userPassportSerialNumber" class="form-control" placeholder="" autofocus>
-        <!-----------------------------------------passportAddressRegistration--------------------------------------------------------------->
-        <label for="inputPassportAddressRegistration" class="sr-show">Passport address registration</label>
-        <input type="passportAddressRegistration" id="inputPassportAddressRegistration" name="userPassportAddressRegistration" class="form-control" placeholder="" autofocus>
-        <!-----------------------------------------passportAddressResidence--------------------------------------------------------------->
-        <label for="inputPassportAddressResidence" class="sr-show">Passport address residence</label>
-        <input type="passportAddressResidence" id="inputPassportAddressResidence" name="userPassportAddressResidence" class="form-control" placeholder="" autofocus>
-        <!-----------------------------------------phoneNumber--------------------------------------------------------------->
-        <label for="inputPhoneNumber" class="sr-show">Phone number</label>
-        <input type="phoneNumber" id="inputPhoneNumber" name="userPhoneNumber" class="form-control" placeholder="Enter your phone"  required autofocus>
-        <!-----------------------------------------secondPhoneNumber--------------------------------------------------------------->
-        <label for="inputSecondPhoneNumber" class="sr-show">Second phone number</label>
-        <input type="secondPhoneNumber" id="inputSecondPhoneNumber" name="userSecondPhoneNumber" class="form-control" placeholder="" autofocus>
-        <!-----------------------------------------email--------------------------------------------------------------->
-        <label for="inputEmail" class="sr-show">Email</label>
-        <input type="email" id="inputEmail" name="userEmail" class="form-control" placeholder="" autofocus>
-        <!----------------------------------------------------------------------------------------------------------------->
+<div class="flex2">
+    <div class="item2">
+        <div class="item2">
+            <h2 align="center">Choosed location</h2>
+            <!--------------------------------PassportIdentificationNumber--------------------------------------------------------------->
+            <label for="choosedCountry" class="sr-show">Country</label>
+            <input id="choosedCountry" class="form-control" placeholder="" value="${selectCountry}" readonly autofocus>
+            <!-----------------------------------------Surname--------------------------------------------------------------->
+            <label for="choosedCity" class="sr-show">City</label>
+            <input id="choosedCity" class="form-control" placeholder="" value="${selectCity}" readonly autofocus>
+            <!-----------------------------------------Name--------------------------------------------------------------->
+            <label for="choosedAddress" class="sr-show">Address</label>
+            <input id="choosedAddress" class="form-control" placeholder="" value="${selectAddress}" readonly autofocus>
+        </div>
+    </div>
 
-        <button class="btn btn-lg btn-primary btn-block" type="register" >Register</button>
-    </form>
-</div> <!-- /container -->
+</br>
 
+    <div class="item2">
+        <div class="item2">
+            <h2>Choosed user</h2>
+            <!--------------------------------PassportIdentificationNumber--------------------------------------------------------------->
+            <label for="choosedIDPassport" class="sr-show">ID passport</label>
+            <input id="choosedIDPassport" class="form-control" placeholder="" value="${selectIdPassport}" readonly autofocus>
+            <!-----------------------------------------Surname--------------------------------------------------------------->
+            <label for="choosedSurname" class="sr-show">Surname</label>
+            <input id="choosedSurname" class="form-control" placeholder="" value="${selectSurname}" readonly autofocus>
+            <!-----------------------------------------Name--------------------------------------------------------------->
+            <label for="choosedName" class="sr-show">Name</label>
+            <input id="choosedName" class="form-control" placeholder="" value="${selectName}" readonly autofocus>
+        </div>
+    </div>
+</div>
+
+<h2 align="center">Bicycles</h2>
+<div class="flex2">
+    <div class="item2">
+        <div class="item2">
+            <label class="sr-show">Bicycles</label>
+
+            <select name="bicycle" id="freeBicycles" class="form-control">
+                <option value=""></option>
+                <c:forEach items="${bicycles}" var="bicycle">
+                    <option value="${bicycle.id}">Id:${bicycle.id}, ${bicycle.model}, year: ${bicycle.productionYear}, type: ${bicycle.bicycleType}</option>
+                </c:forEach>
+            </select>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" onclick="getBicycle()" >Add to order</button>
+    </div>
+
+    </br>
+
+    <div class="item2">
+        <div class="item2">
+            <img id="pictBycicle" width="200px" height="133px">
+        </div>
+    </div>
+</div>
+
+<h2 align="center">Order</h2>
+<div class="flex2">
+    <div class="item2">
+        <select id="selectedBicycles" class="form-control">
+        </select>
+
+        <button class="btn btn-lg btn-primary btn-block" onclick="removeBicycle()" >Delete from order</button>
+    </div>
+</div>
+
+<div class="flex2">
+    <div class="item2">
+        <div class="item2">
+            <h2 align="center">Order in the filling stage</h2>
+            <!--------------------------------PassportIdentificationNumber--------------------------------------------------------------->
+            <label for="startTime" class="sr-show">Start time</label>
+            <input id="startTime" class="form-control" placeholder="" value="" readonly autofocus>
+            <!-----------------------------------------Surname--------------------------------------------------------------->
+            <label for="finishTime" class="sr-show">Finish time</label>
+            <input id="finishTime" class="form-control" placeholder="" value="" readonly autofocus>
+            <!-----------------------------------------Name--------------------------------------------------------------->
+            <label class="sr-show">Country</label>
+            <select id="countryName" class="form-control">
+            </select>
+            <!----------------------------------------Cities------------------------------------------------------------->
+            <label class="sr-show">City</label>
+            <select id="cityName" class="form-control">
+            </select>
+            <!----------------------------------------Location----------------------------------------------------------->
+            <label class="sr-show">Location</label>
+            <select id="locationName" class="form-control">
+            </select>
+        </div>
+    </div>
+
+    </br>
+
+    <div class="item2">
+        <button class="btn btn-lg btn-primary btn-block" id="buttonOrder" >Start</button>
+        </br>
+        </br>
+        </br>
+        <button class="btn btn-lg btn-primary btn-block" id="buttonFinish" >Finish</button>
+        </br>
+        </br>
+        </br>
+        <form class="form-signin" action="Controller?command=payment_page" method="post">
+            <button class="btn btn-lg btn-primary btn-block" type="submit" >Pay</button>
+        </form>
+    </div>
+</div>
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="./js/ie10-viewport-bug-workaround.js"></script>

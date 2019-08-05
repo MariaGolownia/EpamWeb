@@ -1,12 +1,13 @@
 package by.javatr.service.impl;
 import by.javatr.dao.BicycleDao;
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.dao.mysql.DaoException;
 import by.javatr.dao.mysql.DaoSql;
 import by.javatr.dao.mysql.FactoryDaoSql;
 import by.javatr.entity.Bicycle;
 import by.javatr.service.BicycleService;
 import by.javatr.service.Service;
+import com.google.gson.internal.bind.SqlDateTypeAdapter;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class BicycleServiceImpl extends Service implements BicycleService {
                 dao = FactoryDaoSql.getInstance().get(DaoSql.BicycleDao);
                 bicycles = dao.readByCurrentLocation(idLocation);
 
-            } catch (PersistentException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         } catch (DaoException e) {
@@ -35,17 +36,14 @@ public class BicycleServiceImpl extends Service implements BicycleService {
     public List<Bicycle> findByFreeStatus(Integer idLocation, Boolean ifFree) {
         BicycleDao dao = null;
         List<Bicycle> bicycles = new ArrayList<>();
-        try {
             try {
                 dao = FactoryDaoSql.getInstance().get(DaoSql.BicycleDao);
                 bicycles = dao.readByCurrentLocationAndFreedom(idLocation, ifFree);
-
-            } catch (PersistentException e) {
-                e.printStackTrace();
-            }
         } catch (DaoException e) {
-            e.printStackTrace();
-        }
+        e.printStackTrace();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
         return bicycles;
     }
 
@@ -53,7 +51,6 @@ public class BicycleServiceImpl extends Service implements BicycleService {
     public Bicycle findById(Integer bicycleId) {
         BicycleDao dao = null;
         Bicycle bicycle = new Bicycle();
-        try {
             try {
                 dao = FactoryDaoSql.getInstance().get(DaoSql.BicycleDao);
                 try {
@@ -61,12 +58,26 @@ public class BicycleServiceImpl extends Service implements BicycleService {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            } catch (PersistentException e) {
+            } catch (DaoException e) {
+                e.printStackTrace();
+            }
+        return bicycle;
+    }
+
+    @Override
+    public void changeFreeStatus(List <Integer> bicyclesId, Boolean freeStatus) {
+        BicycleDao dao = null;
+        Bicycle bicycle = new Bicycle();
+        try {
+            dao = FactoryDaoSql.getInstance().get(DaoSql.BicycleDao);
+            try {
+                for (Integer id : bicyclesId) {
+               dao.changeFreeStatus(id, freeStatus); }
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         } catch (DaoException e) {
             e.printStackTrace();
         }
-        return bicycle;
     }
 }

@@ -17,6 +17,8 @@ public class CommandProvider {
         this.commands.put(CommandName.LOCATION_PAGE, new LocationPageCommand());
         this.commands.put(CommandName.USER_PAGE, new UserPageCommand());
         this.commands.put(CommandName.MAIN_PAGE, new MainPageCommand());;
+        this.commands.put(CommandName.RENT_PAGE, new OrderPageCommand());;
+        this.commands.put(CommandName.PAYMENT_PAGE, new PaymentPageCommand());;
 
     }
 

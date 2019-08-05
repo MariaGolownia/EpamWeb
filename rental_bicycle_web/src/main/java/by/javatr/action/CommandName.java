@@ -12,6 +12,7 @@ public enum CommandName {
     MAIN_PAGE,
 
     RENT_PAGE,
-    RENT_LOCATION_SELECTION;
+    RENT_LOCATION_SELECTION,
+    PAYMENT_PAGE;
 
 }

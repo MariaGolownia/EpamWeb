@@ -1,5 +1,6 @@
 package by.javatr.entity.en_um;
-import by.javatr.entity.EntityException;
+import by.javatr.entity.PersistentException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,17 +56,17 @@ public enum City {
                         }
                 } else {
                     try {
-                        throw new EntityException("Please contact the developer to extend the software application" +
+                        throw new PersistentException("Please contact the developer to extend the software application" +
                                 " to the level of your region!");
-                    } catch (EntityException e) {
+                    } catch (PersistentException e) {
                         e.printStackTrace();
                     }
                 }
             }
         else {
             try {
-                throw new EntityException("The option of the country doesn't matter!");
-            } catch (EntityException e) {
+                throw new PersistentException("The option of the country doesn't matter!");
+            } catch (PersistentException e) {
                 e.printStackTrace();
             }
         }
@@ -90,17 +91,17 @@ public enum City {
                 }
             } else {
                 try {
-                    throw new EntityException("Please contact the developer to extend the software application" +
+                    throw new PersistentException("Please contact the developer to extend the software application" +
                             " to the level of your region!");
-                } catch (EntityException e) {
+                } catch (PersistentException e) {
                     e.printStackTrace();
                 }
             }
         }
         else {
             try {
-                throw new EntityException("The option of the country doesn't matter!");
-            } catch (EntityException e) {
+                throw new PersistentException("The option of the country doesn't matter!");
+            } catch (PersistentException e) {
                 e.printStackTrace();
             }
         }

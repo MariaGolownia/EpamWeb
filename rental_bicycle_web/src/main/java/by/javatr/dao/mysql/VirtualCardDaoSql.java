@@ -1,5 +1,5 @@
 package by.javatr.dao.mysql;
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.dao.VirtualCardDao;
 import by.javatr.entity.User;
 import by.javatr.entity.VirtualCard;
@@ -64,7 +64,7 @@ public class VirtualCardDaoSql extends BaseDaoSql implements VirtualCardDao {
     }
 
     @Override
-    public List<VirtualCard> readByUserId(Integer id)  {
+    public List<VirtualCard> readByUserId(Integer id) throws SQLException {
         List<VirtualCard> virtualCards = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -86,22 +86,21 @@ public class VirtualCardDaoSql extends BaseDaoSql implements VirtualCardDao {
                 virtualCards.add(virtualCard);
             }
         } catch (DaoException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
+            e.printStackTrace(); }
             try {
                 resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (NullPointerException en) {
+            }
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
-        }
-        return virtualCards;
+            } catch (NullPointerException ex) {
+            }
+
+            return virtualCards;
     }
 
     @Override
-    public Integer create(VirtualCard virtualCard) throws PersistentException {
+    public Integer create(VirtualCard virtualCard) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Integer idOfVirtualCard = null;
@@ -119,15 +118,15 @@ public class VirtualCardDaoSql extends BaseDaoSql implements VirtualCardDao {
                 logger.error("There is no autoincremented index after trying to add record into table `users`");
                 throw new PersistentException();
             }
-        } catch(SQLException e) {
-            throw new PersistentException(e);
+        } catch(PersistentException e) {
+            e.printStackTrace();
         } finally {
             try {
                 resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch(NullPointerException e) {}
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch(NullPointerException e) {}
         }
         return idOfVirtualCard;
     }

@@ -1,5 +1,5 @@
 package by.javatr.service;
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.entity.Location;
 import by.javatr.entity.en_um.City;
 import by.javatr.entity.en_um.Country;

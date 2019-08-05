@@ -1,6 +1,6 @@
 package by.javatr.dao.mysql;
 import by.javatr.dao.CompanyDao;
-import by.javatr.dao.PersistentException;
+import by.javatr.entity.PersistentException;
 import by.javatr.dao.pool.ConnectionSQL;
 import by.javatr.dao.valid.SQLValidation;
 import by.javatr.dao.valid.ValidationException;
@@ -27,7 +27,7 @@ public class CompanyDaoSql extends BaseDaoSql implements CompanyDao {
         super();
     }
     @Override
-    public Company readByAccountNumberOfPayer(Integer search) throws PersistentException {
+    public Company readByAccountNumberOfPayer(Integer search) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -35,21 +35,20 @@ public class CompanyDaoSql extends BaseDaoSql implements CompanyDao {
             statement.setInt(1, search);
             resultSet = statement.executeQuery();
             Company company = new Company();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 Integer companyID = resultSet.getInt("company_id");
                 company.setId(companyID);
                 company.setName(resultSet.getString("company_name"));
                 company.setAccountNumberOfPayer(search);
             }
-            if (company==null) try {
-                throw new ValidationException("Contact the developer to add your company to the software application!");
-            } catch (ValidationException e) {
+            if (company == null) try {
+                throw new PersistentException("Contact the developer to add your company to the software application!");
+            } catch (PersistentException e) {
                 e.printStackTrace();
             }
             return company;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
+        }
+        finally {
             try {
                 resultSet.close();
             } catch(SQLException | NullPointerException e) {}
@@ -60,11 +59,10 @@ public class CompanyDaoSql extends BaseDaoSql implements CompanyDao {
     }
 
     @Override
-    public Integer create(Company company) throws PersistentException {
+    public Integer create(Company company) throws SQLException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Integer idOfCompany = null;
-        try {
             SQLValidation SQLValidation = new SQLValidation();
             if (!SQLValidation.ifСompanyNumberExist(company.getAccountNumberOfPayer(), connection)) {
                 statement = connection.prepareStatement(SQL_COMPANY_INSERT, Statement.RETURN_GENERATED_KEYS);
@@ -76,62 +74,60 @@ public class CompanyDaoSql extends BaseDaoSql implements CompanyDao {
                     idOfCompany = resultSet.getInt(1);
                 } else {
                     logger.error("There is no autoincremented index after trying to add record into table `users`");
-                    throw new PersistentException();
+                    try {
+                        throw new PersistentException();
+                    } catch (PersistentException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-            else {
+            } else {
                 try {
                     throw new ValidationException("This company already exists!");
                 } catch (ValidationException e) {
                     logger.debug("ValidationException: This company already exists!");
                 }
             }
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
+
             try {
                 resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (SQLException | NullPointerException e) {
+            }
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
-        }
-        return idOfCompany;
+            } catch (SQLException | NullPointerException e) {
+            }
+            return idOfCompany;
     }
 
-    @Override
-    public Company read(Integer id) throws PersistentException {
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
+        @Override
+        public Company read (Integer id) throws SQLException {
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
             statement = connection.prepareStatement(SQL_SELECT_COMPANY_BY_ID);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             Company company = null;
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 company = new Company();
                 company.setId(id);
                 company.setName(resultSet.getString("company_name"));
                 company.setAccountNumberOfPayer(resultSet.getInt("company_accountNumberOfPayer"));
             }
-            return company;
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
             try {
                 resultSet.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (SQLException | NullPointerException e) {
+            }
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (SQLException | NullPointerException e) {
+            }
+            return company;
         }
-    }
 
 
-    @Override
-    public void update(Company company) throws PersistentException {
-        PreparedStatement statement = null;
-        try {
+        @Override
+        public void update (Company company) throws SQLException {
+            PreparedStatement statement = null;
             ConnectionSQL connectionSQL = new ConnectionSQL();
             connection = connectionSQL.getConnectionToDB();
             statement = connection.prepareStatement(SQL_COMPANY_UPDATE);
@@ -139,29 +135,22 @@ public class CompanyDaoSql extends BaseDaoSql implements CompanyDao {
             statement.setInt(2, company.getAccountNumberOfPayer());
             statement.setInt(3, company.getId());
             statement.executeUpdate();
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (NullPointerException e) {
+            }
         }
 
-    }
-
-    @Override
-    public void delete(Integer id) throws PersistentException {
-        PreparedStatement statement = null;
-        try {
+        @Override
+        public void delete (Integer id) throws SQLException {
+            PreparedStatement statement = null;
             statement = connection.prepareStatement(SQL_COMPANY_DELETE);
             statement.setInt(1, id);
             statement.executeUpdate();
-        } catch(SQLException e) {
-            throw new PersistentException(e);
-        } finally {
             try {
                 statement.close();
-            } catch(SQLException | NullPointerException e) {}
+            } catch (NullPointerException e) {
+            }
         }
-    }
+
 }
