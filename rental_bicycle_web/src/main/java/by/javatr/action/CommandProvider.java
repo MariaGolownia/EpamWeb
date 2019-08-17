@@ -1,9 +1,8 @@
 package by.javatr.action;
-
 import by.javatr.action.impl.*;
-import by.javatr.action.impl.about_page.AboutPage;
 import by.javatr.action.impl.authorization_page.AuthorizationPageCommand;
 import by.javatr.action.impl.authorization_page.AuthorizationPageUserSubmitCommand;
+import by.javatr.action.impl.locale.SetLocale;
 import by.javatr.action.impl.location_page.LocationPageCommand;
 import by.javatr.action.impl.order_page.ActionStartOrder;
 import by.javatr.action.impl.order_page.OrderPageCommand;
@@ -20,6 +19,7 @@ public class CommandProvider {
     private Map<CommandName, Command> commands = new HashMap<>();
 
     private CommandProvider() {
+        this.commands.put(CommandName.SET_LOCALE, new SetLocale());
         this.commands.put(CommandName.AUTHORIZATION_PAGE, new AuthorizationPageCommand());
         this.commands.put(CommandName.AUTHORIZATION_PAGE_USER_SUBMIT, new AuthorizationPageUserSubmitCommand());
         this.commands.put(CommandName.REGISTRATION_PAGE, new RegistrationPageCommand());
@@ -29,7 +29,7 @@ public class CommandProvider {
         this.commands.put(CommandName.ORDER_PAGE, new OrderPageCommand());
         this.commands.put(CommandName.PAYMENT_PAGE, new PaymentPageCommand());
         this.commands.put(CommandName.START_ORDER, new ActionStartOrder());
-        this.commands.put(CommandName.ABOUT_PAGE, new AboutPage());
+
     }
 
     public static CommandProvider getInstance() {

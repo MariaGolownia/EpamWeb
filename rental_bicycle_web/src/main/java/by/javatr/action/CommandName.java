@@ -1,6 +1,8 @@
 package by.javatr.action;
 
 public enum CommandName {
+    SET_LOCALE,
+
     AUTHORIZATION_PAGE,
     AUTHORIZATION_PAGE_USER_SUBMIT,
 
