@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -38,34 +39,43 @@
 
 <div class="flex-rent">
     <div class="item-rent">
-    <h2 align="center">Payment</h2>
+        <h2 align="center">Payment</h2>
     </div>
-</div>
-<div class="flex-rent">
     <div class="item-rent">
-        <label for="idPayment" class="sr-show">IdPayment</label>
-        <input id="idPayment" class="form-control" placeholder="" value="${selectCity}" readonly autofocus>
-        <label for="idPassportUser" class="sr-show">IdPassportUser</label>
-        <input id="idPassportUser" class="form-control" placeholder="" value="${selectCity}" readonly autofocus>
-        <label for="userCards" class="sr-show">Card</label>
-        <select id="userCards" class="form-control">
-        </select>
-        <label for="cardCurrency" class="sr-show">Currency</label>
-        <input id="cardCurrency" class="form-control" placeholder="" value="${selectCity}" readonly autofocus>
-        <label for="selectedBicycles" class="sr-show">Bicycles</label>
-        <select id="selectedBicycles" class="form-control">
-        </select>
-        <label for="orderDuration" class="sr-show">Duration</label>
-        <input id="orderDuration" class="form-control" placeholder="" value="${selectCity}" readonly autofocus>
-        <label for="orderAmount" class="sr-show">Amount</label>
-        <input id="orderAmount" class="form-control" placeholder="" value="${selectCity}" readonly autofocus>
-        <label for="orderCurrency" class="sr-show">Currency</label>
-        <input id="orderCurrency" class="form-control" placeholder="" value="${selectCity}" readonly autofocus>
-        </br>
-        <div class="flex-rent">
-        <button class="btn btn-lg btn-primary btn-block" >Do Pay</button>
-        </div>
-     </div>
+        <div class="item-rent">
+            <label for="idPayment" class="sr-show">IdPayment</label>
+            <input id="idPayment" class="form-control" placeholder="" value="${idPayment}" readonly autofocus>
+            <label for="idPassportUser" class="sr-show">IdPassportUser</label>
+            <input id="idPassportUser" class="form-control" placeholder="" value="${IdPassportUser}" readonly autofocus>
+            <label for="userCards" class="sr-show">Card</label>
+            <select id="userCards" class="form-control">
+                <c:forEach items="${cards}" var="card">
+                    <option value="${card.id}">Id:${card.id}, ${card.name}</option>
+                </c:forEach>
+            </select>
+            <label for="cardBalance" class="sr-show">Balance</label>
+            <input id="cardBalance" class="form-control" placeholder="" value="${cardBalance}" readonly autofocus>
+            <label for="cardCurrency" class="sr-show">Currency</label>
+            <input id="cardCurrency" class="form-control" placeholder="" value="${cardCurrency}" readonly autofocus>
+            <label for="selectedBicycles" class="sr-show">Bicycles</label>
+            <select id="selectedBicycles" class="form-control">
+                <c:forEach items="${bicycles}" var="bicycle">
+                    <option value="${bicycle.id}">Id:${bicycle.id}, ${bicycle.model}, year: ${bicycle.productionYear}, type: ${bicycle.bicycleType}</option>
+                </c:forEach>
+            </select>
+            <label for="orderDuration" class="sr-show">Duration</label>
+            <input id="orderDuration" class="form-control" placeholder="" value="${orderDuration}" readonly autofocus>
+            <label for="orderAmount" class="sr-show">Amount</label>
+            <input id="orderAmount" class="form-control" placeholder="" value="${orderAmount}" readonly autofocus>
+            <label for="orderCurrency" class="sr-show">Currency</label>
+            <input id="orderCurrency" class="form-control" placeholder="" value="${orderCurrency}" readonly autofocus>
+            </br>
+            <div class="flex-rent">
+            <button class="btn btn-lg btn-primary btn-block" >Do Pay</button>
+            </div>
+            <label id="orderResult" class="sr-show"></label>
+         </div>
+    </div>
 </div>
 
 </body>

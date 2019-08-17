@@ -5,6 +5,8 @@ import by.javatr.entity.Order;
 import org.apache.logging.log4j.LogManager;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDaoSql extends BaseDaoSql implements OrderDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
@@ -13,13 +15,15 @@ public class OrderDaoSql extends BaseDaoSql implements OrderDao {
                     "SET `rent_finish_time` = ? WHERE `rent_id` = ?";
     private static final String SQL_RENT_INSERT =
             "INSERT INTO `rent` " +
-                    "(`rent_user_id`, `rent_start_time`) VALUES (?, ?)";
+                    "(`rent_user_id`, `rent_start_time`, `rent_startLocation_id`) VALUES (?, ?, ?)";
     private static final String SQL_RENT_BIC_INSERT =
             "INSERT INTO `rent_bic` " +
-                    "(`rent_bic_id`, `rent_bic_user_id`, `rent_bic_bicycle_id`) VALUES (?, ?, ?)";
+                    "(`rent_bic_rent_id`, `rent_bic_user_id`, `rent_bic_bicycle_id`) VALUES (?, ?, ?)";
     private static final String SQL_SELECT_RENT_BY_ID =
             "SELECT `rent_user_id`, `rent_start_time`, `rent_finish_time`,`rent_finishLocation_id`, " +
                     "`rent_startLocation_id`, `rent_payment_id` FROM `rent` WHERE `rent_id` = ?";
+    private static final String SQL_SELECT_BICYCLES_BY_ID_ORDER =
+            "SELECT `rent_bic_bicycle_id` FROM `rent_bic` WHERE `rent_bic_rent_id` = ?";
     private static final String SQL_SELECT_START_RENT_BY_ID =
             "SELECT `rent_user_id`, `rent_start_time`" +
                     " FROM `rent` WHERE `rent_id` = ?";
@@ -169,6 +173,7 @@ public class OrderDaoSql extends BaseDaoSql implements OrderDao {
         statement.setInt(1, Integer.valueOf(userId));
         LocalDateTime localDateTimeStart = order.getStartTime();
         statement.setTimestamp(2, Timestamp.valueOf(localDateTimeStart));
+        statement.setInt(3, order.getStartLocationId());
         statement.executeUpdate();
         resultSet = statement.getGeneratedKeys();
         if (resultSet.next()) {
@@ -195,7 +200,9 @@ public class OrderDaoSql extends BaseDaoSql implements OrderDao {
 
         return idOfOrder;
     }
-    //SQL_SELECT_START_RENT_BY_ID
+
+
+
 
     @Override
     public Order readStartOrder(Integer idOrder) throws SQLException {
@@ -227,8 +234,56 @@ public class OrderDaoSql extends BaseDaoSql implements OrderDao {
     }
 
     @Override
-    public Order read(Integer identity) throws SQLException {
-    return null;
+    public Order read(Integer idOrder) throws SQLException {
+        Integer orderId = -1;
+        Integer startLocationId = -1;
+        Integer finishLocationId = -1;
+        Integer paymentId = -1;
+        LocalDateTime localDateTimeStart = LocalDateTime.of(2000, 01,01,01,01,01);
+        LocalDateTime localDateTimeFinish  = LocalDateTime.of(2000, 01,01,01,01,01);
+        Order order = new Order();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        statement = connection.prepareStatement(SQL_SELECT_RENT_BY_ID);
+        statement.setInt(1, idOrder);
+        resultSet =  statement.executeQuery();
+        if (resultSet.next()) {
+            orderId = resultSet.getInt("rent_user_id");
+            startLocationId = resultSet.getInt("rent_startLocation_id");
+            finishLocationId = resultSet.getInt("rent_finishLocation_id");
+            paymentId = resultSet.getInt("rent_payment_id");
+            localDateTimeStart = (resultSet.getTimestamp("rent_start_time")).toLocalDateTime();
+            localDateTimeFinish = (resultSet.getTimestamp("rent_finish_time")).toLocalDateTime();
+        }
+
+        Integer bicyleId;
+        List<Integer> listBicycles = new ArrayList<>();
+        PreparedStatement statement2 = null;
+        ResultSet resultSet2 = null;
+        statement2 = connection.prepareStatement(SQL_SELECT_BICYCLES_BY_ID_ORDER);
+        statement2.setInt(1, idOrder);
+        resultSet2 =  statement2.executeQuery();
+        while (resultSet2.next()) {
+            bicyleId = resultSet2.getInt("rent_bic_bicycle_id");
+            listBicycles.add(bicyleId);
+        }
+
+        order.setId(idOrder);
+        order.setUserId(orderId);
+        order.setStartTime(localDateTimeStart);
+        order.setFinishTime(localDateTimeFinish);
+        order.setStartLocationId(startLocationId);
+        order.setFinishLocationId(finishLocationId);
+        order.setPayment(paymentId);
+        order.setBicyclesId(listBicycles);
+
+        try {
+            resultSet.close();
+        } catch(NullPointerException e) {}
+        try {
+            statement.close();
+        } catch(NullPointerException e) {}
+        return order;
     }
 
     @Override

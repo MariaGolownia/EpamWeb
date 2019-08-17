@@ -2,16 +2,23 @@ package by.javatr.service.impl;
 import by.javatr.dao.OrderDao;
 import by.javatr.dao.UserInfoDao;
 import by.javatr.dao.mysql.*;
-import by.javatr.entity.Order;
-import by.javatr.entity.User;
-import by.javatr.entity.UserInfo;
+import by.javatr.entity.*;
+import by.javatr.service.BicycleService;
+import by.javatr.service.FactoryService;
 import by.javatr.service.OrderService;
 import by.javatr.service.Service;
+
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.Period;
+import java.util.*;
 
 public class OrderServiceImpl extends Service implements OrderService {
+    private final static Integer COUNT_MIN_IN_HOUR = 60;
+    private final static Integer COUNT_HOUR_IN_DAY = 24;
+    private final static Integer COUNT_DAY_IN_YEAR = 360;
+
     @Override
     public Integer getLastOrderId() {
         Integer numberLastId = 0;
@@ -63,7 +70,7 @@ public class OrderServiceImpl extends Service implements OrderService {
     }
 
     @Override
-    public Integer createOrder(Integer idUser, List<Integer> idBicycles) {
+    public Integer createOrder(Integer idUser, List<Integer> idBicycles, Integer idLocation) {
         Integer orderId = 0;
         Order order = new Order();
         User user = new User();
@@ -74,6 +81,7 @@ public class OrderServiceImpl extends Service implements OrderService {
             order.setBicyclesId(idBicycles);
             LocalDateTime localDateTimeStart = LocalDateTime.now();
             order.setStartTime(localDateTimeStart);
+            order.setStartLocationId(idLocation);
             orderId = createOrder(order);
         } catch (DaoException e) {
             e.printStackTrace();
@@ -82,7 +90,7 @@ public class OrderServiceImpl extends Service implements OrderService {
     }
 
     @Override
-    public Integer createOrder(String idPasswordUser, List<Integer> idBicycles) {
+    public Integer createOrder(String idPasswordUser, List<Integer> idBicycles, String idLocation) {
         Integer orderId = 0;
         Order order = new Order();
         UserInfo userInfo = new UserInfo();
@@ -94,6 +102,7 @@ public class OrderServiceImpl extends Service implements OrderService {
             order.setBicyclesId(idBicycles);
             LocalDateTime localDateTimeStart = LocalDateTime.now();
             order.setStartTime(localDateTimeStart);
+            order.setStartLocationId(Integer.valueOf(idLocation));
             orderId = createOrder(order);
         } catch (DaoException e) {
             e.printStackTrace();
@@ -104,8 +113,18 @@ public class OrderServiceImpl extends Service implements OrderService {
     }
 
     @Override
-    public Order read(Integer identity) {
-        return null;
+    public Order read(Integer orderId) {
+        OrderDao dao = null;
+        Order order = new Order();
+        try {
+            dao = FactoryDaoSql.getInstance().get(DaoSql.OrderDao);
+            order = dao.read(orderId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        return order;
     }
 
     @Override
@@ -120,5 +139,64 @@ public class OrderServiceImpl extends Service implements OrderService {
             e.printStackTrace();
         }
         return finishTimeStr;
+    }
+
+    @Override
+    public LocalDateTime calcDuration(LocalDateTime localDateTimeStart, LocalDateTime localDateTimeFinish) {
+        Period p = Period.between(localDateTimeStart.toLocalDate(), localDateTimeFinish.toLocalDate());
+        LocalDateTime localDateTimeDiff = LocalDateTime.of(p.getYears(),
+                p.getMonths(), p.getDays(), localDateTimeFinish.getHour()-localDateTimeStart.getHour(),
+                localDateTimeFinish.getMinute() - localDateTimeStart.getMinute());
+        return localDateTimeDiff;
+    }
+
+    @Override
+    public Integer calcDurationInMin(LocalDateTime localDateTimeStart, LocalDateTime localDateTimeFinish) {
+        Period p = Period.between(localDateTimeStart.toLocalDate(), localDateTimeFinish.toLocalDate());
+        Integer minutes = localDateTimeFinish.getMinute() - localDateTimeStart.getMinute();
+        minutes += p.getYears()*COUNT_DAY_IN_YEAR*COUNT_HOUR_IN_DAY*COUNT_MIN_IN_HOUR;
+        minutes += p.getDays()*COUNT_HOUR_IN_DAY*COUNT_MIN_IN_HOUR;
+        minutes += (localDateTimeFinish.getHour()-localDateTimeStart.getHour())*COUNT_MIN_IN_HOUR;
+        return minutes;
+    }
+
+    @Override
+    public Map<Integer, BigDecimal> calcAmmountForPay(List<Integer> idBicycles) {
+//        List<Bicycle> bicycleList = new ArrayList<>();
+//        try {
+//            BicycleServiceImpl bicycleService =  FactoryDaoSql.getInstance().get(DaoSql.BicycleDao);
+//            bicycleList = bicycleService.findById(idBicycles);
+//        } catch (DaoException e) {
+//            e.printStackTrace();
+//        }
+        PriceServiceImpl priceService = FactoryService.getInstance().get(DaoSql.PriceDao);
+        Price price = new Price();
+        BigDecimal countMin = new BigDecimal(0);
+        Map<Integer, BigDecimal> countBicMin = new HashMap<>();
+        for (int i = 0; i < idBicycles.size(); i++) {
+            price = priceService.read(idBicycles.get(i));
+            countBicMin.put(idBicycles.get(i), price.getRate());
+        }
+        return countBicMin;
+    }
+
+
+    public BigDecimal calcAmmountForPay(List<Integer> idBicycles, Integer minutes) {
+        List<Bicycle> bicycleList = new ArrayList<>();
+        FactoryService factoryService = FactoryService.getInstance();
+            BicycleServiceImpl bicycleService =  factoryService.get(DaoSql.BicycleDao);
+            bicycleList = bicycleService.findById(idBicycles);
+        PriceServiceImpl priceService = FactoryService.getInstance().get(DaoSql.PriceDao);
+        Price price = new Price();
+        BigDecimal countMin = new BigDecimal(0);
+        BigDecimal countMinTemp = new BigDecimal(0);
+        Map<Integer, BigDecimal> countBicMin = new HashMap<>();
+        for (int i = 0; i < bicycleList.size(); i++) {
+            price = priceService.read(bicycleList.get(i).getPriceId());
+            if (minutes != 0)
+            countMinTemp = price.getRate().multiply(BigDecimal.valueOf(minutes));
+            countMin = countMin.add(countMinTemp);
+        }
+        return countMin;
     }
 }

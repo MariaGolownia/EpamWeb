@@ -28,9 +28,9 @@ final public class FactoryService {
             case LocationDao:
                     return (Type) new LocationServiceImpl();
             case PaymentDao:
-                break;
+                  //TODO
             case PriceDao:
-             break;
+                return (Type) new PriceServiceImpl();
             case OrderDao:
                 return (Type) new OrderServiceImpl();
             case UserDao:

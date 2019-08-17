@@ -20,11 +20,11 @@ public class ActionLocationImg extends HttpServlet {
         // Используем Gson для преобразования массива в структурированный string
         FactoryService factoryService = FactoryService.getInstance();
         Location location = new Location();
-        String json = "";
+        String locationImg = "";
 
         String locationIdStr = request.getParameter("locationId").trim();
         if (locationIdStr == null || "".equals(locationIdStr)) {
-            json = "None";
+            locationImg = "None";
         } else {
             Integer locationId = Integer.valueOf(locationIdStr);
             LocationServiceImpl locationService = factoryService.get(DaoSql.LocationDao);
@@ -33,13 +33,12 @@ public class ActionLocationImg extends HttpServlet {
             if ((Location)session.getAttribute("selectedLocation") != null)
                 session.removeAttribute("selectedLocation");
             session.setAttribute("selectedLocation", location);
-            String locationIng = location.getPhoto();
-            json = new Gson().toJson(locationIng);
+            locationImg = location.getPhoto();
         }
 
         response.setContentType("text/plain");
         try {
-            response.getWriter().write(json);
+            response.getWriter().write(locationImg);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -4,6 +4,8 @@ public enum CommandName {
     AUTHORIZATION_PAGE,
     AUTHORIZATION_PAGE_USER_SUBMIT,
 
+    ABOUT_PAGE,
+
     LOCATION_PAGE,
     USER_PAGE,
 
@@ -11,7 +13,9 @@ public enum CommandName {
 
     MAIN_PAGE,
 
-    RENT_PAGE,
+    ORDER_PAGE,
+    START_ORDER,
+
     RENT_LOCATION_SELECTION,
     PAYMENT_PAGE;
 

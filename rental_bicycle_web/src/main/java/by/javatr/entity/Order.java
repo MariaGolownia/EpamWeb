@@ -7,8 +7,9 @@ public class Order extends Entity {
     private List<Integer> bicyclesId;
     private LocalDateTime startTime;
     private LocalDateTime finishTime;
-    private Location finishLocation;
-    private Payment payment;
+    private Integer finishLocationId;
+    private Integer startLocationId;
+    private Integer paymentId;
     String startTimeStr;
     String finishTimeStr;
 
@@ -58,19 +59,31 @@ public class Order extends Entity {
         this.finishTimeStr = finishTime.toString();
     }
 
-    public Location getFinishLocation() {
-        return finishLocation;
+    public Integer getFinishLocationId() {
+        return finishLocationId;
     }
 
-    public void setFinishLocation(Location finishLocation) {
-        this.finishLocation = finishLocation;
+    public void setFinishLocationId(Integer finishLocationId) {
+        this.finishLocationId = finishLocationId;
     }
 
-    public Payment getPayment() {
-        return payment;
+    public Integer getStartLocationId() {
+        return startLocationId;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
+    public void setStartLocationId(Integer startLocationId) {
+        this.startLocationId = startLocationId;
+    }
+
+    public void setStartTimeStr(String startTimeStr) {
+        this.startTimeStr = startTimeStr;
+    }
+
+    public Integer getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPayment(Integer payment) {
+        this.paymentId = paymentId;
     }
 }

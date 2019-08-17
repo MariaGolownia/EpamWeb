@@ -16,9 +16,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.util.*;
 
 public class Runner {
     private static final Logger logger = LogManager.getLogger();
@@ -635,11 +635,41 @@ public class Runner {
 //        number = orderService.getLastOrderId();
 //        System.out.println(number);
 
-        List<Bicycle> bicycles = new ArrayList<>();
-        FactoryService factoryService = FactoryService.getInstance();
-        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
-        bicycles = bicycleService.findByFreeStatus(2, true);
-        System.out.println(Arrays.toString(bicycles.toArray()));
+//        List<Bicycle> bicycles = new ArrayList<>();
+//        FactoryService factoryService = FactoryService.getInstance();
+//        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+//        bicycles = bicycleService.findByFreeStatus(2, true);
+//        System.out.println(Arrays.toString(bicycles.toArray()));
+
+//        FactoryService factoryService = FactoryService.getInstance();
+//        Order order = new Order();
+//        OrderServiceImpl orderService = factoryService.get(DaoSql.OrderDao);
+//        order = orderService.read(37);
+//        List<Integer>bicyclesIdList = order.getBicyclesId();
+//        List<Bicycle>bicycleList = new ArrayList<>();
+//        Bicycle bicycleItem;
+//        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+//        for (Integer bic : bicyclesIdList) {
+//            bicycleItem = bicycleService.findById(bic);
+//            bicycleList.add(bicycleItem);
+//            System.out.println(bicycleItem);
+//        }
+//
+//        UserInfoServiceImpl userService = factoryService.get(DaoSql.UserInfoDao);
+//        UserInfo userInfo = userService.findByIdentity(order.getUserId());
+//        System.out.println(userInfo.getId());
+
+        Integer minutes=6;
+        PriceServiceImpl priceService = FactoryService.getInstance().get(DaoSql.PriceDao);
+        Price price = new Price();
+        BigDecimal countMin = new BigDecimal(0);
+        BigDecimal countMinTemp = new BigDecimal(0);
+        Map<Integer, BigDecimal> countBicMin = new HashMap<>();
+        countMinTemp = price.getRate().multiply(BigDecimal.valueOf(minutes));
+        countMin = countMin.add(countMinTemp);
+
+        countMinTemp = price.getRate().multiply(BigDecimal.valueOf(minutes));
+        countMin = countMin.add(countMinTemp);
     }
 }
 

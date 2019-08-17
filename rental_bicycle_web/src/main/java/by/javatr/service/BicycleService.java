@@ -11,5 +11,7 @@ public interface BicycleService {
 
     Bicycle findById(Integer bicycleId) throws SQLException;
 
+    List<Bicycle> findById(List <Integer> bicyclesId);
+
     void changeFreeStatus (List <Integer> bicyclesId, Boolean freeStatus) throws SQLException;
 }

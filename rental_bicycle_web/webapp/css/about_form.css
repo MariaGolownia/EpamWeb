@@ -1,0 +1,257 @@
+html {
+    background-image: url(backgrounds_blue_background.jpg);   <!-- Вставляем в качестве фона картинку -->
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;     <!-- Отменяет все эффекты, в том числе и подчеркивания у ссылок, которое задано по умолчанию. -->
+}
+
+div, h2, p, figure {
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    margin: 0 auto;            <!-- Устанавливает величину отступа от каждого края элемента. Отступом является пространство от границы текущего элемента до внутренней границы его родительского элемента -->
+    max-width: 1600px;         <!-- Ширина main (основного содержимого) -->
+    padding: 20px;             <!-- Устанавливает значение полей вокруг содержимого элемента. Полем называется расстояние от внутреннего края рамки элемента до воображаемого прямоугольника, ограничивающего его содержимое  -->
+}
+
+.columns {
+display: flex;
+}
+
+.column {
+display: flex;
+flex-direction: row;
+}
+
+.main-column {
+
+}
+
+.article {
+    background: white;
+    color: #666;
+    display: flex;
+    flex: 0.33333;            <!-- Выравниваем ширину блоков одинаково (в первом ряду 3 блока по 033333X) -->
+    flex: 1;
+    flex-direction: column;   <!-- Устанавливает отображение Рисунок + текст столбиком -->
+    flex-basis: auto;
+    margin: 10px;
+}
+
+.article2{
+
+    background-image: url(white-wallpaper-png-4.jpg);
+    color: #666;
+    display: flex;
+    flex: 0.67;               <!-- Выравниваем ширину блоков одинаково (в первом ряду 3 блока по 033333X) -->
+    flex: 1;
+    flex-direction: column;   <!-- Устанавливает отображение Рисунок + текст столбиком -->
+    flex-basis: auto;
+    margin: 10px;
+}
+
+.article3{
+    background: white;
+    color: #666;
+    display: flex;
+    flex: 0.33;               <!-- Выравниваем ширину блоков одинаково (в первом ряду 3 блока по 033333X) -->
+    flex: 1;
+    flex-direction: column;   <!-- Устанавливает отображение Рисунок + текст столбиком -->
+    flex-basis: auto;
+    margin: 10px;
+}
+
+.article-image {
+    background: #eee;
+    display: block;
+    padding-top: 75%;
+    position: relative;
+    width: 100%;
+}
+
+.article-image img {
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.blockWithTests {
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+}
+
+.testWithResult{
+    flex-direction: row;
+    display: flex;
+    margin:15px;
+}
+
+.testWithResult1{
+
+    flex-direction: row;
+}
+
+
+#testWithResultTitle{
+    flex-direction: row;
+}
+
+input[type=text]{
+    width:520px;
+}
+
+input[type=button]{
+    width:500px;
+
+}
+#Reset{
+    text-align: right;
+    margin-right:3.5%;
+    margin-top: 1%;
+}
+#ResetButton{
+    width:100px;
+    height:20px;
+}
+
+.article-image.is-3by2 {
+    padding-top: 66.6666%;
+}
+
+.article-image.is-16by9 {
+    padding-top: 75%;         <!-- Проставляем расстояние до нижней границы (от картинки до нижней границы блока)-->
+}
+
+.article-image.is-16by10 {
+    padding-top: 48.5%;    <!-- Проставляем расстояние до нижней границы (по сути задаем размер верхней части блока блока)-->
+}
+
+.article-image.is-16by11 {
+    padding-top: 99%;
+}
+
+.article-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.article-title {
+    color: #333;
+    flex-shrink: 0;
+    font-size: 1.4em;
+    font-weight: bold;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.article-content {
+    flex: 1;
+    margin-top: 1px;
+}
+
+.article-info {
+    display: flex;
+    font-size: 0.85em;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.my_flex_container1{
+    display: flex;
+    flex-direcrion:row;             <!-- Направление слева направо, работаем со строкой -->
+    justify-content:space-between;  <!-- Распределили текстовые контейнеры равномерно по линии -->
+    align-items: flex-start;        <!-- Блоки прижаты к началу поперечной оси -->
+
+}
+
+.my_flex_block1 {
+    width: 380px;
+    height: 20px;
+    margin: auto;
+    background-color: #E5EBFE;
+    text-align: center;
+    font-style:italic;
+    font-weight:bold;
+    font-family: ‘Monotype Corsiva’, cursive; <!-- Устанавливаеем необходимый шрифт -->
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
+}
+
+.my_flex_block2{
+    width: 300px;
+    height: 20px;
+    margin: auto;
+    background-color: #BCCCFF;
+    text-align: center;
+    font-style:italic;
+    font-weight:bold;
+    font-family: ‘Monotype Corsiva’, cursive;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
+}
+
+.my_flex_block3 {
+    width: 350px;
+    height: 20px;
+    margin: auto;
+    background-color: #A2B8FF;
+    text-align: center;
+    font-style:italic;
+    font-weight:bold;
+    font-family: ‘Monotype Corsiva’, cursive;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);}
+
+.my_flex_block4 {
+    width: 300px;
+    height: 20px;
+    margin: auto;
+    background-color: #8AA5FF;
+    text-align: center;
+    font-style:italic;
+    font-weight:bold;
+    font-family: ‘Monotype Corsiva’, cursive;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);}
+
+.my_flex_block5 {
+    width: 300px;
+    height: 20px;
+    margin: auto;
+    background-color: #BCCCFF;
+    text-align: center;
+    font-style:italic;
+    font-weight:bold;
+    font-family: ‘Monotype Corsiva’, cursive;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);}
+
+.my_flex_block6 {
+    width: 300px;
+    height: 20px;
+    margin: auto;
+    background-color: #E5EBFE;
+    text-align: center;
+    font-style:italic;
+    font-weight:bold;
+    font-family: ‘Monotype Corsiva’, cursive;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);}
+
+
+
+.caption{
+    background-color: #E5EBFE;
+    text-align: center;
+    font-style:italic;
+    font-family: ‘Monotype Corsiva’, cursive;
+    box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);}

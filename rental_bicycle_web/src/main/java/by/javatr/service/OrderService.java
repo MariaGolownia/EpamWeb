@@ -3,9 +3,11 @@ package by.javatr.service;
 import by.javatr.entity.Bicycle;
 import by.javatr.entity.Order;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface OrderService {
 
@@ -15,11 +17,19 @@ public interface OrderService {
 
     Order readStartOrder(Integer orderId);
 
-    Integer createOrder(Integer idUser, List<Integer> idBicycles);
+    Integer createOrder(Integer idUser, List<Integer> idBicycles, Integer idLocation);
 
-    Integer createOrder(String idPasswordUser, List<Integer> bicycles) throws SQLException;
+    Integer createOrder(String idPasswordUser, List<Integer> bicycles, String idLocation) throws SQLException;
 
     Order read(Integer identity);
 
     String setFinishTime (Integer idOrder);
+
+    LocalDateTime calcDuration (LocalDateTime localDateTimeStart, LocalDateTime localDateTimeFinish);
+
+    Integer calcDurationInMin(LocalDateTime localDateTimeStart, LocalDateTime localDateTimeFinish);
+
+    BigDecimal calcAmmountForPay (List<Integer> idBicycles, Integer minutes);
+
+    Map<Integer, BigDecimal> calcAmmountForPay(List<Integer> idBicycles);
 }

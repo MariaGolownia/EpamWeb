@@ -67,8 +67,8 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
                 bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
                 Price price = new Price();
                 PriceDaoSql priceDao = new PriceDaoSql();
-                price = priceDao.read(resultSet.getInt("bicycle_price_id"), connection);
-                bicycle.setPrice(price);
+                price = priceDao.read(resultSet.getInt("bicycle_price_id"));
+                bicycle.setPriceId(price.getId());
                 bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
                 bicycle.setIfFree(resultSet.getBoolean("bicycle_ifFree"));
                 bicycles.add(bicycle);
@@ -109,8 +109,8 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
                 bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
                 Price price = new Price();
                 PriceDaoSql priceDao = new PriceDaoSql();
-                price = priceDao.read(resultSet.getInt("bicycle_price_id"), connection);
-                bicycle.setPrice(price);
+                price = priceDao.read(resultSet.getInt("bicycle_price_id"));
+                bicycle.setPriceId(price.getId());
                 bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
                 bicycle.setIfFree(resultSet.getBoolean("bicycle_ifFree"));
                 bicycles.add(bicycle);
@@ -155,7 +155,7 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
                 Price price = new Price();
                 PriceDaoSql priceDao = new PriceDaoSql();
                 price = priceDao.read(resultSet.getInt("bicycle_price_id"), connection);
-                bicycle.setPrice(price);
+                bicycle.setPriceId(price.getId());
                 bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
                 bicycles.add(bicycle);
             }
@@ -212,7 +212,7 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
             // priceID
             Price price = new Price();
             PriceDaoSql priceDao = new PriceDaoSql(connection);
-            Integer priceID = bicycle.getPrice().getId();
+            Integer priceID = bicycle.getPriceId();
             if (priceID != null) {
                 price = priceDao.read(priceID, connection);
                 statement.setInt(6, price.getId());
@@ -274,10 +274,10 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
                 location = locationDao.read(resultSet.getInt("bicycle_currentLocation_id"), connection);
                 bicycle.setCurrentLocation(location);
                 bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
-                Price price = new Price();
-                PriceDaoSql priceDao = new PriceDaoSql(connection);
-                price = priceDao.read(resultSet.getInt("bicycle_price_id"), connection);
-                bicycle.setPrice(price);
+//                Price price = new Price();
+//                PriceDaoSql priceDao = new PriceDaoSql(connection);
+//                price = priceDao.read(resultSet.getInt("bicycle_price_id"), connection);
+                bicycle.setPriceId(resultSet.getInt("bicycle_price_id"));
                 bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
                 bicycle.setIfFree(resultSet.getBoolean("bicycle_ifFree"));
             }
@@ -304,10 +304,10 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
             LocationDaoSql locationDao = new LocationDaoSql(connection);
             location = locationDao.read(bicycle.getCurrentLocation().getId(),connection);
             statement.setInt(5, location.getId());
-            Price price = new Price();
+            Integer priceId;
             PriceDaoSql priceDao = new PriceDaoSql(connection);
-            price = priceDao.read(bicycle.getPrice().getId(), connection);
-            statement.setInt(6, price.getId());
+            priceId = priceDao.read(bicycle.getPriceId()).getId();
+            statement.setInt(6, priceId);
             statement.setInt(7, bicycle.getIfNotBookedInt());
             statement.setInt(8, bicycle.getIfFreeInt());
             Integer companyNumber = location.getCompany().getAccountNumberOfPayer();

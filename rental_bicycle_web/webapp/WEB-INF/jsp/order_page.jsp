@@ -61,6 +61,7 @@
             <!--Вставляем в конец -->
             selBic.options[selBic.options.length] = new Option(freeBic.options[freeBic.selectedIndex].text, freeBic.value);
             freeBic.options[freeBic.selectedIndex].remove();
+            //Скрываем картинку
             document.getElementById('pictBycicle').style.visibility='hidden';
         }
     </script>
@@ -74,28 +75,30 @@
     </script>
     <script>
         //-----------------------------------------------------------------------------------------------------
-        // Пополнение баланса
+        //
         //-----------------------------------------------------------------------------------------------------
         $(document).ready(function() {
-            $('#buttonOrder').on('click', function() {
+            $('#buttonStart').on('click', function() {
                 var idVal='';
                 var idPassport= document.getElementById("choosedIDPassport");
                 var selBic= document.getElementById("selectedBicycles");
+                var idLocation= document.getElementById("choosedLocationId");
                 for (var i = 0; i < selBic.options.length; i++) {
                     idVal += selBic.options[i].value + ',';
                 }
                 $.ajax({
-                    url: 'startOrder',
+                    //url: 'startOrder',
+                    url:'Controller',
                     data:{
-                        idOfPassport:idPassport.value,
-                        idVal: idVal},
+                        idOfPassport: idPassport.value,
+                        idVal: idVal,
+                        idLocation: idLocation.value,
+                        command:'start_order'},
                     // Структура данных, которую принимаем
                     success : function(order) {
                         $('#orderID').attr('value', JSON.parse(order).id);
                         $('#startTime').attr('value', JSON.parse(order).startTimeStr);
-
-                        var $select = $('#selectedBicycles');
-                        $select.find('option').remove();
+                        $('#buttonStart').attr('readonly', 'true');
                     }
                 });
             });
@@ -123,6 +126,7 @@
                         $select.append($('<option>').text("Belarus").attr('value', "Belarus"));
                         $select.append($('<option>').text("Poland").attr('value', "Poland"));
                         $select.append($('<option>').text("Lithuania").attr('value', "Lithuania"));
+                        $('#buttonFinish').attr('readonly', 'true');
                     }
                 });
             });
@@ -208,11 +212,8 @@
         <div class="item2">
             <h2 align="center">Choosed location</h2>
             <!--------------------------------PassportIdentificationNumber--------------------------------------------------------------->
-            <label for="choosedCountry" class="sr-show">Country</label>
-            <input id="choosedCountry" class="form-control" placeholder="" value="${selectCountry}" readonly autofocus>
-            <!-----------------------------------------Surname--------------------------------------------------------------->
-            <label for="choosedCity" class="sr-show">City</label>
-            <input id="choosedCity" class="form-control" placeholder="" value="${selectCity}" readonly autofocus>
+            <label for="choosedLocationId" class="sr-show">Location ID</label>
+            <input id="choosedLocationId" class="form-control" placeholder="" value="${selectLocation}" readonly autofocus>
             <!-----------------------------------------Name--------------------------------------------------------------->
             <label for="choosedAddress" class="sr-show">Address</label>
             <input id="choosedAddress" class="form-control" placeholder="" value="${selectAddress}" readonly autofocus>
@@ -228,11 +229,8 @@
             <label for="choosedIDPassport" class="sr-show">ID passport</label>
             <input id="choosedIDPassport" class="form-control" placeholder="" value="${selectIdPassport}" readonly autofocus>
             <!-----------------------------------------Surname--------------------------------------------------------------->
-            <label for="choosedSurname" class="sr-show">Surname</label>
-            <input id="choosedSurname" class="form-control" placeholder="" value="${selectSurname}" readonly autofocus>
-            <!-----------------------------------------Name--------------------------------------------------------------->
-            <label for="choosedName" class="sr-show">Name</label>
-            <input id="choosedName" class="form-control" placeholder="" value="${selectName}" readonly autofocus>
+            <label for="choosedUser" class="sr-show">User</label>
+            <input id="choosedUser" class="form-control" placeholder="" value="${selectUser}" readonly autofocus>
         </div>
     </div>
 </div>
@@ -300,8 +298,20 @@
 
     </br>
 
+    <script type="text/javascript">
+        function getOrderID() {
+            var x = document.getElementById('orderID');
+            var str="Controller?command=payment_page&orderid=" + x.value;
+
+            var frm = document.getElementById('submit-pay') || null;
+            if(frm) {
+                frm.action = str;
+            }
+        }
+    </script>
+
     <div class="item2">
-        <button class="btn btn-lg btn-primary btn-block" id="buttonOrder" >Start</button>
+        <button class="btn btn-lg btn-primary btn-block" id="buttonStart" >Start</button>
         </br>
         </br>
         </br>
@@ -309,8 +319,8 @@
         </br>
         </br>
         </br>
-        <form class="form-signin" action="Controller?command=payment_page" method="post">
-            <button class="btn btn-lg btn-primary btn-block" type="submit" >Pay</button>
+        <form name="submit-pay" id="submit-pay" class="form-signin" method="post" action="/">
+            <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="getOrderID()">Pay</button>
         </form>
     </div>
 </div>

@@ -6,6 +6,7 @@ import by.javatr.dao.mysql.DaoSql;
 import by.javatr.dao.mysql.FactoryDaoSql;
 import by.javatr.entity.Bicycle;
 import by.javatr.service.BicycleService;
+import by.javatr.service.FactoryService;
 import by.javatr.service.Service;
 import com.google.gson.internal.bind.SqlDateTypeAdapter;
 
@@ -62,6 +63,19 @@ public class BicycleServiceImpl extends Service implements BicycleService {
                 e.printStackTrace();
             }
         return bicycle;
+    }
+
+    @Override
+    public List<Bicycle> findById(List<Integer> bicyclesId) {
+        FactoryService factoryService = FactoryService.getInstance();
+        List<Bicycle>bicycleList = new ArrayList<>();
+        Bicycle bicycleItem;
+        for (Integer bic : bicyclesId) {
+            BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+            bicycleItem = bicycleService.findById(bic);
+            bicycleList.add(bicycleItem);
+        }
+        return bicycleList;
     }
 
     @Override

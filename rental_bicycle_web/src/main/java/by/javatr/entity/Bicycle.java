@@ -12,9 +12,9 @@ public class Bicycle extends Entity {
     private String producer;
     private Location currentLocation;
     private Blob photo;
-    private Price price;
     private Boolean ifNotBooked;
     private Boolean ifFree;
+    private Integer priceId;
     private List<Order> rentList = new ArrayList<>();
 
     public String getModel() {
@@ -65,14 +65,6 @@ public class Bicycle extends Entity {
         this.photo = photo;
     }
 
-    public Price getPrice() {
-        return price;
-    }
-
-    public void setPrice(Price price) {
-        this.price = price;
-    }
-
     public List<Order> getRentList() {
         return rentList;
     }
@@ -91,6 +83,14 @@ public class Bicycle extends Entity {
 
     public void setIfNotBooked(Boolean ifNotBooked) {
         this.ifNotBooked = ifNotBooked;
+    }
+
+    public Integer getPriceId() {
+        return priceId;
+    }
+
+    public void setPriceId(Integer priceId) {
+        this.priceId = priceId;
     }
 
     public void setIfNotBooked(Integer ifNotBooked) {
@@ -126,7 +126,7 @@ public class Bicycle extends Entity {
                 ", producer='" + producer + '\'' +
                 ", currentLocation=" + currentLocation +
                 ", photo=" + photo +
-                ", price=" + price +
+                ", price=" + priceId +
                 ", ifNotBooked=" + ifNotBooked +
                 ", ifFree=" + ifFree +
                 ", rentList=" + rentList +
@@ -145,7 +145,7 @@ public class Bicycle extends Entity {
                 Objects.equals(getProducer(), bicycle.getProducer()) &&
                 Objects.equals(getCurrentLocation(), bicycle.getCurrentLocation()) &&
                 Objects.equals(getPhoto(), bicycle.getPhoto()) &&
-                Objects.equals(getPrice(), bicycle.getPrice()) &&
+                Objects.equals(getPriceId(), bicycle.getPriceId()) &&
                 Objects.equals(getIfNotBooked(), bicycle.getIfNotBooked()) &&
                 Objects.equals(getIfFree(), bicycle.getIfFree()) &&
                 Objects.equals(getRentList(), bicycle.getRentList());
@@ -153,6 +153,6 @@ public class Bicycle extends Entity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getModel(), getBicycleType(), getProductionYear(), getProducer(), getCurrentLocation(), getPhoto(), getPrice(), getIfNotBooked(), getIfFree(), getRentList());
+        return Objects.hash(super.hashCode(), getModel(), getBicycleType(), getProductionYear(), getProducer(), getCurrentLocation(), getPhoto(), getPriceId(), getIfNotBooked(), getIfFree(), getRentList());
     }
 }

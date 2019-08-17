@@ -33,8 +33,8 @@ Role: ${userR}
             <input type="status" id="selectedUser" class="form-control" value="${userName}" readonly autofocus>
         </form>
         </br>
-        <form class="form-signin" action="Controller?command=rent_page" method="post">
-            <button class="btn btn-lg btn-primary btn-block" type="submit" >Rent</button>
+        <form class="form-signin" action="Controller?command=order_page" method="post">
+            <button class="btn btn-lg btn-primary btn-block" type="submit" >Order</button>
         </form>
 </div> <!-- /container -->
 

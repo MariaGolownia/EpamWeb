@@ -34,6 +34,17 @@ public enum Currency {
         return currency;
     }
 
+    public static String getString(Currency str) {
+        String currency = null;
+        for (int i = 0; i < Currency.values().length; i++) {
+            String currencyFromEnum = Currency.values()[i].getName();
+            if (currencyFromEnum.equals(str)) {
+                currency = Currency.getById(i).toString();
+            }
+        }
+        return currency;
+    }
+
     public static Integer getCodeOfCurrency(Currency currency) {
         Integer codeOfCurrency = null;
         for (int i = 0; i < Currency.values().length; i++) {

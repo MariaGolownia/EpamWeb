@@ -9,15 +9,12 @@
     <meta name="author" content="">
     <link rel="icon" href="./img/favicon.ico">
 
-    <title>Signin Template for Bootstrap</title>
+    <title>Registration</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/owner.css" rel="stylesheet">
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <link href="./css/signin.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->

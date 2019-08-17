@@ -62,6 +62,7 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
             UserInfo userInfo = new UserInfo();
             while(resultSet.next()) {
                 userInfo = new UserInfo();
+                userInfo.setId(resultSet.getInt(user.getId()));
                 userInfo.setSurname(resultSet.getString("userInfo_surname"));
                 userInfo.setName(resultSet.getString("userInfo_name"));
                 userInfo.setSecondName(resultSet.getString("userInfo_secondName"));
@@ -219,6 +220,7 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
             UserInfo userInfo = new UserInfo();
             while(resultSet.next()) {
                 userInfo = new UserInfo();
+                userInfo.setId(id);
                 userInfo.setSurname(resultSet.getString("userInfo_surname"));
                 userInfo.setName(resultSet.getString("userInfo_name"));
                 userInfo.setSecondName(resultSet.getString("userInfo_secondName"));

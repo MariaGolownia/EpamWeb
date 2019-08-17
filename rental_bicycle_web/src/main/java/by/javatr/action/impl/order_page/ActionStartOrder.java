@@ -1,5 +1,6 @@
 package by.javatr.action.impl.order_page;
 
+import by.javatr.action.BaseCommand;
 import by.javatr.dao.mysql.DaoSql;
 import by.javatr.entity.Bicycle;
 import by.javatr.entity.Order;
@@ -21,13 +22,53 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@WebServlet("/startOrder/*")
-public class ActionStartOrder extends HttpServlet {
-public static final Boolean FREE_STATUS = false;
+//@WebServlet("/startOrder/*")
+public class ActionStartOrder extends BaseCommand {
+public static final Boolean FREE_STATUS_FALSE = false;
+
+//    @Override
+//    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+//        String userIdPassword = request.getParameter("idOfPassport");
+//        String locationID = request.getParameter("idLocation");
+//        List<Integer> bicycleIdList = new ArrayList<>();
+//        Integer orderId;
+//        String[] id = request.getParameter("idVal").split(",");
+//        for (int i = 0; i < id.length; i++) {
+//            bicycleIdList.add(Integer.valueOf(id[i]));
+//        }
+//        //bicycleIdList = request.getParameter("idVal");
+//        FactoryService factoryService = FactoryService.getInstance();
+//        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+//        bicycleService.changeFreeStatus(bicycleIdList, FREE_STATUS_FALSE);
+//
+//        OrderServiceImpl userOrderService = factoryService.get(DaoSql.OrderDao);
+//        String json = "";
+//        orderId = userOrderService.createOrder(userIdPassword, bicycleIdList, locationID);
+//
+//        Order order = new Order();
+//        order = userOrderService.readStartOrder(orderId);
+//
+//        HttpSession session = request.getSession();
+//        session.setAttribute("newOrderId", Integer.toString(orderId));
+//        json = new Gson().toJson(order);
+//
+//        response.setContentType("text/plain");
+//        try {
+//            response.getWriter().write(json);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+//    @Override
+//    protected void doPost(HttpServletRequest request, HttpServletResponse response)  {
+//        doGet(request, response);
+//    }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
         String userIdPassword = request.getParameter("idOfPassport");
+        String locationID = request.getParameter("idLocation");
         List<Integer> bicycleIdList = new ArrayList<>();
         Integer orderId;
         String[] id = request.getParameter("idVal").split(",");
@@ -37,11 +78,11 @@ public static final Boolean FREE_STATUS = false;
         //bicycleIdList = request.getParameter("idVal");
         FactoryService factoryService = FactoryService.getInstance();
         BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
-        bicycleService.changeFreeStatus(bicycleIdList, false);
+        bicycleService.changeFreeStatus(bicycleIdList, FREE_STATUS_FALSE);
 
         OrderServiceImpl userOrderService = factoryService.get(DaoSql.OrderDao);
         String json = "";
-        orderId = userOrderService.createOrder(userIdPassword, bicycleIdList);
+        orderId = userOrderService.createOrder(userIdPassword, bicycleIdList, locationID);
 
         Order order = new Order();
         order = userOrderService.readStartOrder(orderId);
@@ -56,10 +97,5 @@ public static final Boolean FREE_STATUS = false;
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)  {
-        doGet(request, response);
     }
 }

@@ -32,13 +32,15 @@
                         // Структура данных, которую передаем
                         countryName : $('#countryName').val()
                     },
-                    // Структура данных, которую принимаем
+                    // Структура данных, которую принимаем (массив в виде строки)
                     success : function(responseJson) {
+                        //Создаем переменную, указывающую на элемент формы, в которую размещаем соответсвующие значения
                         var $select = $('#cityName');
                         // Очищаем предыдущие значения в combobox
                         $select.find('option').remove();
                         $('#locationName').find('option').remove();
                         $('#bicyclesName').find('option').remove();
+                        //Скрываем картинки
                         document.getElementById('loc1').style.visibility='hidden';
                         document.getElementById('loc2').style.visibility='hidden';
                         // Добавляем пустую строчку
@@ -61,6 +63,7 @@
         $(document).ready(function() {
 // Работа с объектом по id = countryName
 // Вызов апплета происходит по событию change
+            //GetLocation?cityName=...&countryName=...
             $('#cityName').on('change', function() {
                 $.ajax({
                     url : 'GetLocation',
@@ -140,13 +143,13 @@
         // Выбор фото велосипеда
         // -----------------------------------------------------------------------------------------------------
         $(document).ready(function() {
-// Работа с объектом по id = countryName
 // Вызов апплета происходит по событию change
             $('#bicyclesName').on('change', function() {
                 $.ajax({
                     url : 'GetBicycleImg?bicycleId='+$('#bicyclesName').val(),
                     // Структура данных, которую принимаем
                     success : function(imageString) {
+                        //указатель на картику
                         var img = document.getElementById('loc2');
                         img.src = "data:image/jpg;base64," + imageString;
                         document.getElementById('loc2').style.visibility='visible';
@@ -173,6 +176,7 @@ Role: ${userR}
             <label class="sr-show">Country</label>
             <form class="form-location">
                 <!--value объекта countryName (обращение по id) забираем request.getParameter("countryName")  -->
+                <!--combobox -->
                 <select id="countryName" class="form-control">
                     <option value="">
                     <option value="Belarus">Belarus
