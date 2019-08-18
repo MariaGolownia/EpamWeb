@@ -18,6 +18,11 @@
   <servlet>
     <servlet-name>Controller</servlet-name>
     <servlet-class>by.javatr.action.Controller</servlet-class>
+
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value></param-value>
+    </init-param>
   </servlet>
 
   <servlet-mapping>

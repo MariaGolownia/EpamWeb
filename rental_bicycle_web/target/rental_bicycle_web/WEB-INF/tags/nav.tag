@@ -25,7 +25,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <!------------------------------------------------------------------------------------------------>
             <ul class="nav navbar-nav">
-                <li><a href="/web/html/about.html">
+                <li><a href="/web/html/about.jsp">
                     <fmt:message key="nav_tag.about_company" bundle="${cnt}"/>
                 </a></li>
             </ul>
@@ -36,18 +36,17 @@
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
 
-                        <form class="form-locale" name="set_locale_li" method="post" action="Controller?command=set_locale">
-                        <li><a href="#">
-                            <fmt:message key="nav_tag.language.english" bundle="${cnt}"/>
-                        </a></li>
+                        <form class="form-locale" value="en_US" name="set_locale_li" method="post" action="Controller?command=set_locale">
+                            <button type="submit" name="locale" value="en_US" class="btn btn-link nav-link">
+                                <fmt:message key="nav_tag.language.english" bundle="${cnt}"/>
+                            </button>
                         </form>
 
-                        <form class="form-locale" name="set_locale_li" method="post" action="Controller?command=set_locale">
-                        <li><a href="#">
-                            <fmt:message key="nav_tag.language.russian" bundle="${cnt}"/>
-                        </a></li>
+                        <form class="form-locale" value="ru_RU" name="set_locale_li" method="post" action="Controller?command=set_locale">
+                            <button type="submit" name="locale" value="ru_RU" class="btn btn-link nav-link">
+                                <fmt:message key="nav_tag.language.russian" bundle="${cnt}"/>
+                            </button>
                         </form>
-
                     </ul>
                 </li>
                 <li><a href="../navbar-fixed-top/">

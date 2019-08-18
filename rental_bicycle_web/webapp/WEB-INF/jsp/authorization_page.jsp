@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 
 <head>
@@ -10,22 +13,20 @@
     <link rel="icon" href="./img/favicon.ico">
     <title>Bicycle's rent</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="./css/signin.css" rel="stylesheet">
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="./js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--[if lt IE 9]script src="./js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="./js/ie-emulation-modes-warning.js"></script>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
-    <%@ page language="java" contentType="text/html; charset=UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
     <fmt:setLocale value="${empty cookie.lang.value ? 'en_US' : cookie.lang.value}"/>
     <fmt:setBundle basename="config.content" var="cnt"/>
     <!-- Подключение библиотеки с пользовательскими тегами-->
     <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-
+    <!--c:set var="contextPath" value="{pageContext.request.contextPath}"/>-->
+    <!--<link rel = "stylesheet" href = "{contextPath}/css/signin.css">-->
 </head>
 
 <body>
@@ -39,21 +40,21 @@
             <fmt:message key="authorization_page.signing" bundle="${cnt}"/>
         </h2>
         <label for="inputLogin" class="sr-only">
-            <fmt:message key="authorization_page.label.login" bundle="${cnt}"/>
+            Login
         </label>
         <!-- Вывод на форму переданного значения в loginUser в AuthorizationPageUserSubmitCommand -->
-        <input type="login" id="inputLogin" name="userLogin" class="form-control" placeholder="Enter your login" value="${loginUser}" required autofocus>
+        <input type="login" id="inputLogin" name="userLogin" class="form-control" placeholder="<fmt:message key="authorization_page.label.login" bundle="${cnt}"/>" value="${loginUser}" required autofocus>
         <label for="inputPassword" class="sr-only">
-            <fmt:message key="authorization_page.label.password" bundle="${cnt}"/>
+            Password
         </label>
-        <input type="password" id="inputPassword" name="userPassword" class="form-control" placeholder="Enter your password" required>
+        <input type="password" id="inputPassword" name="userPassword" class="form-control" placeholder="<fmt:message key="authorization_page.label.login" bundle="${cnt}"/>" required>
         <div class="checkbox">
             <label>
                 <input type="checkbox" value="remember-me">
                 <fmt:message key="authorization_page.input.rebember_me" bundle="${cnt}"/>
             </label>
         </div>
-        <!-- Выыод на форму переданного значения в loginErr в AuthorizationPageUserSubmitCommand -->
+        <!-- Вывыод на форму переданного значения в loginErr в AuthorizationPageUserSubmitCommand -->
         <label style="color: red">${loginErr}</label>
         </br>
         <button class="btn btn-lg btn-primary btn-block" type="submit" >
