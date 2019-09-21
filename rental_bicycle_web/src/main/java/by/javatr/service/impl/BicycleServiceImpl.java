@@ -34,6 +34,24 @@ public class BicycleServiceImpl extends Service implements BicycleService {
     }
 
     @Override
+    public List<Bicycle> findByCurrentLocationWithPriceAndFreedom(Integer locationId, Boolean ifFree) {
+        BicycleDao dao = null;
+        List<Bicycle> bicycles = new ArrayList<>();
+        try {
+            try {
+                dao = FactoryDaoSql.getInstance().get(DaoSql.BicycleDao);
+                bicycles = dao.readByCurrentLocationWithPriceAndFreedom(locationId, ifFree);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        return bicycles;
+    }
+
+    @Override
     public List<Bicycle> findByFreeStatus(Integer idLocation, Boolean ifFree) {
         BicycleDao dao = null;
         List<Bicycle> bicycles = new ArrayList<>();

@@ -24,8 +24,11 @@ public class OrderPageCommand extends BaseCommand {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
+        FactoryService factoryService = FactoryService.getInstance();
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession();
+        int page = 1;
+        int recordsPerPage = 5;
 
 //        Integer numberOrder = 0;
 //        FactoryService factoryService = FactoryService.getInstance();
@@ -35,16 +38,20 @@ public class OrderPageCommand extends BaseCommand {
 
         Location selectedLocation = (Location) session.getAttribute("selectedLocation");
         if (selectedLocation != null) {
+            if(request.getParameter("page") != null)
+                page = Integer.parseInt(request.getParameter("page"));
+
+            Integer selectedLocationId = selectedLocation.getId();
             String selectedLocationInformation = selectedLocation.getCountry() + ", " +
                     selectedLocation.getCity() + ", " + selectedLocation.withoutCountryAndCityToString();
 
-            request.setAttribute("selectLocation", selectedLocation.getId());
+            request.setAttribute("selectLocation", selectedLocationId);
             request.setAttribute("selectAddress", selectedLocationInformation);
 
             List<Bicycle> bicycles = new ArrayList<>();
             List <String> informBicycles = new ArrayList<>();
             BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
-            bicycles = bicycleService.findByFreeStatus(selectedLocation.getId(), BOOLEAN_FREE_BICYCLE);
+            bicycles = bicycleService.findByFreeStatus(selectedLocationId, BOOLEAN_FREE_BICYCLE);
 //            Integer index = 1;
 //            for (Bicycle bicycle : bicycles) {
 //                String informBicycle = index + "id: " + bicycle.getId() + ", " + bicycle.getModel() + ", year: "
@@ -54,6 +61,24 @@ public class OrderPageCommand extends BaseCommand {
 //            }
             request.setAttribute("bicycles", bicycles);
 
+            List<Bicycle>listBicycleTmp = new ArrayList<>();
+            listBicycleTmp = bicycleService.findByCurrentLocationWithPriceAndFreedom(selectedLocationId, BOOLEAN_FREE_BICYCLE);
+            List<Bicycle> listBicycle = new ArrayList<>();
+
+            int noOfRecords = listBicycleTmp.size();
+            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+
+            for (int i=0;i<listBicycleTmp.size();i++)
+            {
+                if (i>=(page-1)*recordsPerPage && i<(page-1)*recordsPerPage+recordsPerPage)
+                {
+                    listBicycle.add(listBicycleTmp.get(i));
+                }
+            }
+
+            request.setAttribute("bicyclesList", listBicycle);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
         }
 
         UserInfo selectedUserInfo = (UserInfo) session.getAttribute("selectedUserInfo");

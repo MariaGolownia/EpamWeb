@@ -13,6 +13,10 @@
     <link href="./css/location.css" rel="stylesheet">
     <link href="./css/location2.css" rel="stylesheet">
     <link href="./css/owner.css" rel="stylesheet">
+    <fmt:setLocale value="${empty cookie.lang.value ? 'en_US' : cookie.lang.value}"/>
+    <fmt:setBundle basename="config.content" var="cnt"/>
+    <!-- Подключение библиотеки с пользовательскими тегами-->
+    <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
     <script src="./js/ie-emulation-modes-warning.js"></script>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -161,6 +165,7 @@
 </head>
 
 <body>
+<t:nav/>
 User: ${userL}
 </br>
 Role: ${userR}

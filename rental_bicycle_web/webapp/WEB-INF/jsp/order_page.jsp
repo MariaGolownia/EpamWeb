@@ -22,7 +22,10 @@
 
     <!-- Custom styles for this template -->
     <link href="./css/signin.css" rel="stylesheet">
-
+    <fmt:setLocale value="${empty cookie.lang.value ? 'en_US' : cookie.lang.value}"/>
+    <fmt:setBundle basename="config.content" var="cnt"/>
+    <!-- Подключение библиотеки с пользовательскими тегами-->
+    <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="./js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="./js/ie-emulation-modes-warning.js"></script>
@@ -199,7 +202,7 @@
 </head>
 
 <body>
-
+<t:nav/>
 <div class="flex2">
     <!--<h2 class="form-signin-heading">Select a user by key parameters: </h2>-->
     <label for="orderID" class="sr-show">ID of order</label>
@@ -257,6 +260,52 @@
     <div class="item2">
         <div class="item2">
             <img id="pictBycicle" width="200px" height="133px">
+        </div>
+    </div>
+</div>
+
+<div class="flex2">
+    <div class="item2">
+        <div class="item2">
+            <table border="1" cellpadding="5" cellspacing="5">
+            <c:forEach var="bicyclesArr" items="${bicyclesList}">
+                <tr>
+                    <td>
+                        <img id="pictBycicle${bicyclesArr.id}" src = "data:image/jpg;base64,${bicyclesArr.photoBlobStr}" width="200px" height="133px">
+                    </td>
+                    <td>${bicyclesArr.model}</td>
+                    <td>${bicyclesArr.productionYear}</td>
+                    <td>${bicyclesArr.rate}</td>
+                    <td>${bicyclesArr.currency}</td>
+                </tr>
+            </c:forEach>
+            </table>
+            <%--For displaying Previous link except for the 1st page --%>
+            <c:if test="${currentPage != 1}">
+                <td><a href="Controller?command=order_page&page=${currentPage - 1}">Previous</a></td>
+            </c:if>
+
+            <%--For displaying Page numbers.
+            The when condition does not display a link for the current page--%>
+            <table border="1" cellpadding="5" cellspacing="5">
+                <tr>
+                    <c:forEach begin="1" end="${noOfPages}" var="i">
+                        <c:choose>
+                            <c:when test="${currentPage eq i}">
+                                <td>${i}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td><a href="Controller?command=order_page&page=${i}">${i}</a></td>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </tr>
+            </table>
+
+            <%--For displaying Next link --%>
+            <c:if test="${currentPage lt noOfPages}">
+                <td><a href="Controller?command=order_page&page=${currentPage + 1}">Next</a></td>
+            </c:if>
         </div>
     </div>
 </div>

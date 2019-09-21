@@ -39,7 +39,7 @@ public class ActionBicycleImg extends HttpServlet {
         bdata = new byte[0];
         try {
             bdata = blobImg.getBytes(1, (int) blobImg.length());
-            String bicycleImg = new String(bdata);
+            //String bicycleImg = new String(bdata);
 
             BASE64Encoder encoder = new BASE64Encoder();
             imageString = encoder.encode(bdata);

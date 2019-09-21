@@ -15,9 +15,9 @@ about_page.invocation3 = В удовольствие
 about_page.invocation4 = Как можно чаще
 about_page.invocation5 = Всегда
 about_page.invocation6 = Наслаждайтесь
-about_page.label.about_us = (﻿ ͡° ͜ʖ ͡°) О нас
-about_page.label.about_bic = (﻿ ͡° ͜ʖ ͡°) О велосипедах
-about_page.label.contact = (﻿ ͡° ͜ʖ ͡°) Наши контакты
+about_page.label.about_us = О нас
+about_page.label.about_bic = О велосипедах
+about_page.label.contact = Наши контакты
 
 about_page.text.about_us1 = We are a company offering rental bicycles of well-known manufacturers.
 about_page.text.about_us2 = Do you ride a bicycle? I fancy it so much! To go for a ride alone or with my friends in the evening is a big joy for me. First of all, this is a kind of sport. Sitting at the computer desk all day long is not actually that healthy.

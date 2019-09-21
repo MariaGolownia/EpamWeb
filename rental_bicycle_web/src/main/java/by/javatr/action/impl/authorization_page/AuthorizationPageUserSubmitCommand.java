@@ -1,13 +1,16 @@
 package by.javatr.action.impl.authorization_page;
+
 import by.javatr.action.BaseCommand;
 import by.javatr.dao.mysql.DaoSql;
 import by.javatr.entity.User;
 import by.javatr.entity.en_um.Role;
 import by.javatr.service.impl.UserServiceImpl;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AuthorizationPageUserSubmitCommand extends BaseCommand {
@@ -21,56 +24,42 @@ public class AuthorizationPageUserSubmitCommand extends BaseCommand {
         String userPassword = request.getParameter(USER_PASSWORD);
         UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
         User userByLoginAndPassword = userService.findByLoginAndPassword(userLogin, userPassword);
+        HttpSession session = request.getSession();
 
-        if (userByLoginAndPassword != null) {
-            if (userByLoginAndPassword.getRole() == Role.ADMIN) {
-                request.setAttribute("userL", userByLoginAndPassword.getLogin());
-                request.setAttribute("userR", userByLoginAndPassword.getRole());
-                dispatcherSuccess = request.getRequestDispatcher("/WEB-INF/jsp/main_page.jsp");
-            }
-        else {
-                request.setAttribute("userL", userByLoginAndPassword.getLogin());
-                request.setAttribute("userP", userByLoginAndPassword.getRole());
-                //TODO
-                dispatcherSuccess = request.getRequestDispatcher("/WEB-INF/jsp/main_page.jsp");
-        }
+        if (session.getAttribute("user_login")==null)
+        session.setAttribute("user_login", userLogin);
 
-            try {
-                dispatcherSuccess.forward(request, response);
-            } catch (ServletException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        else {
+        if (userByLoginAndPassword != null || session.getAttribute("user_login")!=null) {
+                request.setAttribute("userL", session.getAttribute("user_login"));
+                //request.setAttribute("userR", userByLoginAndPassword.getRole());
+                dispatcherSuccess = request.getRequestDispatcher("/WEB-INF/jsp/main_page.jsp");
+
+        } else {
             User userByLogin = userService.findByLogin(userLogin);
-            if (userByLogin != null) {
-                request.setAttribute("loginUser", userLogin);
-                request.setAttribute("loginErr", "User with this login exists! Please check your password is correct!");
-                dispatcherSuccess = request.getRequestDispatcher("/WEB-INF/jsp/authorization_page.jsp");
-                try {
-                    dispatcherSuccess.forward(request, response);
-                } catch (ServletException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                request.setAttribute("loginUser", userLogin);
-                RequestDispatcher dispatcherSomeStepsForSuccess = request.getRequestDispatcher("/WEB-INF/jsp/registration_page.jsp");
-                try {
-                    dispatcherSomeStepsForSuccess.forward(request, response);
-                } catch (ServletException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
+            request.setAttribute("loginUser", userLogin);
+            request.setAttribute("loginErr", "Please check your password is correct!");
+            dispatcherSuccess = request.getRequestDispatcher("/WEB-INF/jsp/authorization_page.jsp");
+
+
+//                request.setAttribute("loginUser", userLogin);
+//                RequestDispatcher dispatcherSomeStepsForSuccess = request.getRequestDispatcher("/WEB-INF/jsp/registration_page.jsp");
+//                try {
+//                    dispatcherSomeStepsForSuccess.forward(request, response);
+//                } catch (ServletException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+
+        }
+        try {
+            dispatcherSuccess.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

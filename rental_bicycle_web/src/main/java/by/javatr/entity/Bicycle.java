@@ -1,5 +1,8 @@
 package by.javatr.entity;
 import by.javatr.entity.en_um.BicycleType;
+import by.javatr.entity.en_um.Currency;
+
+import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +15,21 @@ public class Bicycle extends Entity {
     private String producer;
     private Location currentLocation;
     private Blob photo;
+    private String photoBlobStr;
     private Boolean ifNotBooked;
     private Boolean ifFree;
     private Integer priceId;
+    private BigDecimal rate;
+    private Currency currency;
     private List<Order> rentList = new ArrayList<>();
+
+    public String getPhotoBlobStr() {
+        return photoBlobStr;
+    }
+
+    public void setPhotoBlobStr(String photoBlobStr) {
+        this.photoBlobStr = photoBlobStr;
+    }
 
     public String getModel() {
         return model;
@@ -117,6 +131,30 @@ public class Bicycle extends Entity {
         else this.ifFree = false;
     }
 
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = Currency.getCurrency(currency);
+    }
+
+
+
+
+
     @Override
     public String toString() {
         return "Bicycle{" +
@@ -126,11 +164,14 @@ public class Bicycle extends Entity {
                 ", producer='" + producer + '\'' +
                 ", currentLocation=" + currentLocation +
                 ", photo=" + photo +
-                ", price=" + priceId +
+                ", photoBlobStr='" + photoBlobStr + '\'' +
                 ", ifNotBooked=" + ifNotBooked +
                 ", ifFree=" + ifFree +
+                ", priceId=" + priceId +
+                ", rate=" + rate +
+                ", currency=" + currency +
                 ", rentList=" + rentList +
-                "}\n";
+                '}';
     }
 
     @Override

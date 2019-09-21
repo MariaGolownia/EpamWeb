@@ -29,10 +29,14 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <fmt:setLocale value="${empty cookie.lang.value ? 'en_US' : cookie.lang.value}"/>
+    <fmt:setBundle basename="config.content" var="cnt"/>
+    <!-- Подключение библиотеки с пользовательскими тегами-->
+    <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 </head>
 
 <body>
-
+<t:nav/>
 <div class="container">
 
     <form class="form-signin" action="Controller?command=registration_page" method="post">

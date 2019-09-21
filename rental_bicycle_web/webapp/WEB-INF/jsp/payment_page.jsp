@@ -22,7 +22,10 @@
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
+    <fmt:setLocale value="${empty cookie.lang.value ? 'en_US' : cookie.lang.value}"/>
+    <fmt:setBundle basename="config.content" var="cnt"/>
+    <!-- Подключение библиотеки с пользовательскими тегами-->
+    <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="./js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="./js/ie-emulation-modes-warning.js"></script>
@@ -36,7 +39,7 @@
 </head>
 
 <body>
-
+<t:nav/>
 <div class="flex-rent">
     <div class="item-rent">
         <h2 align="center">Payment</h2>

@@ -54,7 +54,7 @@
                 <fmt:message key="authorization_page.input.rebember_me" bundle="${cnt}"/>
             </label>
         </div>
-        <!-- Вывыод на форму переданного значения в loginErr в AuthorizationPageUserSubmitCommand -->
+        <!-- Вывод на форму переданного значения в loginErr в AuthorizationPageUserSubmitCommand -->
         <label style="color: red">${loginErr}</label>
         </br>
         <button class="btn btn-lg btn-primary btn-block" type="submit" >

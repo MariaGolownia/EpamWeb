@@ -8,6 +8,7 @@ import java.sql.*;
 
 import by.javatr.entity.en_um.BicycleType;
 import org.apache.logging.log4j.LogManager;
+import sun.misc.BASE64Encoder;
 
 public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger();
@@ -23,6 +24,10 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
             "SELECT `bicycle_id`,`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
                     "`bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_ifFree`, `bicycle_photo`" +
                     " FROM `bicycle` WHERE `bicycle_currentLocation_id` = ?";
+    private static final String SQL_BICYCLE_WITH_PRICE_BY_CURRENT_LOCATION_AND_FREEDOM =
+            "SELECT `bicycle_id`,`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
+                    "`bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_ifFree`, `bicycle_photo`, `price_rate`, `price_currency`" +
+                    " FROM `bicycle` INNER JOIN `price` on `price_id`=`bicycle_price_id` WHERE `bicycle_currentLocation_id` = ? AND `bicycle_ifFree` = ?";
     private static final String SQL_BICYCLE_BY_CURRENT_LOCATION_AND_FREEDOM =
             "SELECT `bicycle_id`,`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
                     "`bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_photo`" +
@@ -85,6 +90,66 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
         }
         return bicycles;
     }
+
+    @Override
+    public List<Bicycle> readByCurrentLocationWithPriceAndFreedom(Integer idLocation, Boolean ifFree) throws SQLException {
+        List<Bicycle> bicycles = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_BICYCLE_WITH_PRICE_BY_CURRENT_LOCATION_AND_FREEDOM);
+            statement.setInt(1, idLocation);
+            if (ifFree == true)
+                statement.setInt(2, 1);
+            else statement.setInt(2, 0);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()) {
+                Bicycle bicycle = new Bicycle();
+                Integer bicycleID = resultSet.getInt("bicycle_id");
+                bicycle.setId(bicycleID);
+                bicycle.setModel(resultSet.getString("bicycle_model"));
+                BicycleType bicycleType = BicycleType.getBicycleType(resultSet.getString("bicycle_type"));
+                bicycle.setBicycleType(bicycleType);
+                bicycle.setProductionYear(resultSet.getShort("bicycle_productionYear"));
+                bicycle.setProducer(resultSet.getString("bicycle_producer"));
+                Location locationBicycle = new Location();
+                LocationDaoSql locationDao = FactoryDaoSql.getInstance().get(DaoSql.LocationDao);
+                locationBicycle = locationDao.read(idLocation);
+                bicycle.setCurrentLocation(locationBicycle);
+                Blob blobImg = resultSet.getBlob("bicycle_photo");
+                bicycle.setPhoto(blobImg);
+//                Price price = new Price();
+//                PriceDaoSql priceDao = new PriceDaoSql();
+//                price = priceDao.read(resultSet.getInt("bicycle_price_id"));
+//                bicycle.setPriceId(price.getId());
+                bicycle.setPriceId(resultSet.getInt("bicycle_price_id"));
+                bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
+                bicycle.setIfFree(resultSet.getBoolean("bicycle_ifFree"));
+                bicycle.setRate(resultSet.getBigDecimal("price_rate"));
+                bicycle.setCurrency(resultSet.getString("price_currency"));
+                byte[] bdata = new byte[0];
+                try {
+                    bdata = blobImg.getBytes(1, (int) blobImg.length());
+                    BASE64Encoder encoder = new BASE64Encoder();
+                    bicycle.setPhotoBlobStr(encoder.encode(bdata));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                bicycles.add(bicycle);
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                resultSet.close();
+            } catch(NullPointerException e) {}
+            try {
+                statement.close();
+            } catch(NullPointerException e) {}
+        }
+        return bicycles;
+    }
+
 
     @Override
     public List<Bicycle> readByCurrentLocation(Location location) throws SQLException {

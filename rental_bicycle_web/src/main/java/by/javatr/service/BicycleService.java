@@ -7,6 +7,8 @@ public interface BicycleService {
 
     List<Bicycle> findByCurrentLocation(Integer locationId) throws SQLException;
 
+    List<Bicycle> findByCurrentLocationWithPriceAndFreedom(Integer locationId, Boolean ifFree) throws SQLException;
+
     List<Bicycle> findByFreeStatus(Integer idLocation, Boolean ifFree) throws SQLException;
 
     Bicycle findById(Integer bicycleId) throws SQLException;

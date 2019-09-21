@@ -659,17 +659,12 @@ public class Runner {
 //        UserInfo userInfo = userService.findByIdentity(order.getUserId());
 //        System.out.println(userInfo.getId());
 
-        Integer minutes=6;
-        PriceServiceImpl priceService = FactoryService.getInstance().get(DaoSql.PriceDao);
-        Price price = new Price();
-        BigDecimal countMin = new BigDecimal(0);
-        BigDecimal countMinTemp = new BigDecimal(0);
-        Map<Integer, BigDecimal> countBicMin = new HashMap<>();
-        countMinTemp = price.getRate().multiply(BigDecimal.valueOf(minutes));
-        countMin = countMin.add(countMinTemp);
-
-        countMinTemp = price.getRate().multiply(BigDecimal.valueOf(minutes));
-        countMin = countMin.add(countMinTemp);
+  //----------------------------------------------------------
+        FactoryService factoryService = FactoryService.getInstance();
+        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+        List<Bicycle>listBicycle = new ArrayList<>();
+        listBicycle = bicycleService.findByCurrentLocationWithPriceAndFreedom(5, true);
+System.out.println(Arrays.toString(listBicycle.toArray()));
     }
 }
 

@@ -8,7 +8,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="./img/favicon.ico">
-
+    <fmt:setLocale value="${empty cookie.lang.value ? 'en_US' : cookie.lang.value}"/>
+    <fmt:setBundle basename="config.content" var="cnt"/>
+    <!-- Подключение библиотеки с пользовательскими тегами-->
+    <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
     <title>Registration</title>
 
     <!-- Bootstrap core CSS -->
@@ -29,7 +32,7 @@
 </head>
 
 <body>
-
+<t:nav/>
 <div class="container">
 
     <form class="form-signin" action="Controller?command=registration_page" method="post">
