@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +17,11 @@
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/owner.css" rel="stylesheet">
-    <link href="./css/selected_user.css" rel="stylesheet">
+    <link href="./css/order_page.css" rel="stylesheet">
+    <link href="./css/order_page1.css" rel="stylesheet">
+    <link href="./css/order_page2.css" rel="stylesheet">
+    <link href="./css/order_page3.css" rel="stylesheet">
+    <link href="./css/order_page4.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
@@ -36,6 +41,76 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+
+    <script>
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(cname) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        function getCookieKeys(cname) {
+            var paramArray=new Array(0);
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+
+                if (c.indexOf(cname) == 0) {
+                    var cb=c.split('=');
+                    paramArray.push(cb[0]);
+                }
+            }
+            return paramArray;
+        }
+
+        function checkCookie(cname) {
+            var user = getCookie(cname);
+            if (user != "") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function deleteCookie(cname) {
+            document.cookie = cname +"=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            alert(cname +"=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;");
+        }
+
+        /*var sessionBic;
+        sessionBic = (Array),localStorage.getItem("selBicyclesId");
+        var $select = $('#selectedBicycles');
+        alert(sessionBic.prototype.length);
+        alert(sessionBic.prototype[0]);
+        alert(sessionBic.prototype[1]);
+        alert(sessionBic.prototype[2]);
+        var i;
+        for (i = 0; i < sessionBic.length; i++) {
+            $select.append($('<option>').text(localStorage.getItem("selBicyclesName" + sessionBic[i])).attr('value', sessionBic[i]));
+        }*/
+    </script>
+
     <script>
 
         // -----------------------------------------------------------------------------------------------------
@@ -49,9 +124,9 @@
                     url : 'GetBicycleImg?bicycleId='+$('#freeBicycles').val(),
                     // Структура данных, которую принимаем
                     success : function(imageString) {
-                        var img = document.getElementById('pictBycicle');
+                        var img = document.getElementById('pictSelBycycle');
                         img.src = "data:image/jpg;base64," + imageString;
-                        document.getElementById('pictBycicle').style.visibility='visible';
+                        document.getElementById('pictSelBycycle').style.visibility='visible';
                     }
                 });
             });
@@ -59,23 +134,31 @@
     </script>
     <script type="text/javascript">
         function getBicycle() {
-            var freeBic=document.getElementById('freeBicycles');
+            var freeBic=document.getElementsByName('pict_sel');
             var selBic=document.getElementById('selectedBicycles');
-            <!--Вставляем в конец -->
-            selBic.options[selBic.options.length] = new Option(freeBic.options[freeBic.selectedIndex].text, freeBic.value);
-            freeBic.options[freeBic.selectedIndex].remove();
+
+            var i;
+            for (i = 0; i < freeBic.length; i++) {
+                if (freeBic[i].type == "checkbox" && freeBic[i].checked == true && checkCookie("Bic" + freeBic[i].value) == false) {
+                    var selImg=document.getElementById('pictBycycle' + freeBic[i].value);
+                        selBic.options[selBic.options.length] = new Option(selImg.getAttribute("alt"), freeBic[i].value);
+
+                    setCookie("Bic" + freeBic[i].value, selImg.getAttribute("alt"), 1);
+                }
+            }
             //Скрываем картинку
-            document.getElementById('pictBycicle').style.visibility='hidden';
+            document.getElementById('pictSelBycycle').style.visibility='hidden';
         }
     </script>
     <script type="text/javascript">
         function removeBicycle() {
-            var freeBic=document.getElementById('freeBicycles');
             var selBic=document.getElementById('selectedBicycles');
-            freeBic.options[freeBic.options.length] = new Option(selBic.options[selBic.selectedIndex].text, selBic.value);
+
+            deleteCookie("Bic" + selBic.value);
             selBic.options[selBic.selectedIndex].remove();
         }
     </script>
+
     <script>
         //-----------------------------------------------------------------------------------------------------
         //
@@ -203,7 +286,8 @@
 
 <body>
 <t:nav/>
-<div class="flex2">
+<div class="container2">
+<div class="flex">
     <!--<h2 class="form-signin-heading">Select a user by key parameters: </h2>-->
     <label for="orderID" class="sr-show">ID of order</label>
     <input id="orderID" class="form-control" placeholder="" value="${numberOrder}" required autofocus>
@@ -239,44 +323,20 @@
 </div>
 
 <h2 align="center">Bicycles</h2>
-<div class="flex2">
-    <div class="item2">
-        <div class="item2">
-            <label class="sr-show">Bicycles</label>
 
-            <select name="bicycle" id="freeBicycles" class="form-control">
-                <option value=""></option>
-                <c:forEach items="${bicycles}" var="bicycle">
-                    <option value="${bicycle.id}">Id:${bicycle.id}, ${bicycle.model}, year: ${bicycle.productionYear}, type: ${bicycle.bicycleType}</option>
-                </c:forEach>
-            </select>
-        </div>
-
-        <button class="btn btn-lg btn-primary btn-block" onclick="getBicycle()" >Add to order</button>
-    </div>
-
-    </br>
-
-    <div class="item2">
-        <div class="item2">
-            <img id="pictBycicle" width="200px" height="133px">
-        </div>
-    </div>
-</div>
-
-<div class="flex2">
-    <div class="item2">
-        <div class="item2">
+<div class="flex3">
+    <div class="item3">
+        <div class="item3">
             <table border="1" cellpadding="5" cellspacing="5">
             <c:forEach var="bicyclesArr" items="${bicyclesList}">
                 <tr>
                     <td>
-                        <img id="pictBycicle${bicyclesArr.id}" src = "data:image/jpg;base64,${bicyclesArr.photoBlobStr}" width="200px" height="133px">
+                        <img id="pictBycycle${bicyclesArr.id}" alt="Id:${bicyclesArr.id}, ${bicyclesArr.model}, year: ${bicyclesArr.productionYear}, type: ${bicyclesArr.bicycleType}" src = "data:image/jpg;base64,${bicyclesArr.photoBlobStr}" width="200px" height="133px">
                     </td>
                     <td>${bicyclesArr.model}</td>
                     <td>${bicyclesArr.productionYear}</td>
-                    <td>${bicyclesArr.rate}</td>
-                    <td>${bicyclesArr.currency}</td>
+                    <td>${bicyclesArr.rate} ${bicyclesArr.currency}</td>
+                    <td><input id="cb${bicyclesArr.id}" type='checkbox' class="checkbox" name="pict_sel" value="${bicyclesArr.id}" size="25px"></td>
                 </tr>
             </c:forEach>
             </table>
@@ -307,22 +367,36 @@
                 <td><a href="Controller?command=order_page&page=${currentPage + 1}">Next</a></td>
             </c:if>
         </div>
+        <div class="item3">
+            <button class="btn btn-lg btn-primary btn-block" onclick="getBicycle()" >Add to order</button>
+        </div>
+    </div>
+    </br>
+    </br>
+    <div class="item3">
+        <img id="pictSelBycycle" width="200px" height="133px">
     </div>
 </div>
 
 <h2 align="center">Order</h2>
-<div class="flex2">
-    <div class="item2">
-        <select id="selectedBicycles" class="form-control">
+<div class="flex4">
+    <div class="item4">
+        <select name="selectedBicycles" id="selectedBicycles" class="form-control">
+            <option value=""></option>
+            <c:forEach items="${bicycles}" var="bicycle">
+                <option value="${bicycle.id}">Id:${bicycle.id}, ${bicycle.model}, year: ${bicycle.productionYear}, type: ${bicycle.bicycleType}</option>
+            </c:forEach>
         </select>
 
         <button class="btn btn-lg btn-primary btn-block" onclick="removeBicycle()" >Delete from order</button>
     </div>
+    <div>
+    </div>
 </div>
 
-<div class="flex2">
-    <div class="item2">
-        <div class="item2">
+<div class="flex5">
+    <div class="item5">
+        <div class="item5">
             <h2 align="center">Order in the filling stage</h2>
             <!--------------------------------PassportIdentificationNumber--------------------------------------------------------------->
             <label for="startTime" class="sr-show">Start time</label>
@@ -359,7 +433,7 @@
         }
     </script>
 
-    <div class="item2">
+    <div class="item5">
         <button class="btn btn-lg btn-primary btn-block" id="buttonStart" >Start</button>
         </br>
         </br>
@@ -375,6 +449,16 @@
 </div>
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="./js/ie10-viewport-bug-workaround.js"></script>
+<!-- <script src="./js/ie10-viewport-bug-workaround.js"></script> -->
+</div>
+<script>
+    var selBic=document.getElementById('selectedBicycles');
+    var i;
+    var cookiesArray = getCookieKeys("Bic");
+
+    for (i = 0; i < cookiesArray.length; i++) {
+        selBic.options[selBic.options.length] = new Option(getCookie(cookiesArray[i]), cookiesArray[i].substring(3));
+    }
+</script>
 </body>
 </html>

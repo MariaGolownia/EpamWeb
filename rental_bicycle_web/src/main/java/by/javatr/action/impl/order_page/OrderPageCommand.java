@@ -8,6 +8,7 @@ import by.javatr.entity.UserInfo;
 import by.javatr.service.FactoryService;
 import by.javatr.service.impl.BicycleServiceImpl;
 import by.javatr.service.impl.OrderServiceImpl;
+import javafx.scene.control.CheckBox;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class OrderPageCommand extends BaseCommand {
@@ -48,10 +50,11 @@ public class OrderPageCommand extends BaseCommand {
             request.setAttribute("selectLocation", selectedLocationId);
             request.setAttribute("selectAddress", selectedLocationInformation);
 
-            List<Bicycle> bicycles = new ArrayList<>();
+            List<Bicycle> bicyclesTmp = new ArrayList<>();
+            HashMap<Integer, Bicycle> bicycles = new HashMap<>();
             List <String> informBicycles = new ArrayList<>();
             BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
-            bicycles = bicycleService.findByFreeStatus(selectedLocationId, BOOLEAN_FREE_BICYCLE);
+            bicyclesTmp = bicycleService.findByFreeStatus(selectedLocationId, BOOLEAN_FREE_BICYCLE);
 //            Integer index = 1;
 //            for (Bicycle bicycle : bicycles) {
 //                String informBicycle = index + "id: " + bicycle.getId() + ", " + bicycle.getModel() + ", year: "
@@ -59,8 +62,6 @@ public class OrderPageCommand extends BaseCommand {
 //                informBicycles.add(informBicycle);
 //                index++;
 //            }
-            request.setAttribute("bicycles", bicycles);
-
             List<Bicycle>listBicycleTmp = new ArrayList<>();
             listBicycleTmp = bicycleService.findByCurrentLocationWithPriceAndFreedom(selectedLocationId, BOOLEAN_FREE_BICYCLE);
             List<Bicycle> listBicycle = new ArrayList<>();
