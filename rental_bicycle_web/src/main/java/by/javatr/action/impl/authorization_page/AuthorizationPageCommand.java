@@ -8,6 +8,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AuthorizationPageCommand extends BaseCommand {
@@ -21,6 +22,9 @@ public class AuthorizationPageCommand extends BaseCommand {
 
  RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorization_page.jsp");
         try {
+            HttpSession session = request.getSession();
+
+            session.removeAttribute("user_login");
             dispatcher.forward(request, response);
             // передача запроса/управления другому ресурсу на сервере;
         } catch (ServletException e) {

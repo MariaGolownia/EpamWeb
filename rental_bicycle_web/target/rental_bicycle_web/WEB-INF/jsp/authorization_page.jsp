@@ -49,10 +49,9 @@
         </label>
         <input type="password" id="inputPassword" name="userPassword" class="form-control" placeholder="<fmt:message key="authorization_page.label.login" bundle="${cnt}"/>" required>
         <div class="checkbox">
-            <label>
-                <input type="checkbox" value="remember-me">
-                <fmt:message key="authorization_page.input.rebember_me" bundle="${cnt}"/>
-            </label>
+            <li><a href="./Controller?command=register_command">
+                <fmt:message key="authorization_page.input.registr" bundle="${cnt}"/>
+            </a></li>
         </div>
         <!-- Вывод на форму переданного значения в loginErr в AuthorizationPageUserSubmitCommand -->
         <label style="color: red">${loginErr}</label>

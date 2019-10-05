@@ -21,4 +21,6 @@ public interface UserService  {
 
     void delete(Integer identity) throws PersistentException, SQLException;
 
+    String getHashCodePassword (String passwordStr);
+
 }

@@ -11,6 +11,7 @@ public enum CommandName {
     LOCATION_PAGE,
     USER_PAGE,
 
+    REGISTER_COMMAND,
     REGISTRATION_PAGE,
 
     MAIN_PAGE,

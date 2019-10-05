@@ -62,6 +62,7 @@ public class RegistrationPageCommand extends BaseCommand {
             UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
             User userNew = new User();
             userNew.setLogin(userLogin);
+            userPassword = userService.getHashCodePassword(userPassword);
             userNew.setPassword(userPassword);
             userNew.setUserStatus(UserStatus.ACTIVE);
             userNew.setRole(Role.USER);

@@ -661,10 +661,15 @@ public class Runner {
 
   //----------------------------------------------------------
         FactoryService factoryService = FactoryService.getInstance();
-        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
-        List<Bicycle>listBicycle = new ArrayList<>();
-        listBicycle = bicycleService.findByCurrentLocationWithPriceAndFreedom(5, true);
-System.out.println(Arrays.toString(listBicycle.toArray()));
+//        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+//        List<Bicycle>listBicycle = new ArrayList<>();
+//        listBicycle = bicycleService.findByCurrentLocationWithPriceAndFreedom(5, true);
+//System.out.println(Arrays.toString(listBicycle.toArray()));
+
+        UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
+        String userPassword = userService.getHashCodePassword("1");
+        System.out.println(userPassword);
+
     }
 }
 

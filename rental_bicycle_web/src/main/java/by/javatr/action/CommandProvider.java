@@ -7,6 +7,7 @@ import by.javatr.action.impl.location_page.LocationPageCommand;
 import by.javatr.action.impl.order_page.ActionStartOrder;
 import by.javatr.action.impl.order_page.OrderPageCommand;
 import by.javatr.action.impl.payment_page.PaymentPageCommand;
+import by.javatr.action.impl.registration_page.RegistrationCommand;
 import by.javatr.action.impl.selected_user_page.RegistrationPageCommand;
 import by.javatr.action.impl.selected_user_page.UserPageCommand;
 
@@ -22,6 +23,7 @@ public class CommandProvider {
         this.commands.put(CommandName.SET_LOCALE, new SetLocale());
         this.commands.put(CommandName.AUTHORIZATION_PAGE, new AuthorizationPageCommand());
         this.commands.put(CommandName.AUTHORIZATION_PAGE_USER_SUBMIT, new AuthorizationPageUserSubmitCommand());
+        this.commands.put(CommandName.REGISTER_COMMAND, new RegistrationCommand());
         this.commands.put(CommandName.REGISTRATION_PAGE, new RegistrationPageCommand());
         this.commands.put(CommandName.LOCATION_PAGE, new LocationPageCommand());
         this.commands.put(CommandName.USER_PAGE, new UserPageCommand());

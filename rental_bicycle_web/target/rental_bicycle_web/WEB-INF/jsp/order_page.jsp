@@ -98,17 +98,6 @@
             alert(cname +"=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;");
         }
 
-        /*var sessionBic;
-        sessionBic = (Array),localStorage.getItem("selBicyclesId");
-        var $select = $('#selectedBicycles');
-        alert(sessionBic.prototype.length);
-        alert(sessionBic.prototype[0]);
-        alert(sessionBic.prototype[1]);
-        alert(sessionBic.prototype[2]);
-        var i;
-        for (i = 0; i < sessionBic.length; i++) {
-            $select.append($('<option>').text(localStorage.getItem("selBicyclesName" + sessionBic[i])).attr('value', sessionBic[i]));
-        }*/
     </script>
 
     <script>

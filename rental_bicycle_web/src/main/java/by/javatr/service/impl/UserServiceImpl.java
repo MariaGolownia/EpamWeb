@@ -9,6 +9,9 @@ import by.javatr.service.Service;
 import by.javatr.service.ServiceException;
 import by.javatr.service.UserService;
 import by.javatr.service.valid.UserServiceValidation;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -153,5 +156,23 @@ public class UserServiceImpl extends Service implements UserService {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public String getHashCodePassword(String passwordStr) {
+        try {
+            MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+            String salt = "some_random_salt";
+            String passWithSalt = passwordStr + salt;
+            byte[] passBytes = passWithSalt.getBytes();
+            byte[] passHash = sha256.digest(passBytes);
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< passHash.length ;i++) {
+                sb.append(Integer.toString((passHash[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            String generatedPassword = sb.toString();
+            return generatedPassword;
+        } catch (NoSuchAlgorithmException e) { e.printStackTrace(); }
+        return null;
     }
 }

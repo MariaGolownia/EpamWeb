@@ -24,6 +24,7 @@ public class AuthorizationPageUserSubmitCommand extends BaseCommand {
         String userLogin = request.getParameter(USER_LOGIN);
         String userPassword = request.getParameter(USER_PASSWORD);
         UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
+        userPassword = userService.getHashCodePassword(userPassword);
         User userByLoginAndPassword = userService.findByLoginAndPassword(userLogin, userPassword);
         HttpSession session = request.getSession();
 

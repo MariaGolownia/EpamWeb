@@ -23,6 +23,7 @@ import java.util.List;
 
 public class OrderPageCommand extends BaseCommand {
     private static final Boolean BOOLEAN_FREE_BICYCLE = true;
+    private static final int RECORDS_PER_PAGE = 5;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -30,13 +31,6 @@ public class OrderPageCommand extends BaseCommand {
         RequestDispatcher dispatcher = null;
         HttpSession session = request.getSession();
         int page = 1;
-        int recordsPerPage = 5;
-
-//        Integer numberOrder = 0;
-//        FactoryService factoryService = FactoryService.getInstance();
-//        OrderServiceImpl orderService = factoryService.get(DaoSql.OrderDao);
-//        numberOrder = orderService.getLastOrderId() + 1;
-//        request.setAttribute("numberOrder", numberOrder);
 
         Location selectedLocation = (Location) session.getAttribute("selectedLocation");
         if (selectedLocation != null) {
@@ -50,28 +44,17 @@ public class OrderPageCommand extends BaseCommand {
             request.setAttribute("selectLocation", selectedLocationId);
             request.setAttribute("selectAddress", selectedLocationInformation);
 
-            List<Bicycle> bicyclesTmp = new ArrayList<>();
-            HashMap<Integer, Bicycle> bicycles = new HashMap<>();
-            List <String> informBicycles = new ArrayList<>();
             BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
-            bicyclesTmp = bicycleService.findByFreeStatus(selectedLocationId, BOOLEAN_FREE_BICYCLE);
-//            Integer index = 1;
-//            for (Bicycle bicycle : bicycles) {
-//                String informBicycle = index + "id: " + bicycle.getId() + ", " + bicycle.getModel() + ", year: "
-//                + bicycle.getProductionYear() + ", type: " + bicycle.getBicycleType();
-//                informBicycles.add(informBicycle);
-//                index++;
-//            }
             List<Bicycle>listBicycleTmp = new ArrayList<>();
             listBicycleTmp = bicycleService.findByCurrentLocationWithPriceAndFreedom(selectedLocationId, BOOLEAN_FREE_BICYCLE);
             List<Bicycle> listBicycle = new ArrayList<>();
 
             int noOfRecords = listBicycleTmp.size();
-            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / RECORDS_PER_PAGE);
 
             for (int i=0;i<listBicycleTmp.size();i++)
             {
-                if (i>=(page-1)*recordsPerPage && i<(page-1)*recordsPerPage+recordsPerPage)
+                if (i>=(page-1)*RECORDS_PER_PAGE && i<(page-1)*RECORDS_PER_PAGE+RECORDS_PER_PAGE)
                 {
                     listBicycle.add(listBicycleTmp.get(i));
                 }

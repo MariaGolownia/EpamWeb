@@ -49,7 +49,7 @@
                         </form>
                     </ul>
                 </li>
-                <li><a href="../navbar-fixed-top/">
+                <li><a href="./Controller?command=authorization_page">
                     <fmt:message key="nav_tag.exit" bundle="${cnt}"/>
                 </a></li>
             </ul>
