@@ -15,6 +15,7 @@
     <link href="./css/selected_user.css" rel="stylesheet">
     <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="./css/signin.css" rel="stylesheet">
+    <link href="./css/order_page1.css" rel="stylesheet">
     <fmt:setLocale value="${empty cookie.lang.value ? 'en_US' : cookie.lang.value}"/>
     <fmt:setBundle basename="config.content" var="cnt"/>
     <!-- Подключение библиотеки с пользовательскими тегами-->
@@ -75,7 +76,6 @@
             });
         });
     </script>
-
     <script>
         //-----------------------------------------------------------------------------------------------------
         //Получение баланса и валюты выбранной карточки
@@ -101,8 +101,6 @@
             });
         });
     </script>
-
-
     <script>
         //-----------------------------------------------------------------------------------------------------
         // Пополнение баланса

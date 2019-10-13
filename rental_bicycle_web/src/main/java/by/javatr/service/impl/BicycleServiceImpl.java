@@ -8,10 +8,10 @@ import by.javatr.entity.Bicycle;
 import by.javatr.service.BicycleService;
 import by.javatr.service.FactoryService;
 import by.javatr.service.Service;
-import com.google.gson.internal.bind.SqlDateTypeAdapter;
-
+import by.javatr.service.bic_sort.Sort;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class BicycleServiceImpl extends Service implements BicycleService {
@@ -111,5 +111,12 @@ public class BicycleServiceImpl extends Service implements BicycleService {
         } catch (DaoException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Bicycle> sortBy(List<Bicycle> bicycles, Comparator<Bicycle> bicycleComparator) {
+        Sort sort = new Sort();
+        bicycles.sort(bicycleComparator);
+        return bicycles;
     }
 }

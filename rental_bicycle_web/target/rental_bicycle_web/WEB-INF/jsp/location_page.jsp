@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +22,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+
     <script>
 
         // -----------------------------------------------------------------------------------------------------
@@ -58,8 +60,6 @@
             });
         });
     </script>
-
-
     <script>
  //-----------------------------------------------------------------------------------------------------
  //Выбор локации в рамках города
@@ -184,17 +184,44 @@ Role: ${userR}
                 <!--combobox -->
                 <select id="countryName" class="form-control">
                     <option value="">
-                    <option value="Belarus">Belarus
-                    <option value="Poland">Poland
-                    <option value="Lithuania">Lithuania
+                    <c:if test="${not empty selectedCountry}">
+                        <option value="${selectedCountry}" selected>${selectedCountry}</option>
+                    </c:if>
+                    <c:if test="${selectedCountry != 'Belarus'}">
+                        <option value="Belarus">Belarus
+                    </c:if>
+                    <c:if test="${selectedCountry != 'Poland'}">
+                        <option value="Poland">Poland
+                    </c:if>
+                    <c:if test="${selectedCountry != 'Lithuania'}">
+                        <option value="Lithuania">Lithuania
+                    </c:if>
                 </select>
                 <!----------------------------------------Cities------------------------------------------------------------->
                 <label class="sr-show">City</label>
                 <select id="cityName" class="form-control">
+                    <option value="">
+                    <c:forEach var="city" items="${citys}">s
+                        <c:if test="${!selectedCity.equals(city)}">
+                            <option value="${city}">${city}</option>
+                        </c:if>
+                        <c:if test="${selectedCity.equals(city)}">
+                            <option value="${selectedCity}" selected>${selectedCity}</option>
+                        </c:if>
+                    </c:forEach>
                 </select>
                 <!----------------------------------------Location----------------------------------------------------------->
                 <label class="sr-show">Location</label>
                 <select id="locationName" class="form-control">
+                    <option value="">
+                    <c:forEach items="${locations}" var="location">
+                        <c:if test="${!selectedLocationId.equals(location.id)}">
+                            <option value="${location.id}">${location.street} , house: ${location.house} , office: ${location.office}</option>
+                        </c:if>
+                        <c:if test="${selectedLocationId.equals(location.id)}">
+                            <option value="${selectedLocationId}" selected>${selectedLocation}</option>
+                        </c:if>
+                    </c:forEach>
                 </select>
                 <label class="sr-show">Free bicycles</label>
                 <select id="bicyclesName" class="form-control">
@@ -208,7 +235,7 @@ Role: ${userR}
 
     <div class="item">
         <div class="item">
-            <img id="loc1" width="200px" height="133px">
+            <img id="loc1" src="${selectedImg}" width="200px" height="133px">
         </div>
         <div class="item">
             <img id="loc2" width="200px" height="133px">

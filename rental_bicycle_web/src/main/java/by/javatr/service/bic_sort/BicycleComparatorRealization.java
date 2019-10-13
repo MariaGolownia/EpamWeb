@@ -4,7 +4,7 @@ import by.javatr.entity.en_um.Country;
 import java.math.BigDecimal;
 import java.util.Comparator;
 
-public class BicycleComparator {
+public class BicycleComparatorRealization {
 
     public static class ByModel implements Comparator<Bicycle> {
         @Override
@@ -41,9 +41,9 @@ public class BicycleComparator {
     public static class ByCountry implements Comparator<Bicycle> {
         @Override
         public int compare(Bicycle b1, Bicycle b2) {
-            Country country1 = b1.getCurrentLocation().getCountry();
-            Country country2 = b2.getCurrentLocation().getCountry();
-            int res = String.CASE_INSENSITIVE_ORDER.compare(country1.getName(), country2.getName());
+            String country1 = b1.getProducer();
+            String country2 = b2.getProducer();
+            int res = String.CASE_INSENSITIVE_ORDER.compare(country1, country2);
             return res;
         }
     }

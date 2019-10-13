@@ -1,23 +1,13 @@
 package by.javatr.controller;
-import by.javatr.dao.LocationDao;
 import by.javatr.dao.mysql.DaoSql;
-import by.javatr.dao.mysql.LocationDaoSql;
 import by.javatr.entity.*;
-import by.javatr.entity.en_um.City;
-import by.javatr.entity.en_um.Country;
-import by.javatr.entity.en_um.Role;
-import by.javatr.entity.en_um.UserStatus;
 import by.javatr.service.FactoryService;
-import by.javatr.service.ServiceException;
+import by.javatr.service.bic_sort.BicycleComparator;
+import by.javatr.service.bic_sort.BicycleComparatorRealization;
 import by.javatr.service.impl.*;
-import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.*;
 
 public class Runner {
@@ -660,15 +650,41 @@ public class Runner {
 //        System.out.println(userInfo.getId());
 
   //----------------------------------------------------------
-        FactoryService factoryService = FactoryService.getInstance();
-//        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
-//        List<Bicycle>listBicycle = new ArrayList<>();
-//        listBicycle = bicycleService.findByCurrentLocationWithPriceAndFreedom(5, true);
-//System.out.println(Arrays.toString(listBicycle.toArray()));
+//        FactoryService factoryService = FactoryService.getInstance();
+////        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+////        List<Bicycle>listBicycle = new ArrayList<>();
+////        listBicycle = bicycleService.findByCurrentLocationWithPriceAndFreedom(5, true);
+////System.out.println(Arrays.toString(listBicycle.toArray()));
+//
+//        UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
+//        String userPassword = userService.getHashCodePassword("1");
+//        System.out.println(userPassword);
 
-        UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
-        String userPassword = userService.getHashCodePassword("1");
-        System.out.println(userPassword);
+
+        FactoryService factoryService = FactoryService.getInstance();
+        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+        List<Bicycle>listBicycle = new ArrayList<>();
+        listBicycle = bicycleService.findByCurrentLocationWithPriceAndFreedom(5, true);
+        for (int i = 0; i < listBicycle.size(); i++)
+            System.out.println(i + " " + listBicycle.get(i).getId()+ " " + listBicycle.get(i).getModel()
+            + " " + listBicycle.get(i).getRate() + " " + listBicycle.get(i).getProductionYear() +
+                     " " + listBicycle.get(i).getProducer());
+
+        System.out.println("----------------------------------------------------------------------------------");
+        listBicycle = bicycleService.sortBy(listBicycle, new BicycleComparator.SortBicycleByModel().comparatorSpecified());
+        for (int i = 0; i < listBicycle.size(); i++)
+            System.out.println(i + " " + listBicycle.get(i).getId()+ " " + listBicycle.get(i).getModel()
+                    + " " + listBicycle.get(i).getRate() + " " + listBicycle.get(i).getProductionYear() +
+                    " " + listBicycle.get(i).getProducer());
+
+
+        System.out.println("----------------------------------------------------------------------------------");
+        bicycleService.sortBy(listBicycle, new BicycleComparator.SortBicycleByYear().comparatorSpecified());
+        Collections.reverse(listBicycle);
+        for (int i = 0; i < listBicycle.size(); i++)
+            System.out.println(i + " " + listBicycle.get(i).getId()+ " " + listBicycle.get(i).getModel()
+                    + " " + listBicycle.get(i).getRate() + " " + listBicycle.get(i).getProductionYear() +
+                    " " + listBicycle.get(i).getProducer());
 
     }
 }

@@ -1,4 +1,7 @@
 package by.javatr.service.bic_sort;
+import java.util.Comparator;
 
-public class SortBicycleSpecification {
+public abstract class SortBicycleSpecification {
+
+    public abstract Comparator comparatorSpecified();
 }

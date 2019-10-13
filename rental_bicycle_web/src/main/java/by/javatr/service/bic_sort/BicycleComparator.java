@@ -2,34 +2,34 @@ package by.javatr.service.bic_sort;
 
 import java.util.Comparator;
 
-public class SortBicycle {
+public class BicycleComparator {
 
-    public class SortBicycleByModel extends SortBicycleSpecification {
+    public static class SortBicycleByModel extends SortBicycleSpecification {
         @Override
         public Comparator comparatorSpecified() {
-            return new BicycleComparator.ByModel();
+            return new BicycleComparatorRealization.ByModel();
         }
     }
 
-    public class SortBicycleByRate extends SortBicycleSpecification {
+    public static class SortBicycleByRate extends SortBicycleSpecification {
         @Override
         public Comparator comparatorSpecified() {
-            return new BicycleComparator.ByRate();
+            return new BicycleComparatorRealization.ByRate();
         }
     }
 
 
-    public class SortBicycleByCountry extends SortBicycleSpecification {
+    public static class SortBicycleByCountry extends SortBicycleSpecification {
         @Override
         public Comparator comparatorSpecified() {
-            return new BicycleComparator.ByCountry();
+            return new BicycleComparatorRealization.ByCountry();
         }
     }
 
-    public class SortBicycleByYear extends SortBicycleSpecification {
+    public static class SortBicycleByYear extends SortBicycleSpecification {
         @Override
         public Comparator comparatorSpecified() {
-            return new BicycleComparator.ByYear();
+            return new BicycleComparatorRealization.ByYear();
         }
     }
 }

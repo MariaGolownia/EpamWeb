@@ -1,6 +1,7 @@
 package by.javatr.service;
 import by.javatr.entity.Bicycle;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
 
 public interface BicycleService {
@@ -16,4 +17,8 @@ public interface BicycleService {
     List<Bicycle> findById(List <Integer> bicyclesId);
 
     void changeFreeStatus (List <Integer> bicyclesId, Boolean freeStatus) throws SQLException;
+
+
+    List<Bicycle> sortBy (List<Bicycle> bicycles, Comparator<Bicycle> bicycleComparator) ;
+
 }
