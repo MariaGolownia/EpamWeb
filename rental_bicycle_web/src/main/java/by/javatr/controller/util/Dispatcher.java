@@ -1,7 +1,5 @@
-package by.epam.events.controller.util;
-
-import by.epam.events.controller.web.Attributes;
-
+package by.javatr.controller.util;
+import by.javatr.controller.web_data.Attributes;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -112,7 +110,6 @@ public class Dispatcher {
      * @throws java.io.IOException             - if an input or output exception occurs.
      * @throws java.lang.IllegalStateException - if the response was committed or
      *                                         if a partial URL is given and cannot be converted into a valid URL.
-     * @see by.epam.events.controller.web.Commands
      */
     public static void redirectToCommand(String commandUrl, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String destinationUrl = request.getContextPath() + commandUrl;
@@ -138,7 +135,6 @@ public class Dispatcher {
      * @throws java.io.IOException             - if an input or output exception occurs.
      * @throws java.lang.IllegalStateException - if the response was committed or
      *                                         if a partial URL is given and cannot be converted into a valid URL.
-     * @see by.epam.events.controller.web.Commands
      */
     public static void redirectToCommand(String commandUrl, String messageKey,
                                          HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -166,7 +162,6 @@ public class Dispatcher {
      * @throws java.io.IOException             - if an input or output exception occurs.
      * @throws java.lang.IllegalStateException - if the response was committed or
      *                                         if a partial URL is given and cannot be converted into a valid URL.
-     * @see by.epam.events.controller.web.Commands
      */
     public static void redirectToCommand(String commandUrl, int messageType, String messageKey,
                                          HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -219,7 +214,6 @@ public class Dispatcher {
      * @throws ServletException                - if the target resource throws this exception.
      * @throws java.io.IOException             - if the target resource throws this exception.
      * @throws java.lang.IllegalStateException - if the response was already committed.
-     * @see by.epam.events.controller.web.Pages
      */
     public static void forwardTo(String page, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = request.getServletContext().getRequestDispatcher(page);
@@ -239,7 +233,6 @@ public class Dispatcher {
      * @throws ServletException                - if the target resource throws this exception
      * @throws java.io.IOException             - if the target resource throws this exception
      * @throws java.lang.IllegalStateException - if the response was already committed
-     * @see by.epam.events.controller.web.Pages
      */
     public static void forwardTo(String page, String messageKey,
                                  HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -260,7 +253,6 @@ public class Dispatcher {
      * @throws ServletException                - if the target resource throws this exception
      * @throws java.io.IOException             - if the target resource throws this exception
      * @throws java.lang.IllegalStateException - if the response was already committed
-     * @see by.epam.events.controller.web.Pages
      */
     public static void forwardTo(String page, int messageType, String messageKey,
                                  HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

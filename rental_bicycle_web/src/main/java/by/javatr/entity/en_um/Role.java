@@ -3,7 +3,7 @@ package by.javatr.entity.en_um;
 public enum Role {
     ADMIN("admin"),
     USER("user"),
-    GRANT_USER("grant user");
+    GUEST("Guest");
 
     private String name;
 

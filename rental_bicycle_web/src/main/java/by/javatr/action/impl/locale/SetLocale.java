@@ -13,6 +13,7 @@ public class SetLocale extends BaseCommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         String locale = request.getParameter(Params.LOCALE);
+        System.out.println(locale);
         Cookie localeCookie = new Cookie(LANG_COOKIE_NAME, locale);
         localeCookie.setMaxAge(Integer.MAX_VALUE);
         response.addCookie(localeCookie);

@@ -43,11 +43,11 @@
             Login
         </label>
         <!-- Вывод на форму переданного значения в loginUser в AuthorizationPageUserSubmitCommand -->
-        <input type="login" id="inputLogin" name="userLogin" class="form-control" placeholder="<fmt:message key="authorization_page.label.login" bundle="${cnt}"/>" value="${loginUser}" required autofocus>
+        <input type="login" id="inputLogin" name="login" class="form-control" placeholder="<fmt:message key="authorization_page.label.login" bundle="${cnt}"/>" value="${loginUser}" required autofocus>
         <label for="inputPassword" class="sr-only">
             Password
         </label>
-        <input type="password" id="inputPassword" name="userPassword" class="form-control" placeholder="<fmt:message key="authorization_page.label.login" bundle="${cnt}"/>" required>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="<fmt:message key="authorization_page.label.login" bundle="${cnt}"/>" required>
         <div class="checkbox">
             <li><a href="./Controller?command=register_command">
                 <fmt:message key="authorization_page.input.registr" bundle="${cnt}"/>

@@ -18,6 +18,7 @@ public class CommandProvider {
 
     private static final CommandProvider instance = new CommandProvider();
     private Map<CommandName, Command> commands = new HashMap<>();
+    private Command command;
 
     private CommandProvider() {
         this.commands.put(CommandName.SET_LOCALE, new SetLocale());
@@ -31,7 +32,6 @@ public class CommandProvider {
         this.commands.put(CommandName.ORDER_PAGE, new OrderPageCommand());
         this.commands.put(CommandName.PAYMENT_PAGE, new PaymentPageCommand());
         this.commands.put(CommandName.START_ORDER, new ActionStartOrder());
-
     }
 
     public static CommandProvider getInstance() {
@@ -41,7 +41,7 @@ public class CommandProvider {
     public Command getCommand(final String cName) {
         CommandName commandName = CommandName.valueOf(cName.toUpperCase());
         Command result = commands.get(commandName);
-
         return result;
     }
+
 }

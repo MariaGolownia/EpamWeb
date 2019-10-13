@@ -1,5 +1,6 @@
 package by.javatr.action.impl.authorization_page;
 import by.javatr.action.BaseCommand;
+import by.javatr.controller.web_data.Attributes;
 import by.javatr.dao.mysql.DaoSql;
 import by.javatr.entity.User;
 import by.javatr.service.impl.UserServiceImpl;
@@ -24,7 +25,7 @@ public class AuthorizationPageCommand extends BaseCommand {
         try {
             HttpSession session = request.getSession();
 
-            session.removeAttribute("user_login");
+            session.removeAttribute(Attributes.USER_LOGIN);
             dispatcher.forward(request, response);
             // передача запроса/управления другому ресурсу на сервере;
         } catch (ServletException e) {

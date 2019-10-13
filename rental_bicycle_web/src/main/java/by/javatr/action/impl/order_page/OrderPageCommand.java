@@ -6,6 +6,7 @@ import by.javatr.entity.Bicycle;
 import by.javatr.entity.Location;
 import by.javatr.entity.UserInfo;
 import by.javatr.service.FactoryService;
+import by.javatr.service.bic_sort.BicycleComparator;
 import by.javatr.service.impl.BicycleServiceImpl;
 import by.javatr.service.impl.OrderServiceImpl;
 import javafx.scene.control.CheckBox;
@@ -24,6 +25,10 @@ import java.util.List;
 public class OrderPageCommand extends BaseCommand {
     private static final Boolean BOOLEAN_FREE_BICYCLE = true;
     private static final int RECORDS_PER_PAGE = 5;
+    private static final String SORT_PARAMETER_MODEL_BICYCLE = "model";
+    private static final String SORT_PARAMETER_COUNTRY_BICYCLE = "country";
+    private static final String SORT_PARAMETER_YEAR_BICYCLE = "year";
+    private static final String SORT_PARAMETER_RATE_BICYCLE = "rate";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -48,6 +53,39 @@ public class OrderPageCommand extends BaseCommand {
             List<Bicycle>listBicycleTmp = new ArrayList<>();
             listBicycleTmp = bicycleService.findByCurrentLocationWithPriceAndFreedom(selectedLocationId, BOOLEAN_FREE_BICYCLE);
             List<Bicycle> listBicycle = new ArrayList<>();
+
+            //----------------------------------------------------------------------------------------------
+            // BICYCLE'S SORT - STEP 1 - checking type_of_sort that is in session
+            //----------------------------------------------------------------------------------------------
+            Object sortParameterFromSession = session.getAttribute("sort_parameter");
+            String sortParameterFromRequest = request.getParameter("sort_parameter");
+            if (sortParameterFromRequest == null && sortParameterFromSession == null) {
+                sortParameterFromRequest = SORT_PARAMETER_YEAR_BICYCLE;
+            }
+            else if (sortParameterFromRequest == null && sortParameterFromSession != null) {
+                sortParameterFromRequest = sortParameterFromSession.toString();
+            }
+            else {
+                page = 1;
+                session.setAttribute("sort_parameter", sortParameterFromRequest);
+            }
+            //----------------------------------------------------------------------------------------------
+            // BICYCLE'S SORT - STEP 2 - checking sort_parameter from jsp
+            //----------------------------------------------------------------------------------------------
+
+                if (sortParameterFromRequest.equals(SORT_PARAMETER_MODEL_BICYCLE)) {
+                    listBicycleTmp = bicycleService.sortBy(listBicycleTmp, new BicycleComparator.SortBicycleByModel().comparatorSpecified());
+                } else if (sortParameterFromRequest.equals(SORT_PARAMETER_COUNTRY_BICYCLE)) {
+                    listBicycleTmp = bicycleService.sortBy(listBicycleTmp, new BicycleComparator.SortBicycleByCountry().comparatorSpecified());
+                } else if (sortParameterFromRequest.equals(SORT_PARAMETER_YEAR_BICYCLE)) {
+                    listBicycleTmp = bicycleService.sortBy(listBicycleTmp, new BicycleComparator.SortBicycleByYear().comparatorSpecified());
+                } else if (sortParameterFromRequest.equals(SORT_PARAMETER_RATE_BICYCLE)) {
+                    listBicycleTmp = bicycleService.sortBy(listBicycleTmp, new BicycleComparator.SortBicycleByRate().comparatorSpecified());
+                } else {
+                    listBicycleTmp = bicycleService.sortBy(listBicycleTmp, new BicycleComparator.SortBicycleByYear().comparatorSpecified());
+                }
+
+            //----------------------------------------------------------------------------------------------
 
             int noOfRecords = listBicycleTmp.size();
             int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / RECORDS_PER_PAGE);

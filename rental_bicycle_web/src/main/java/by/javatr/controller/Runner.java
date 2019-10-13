@@ -1,4 +1,5 @@
 package by.javatr.controller;
+import by.javatr.action.CommandName;
 import by.javatr.dao.mysql.DaoSql;
 import by.javatr.entity.*;
 import by.javatr.service.FactoryService;
@@ -661,30 +662,35 @@ public class Runner {
 //        System.out.println(userPassword);
 
 
-        FactoryService factoryService = FactoryService.getInstance();
-        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
-        List<Bicycle>listBicycle = new ArrayList<>();
-        listBicycle = bicycleService.findByCurrentLocationWithPriceAndFreedom(5, true);
-        for (int i = 0; i < listBicycle.size(); i++)
-            System.out.println(i + " " + listBicycle.get(i).getId()+ " " + listBicycle.get(i).getModel()
-            + " " + listBicycle.get(i).getRate() + " " + listBicycle.get(i).getProductionYear() +
-                     " " + listBicycle.get(i).getProducer());
+//        FactoryService factoryService = FactoryService.getInstance();
+//        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+//        List<Bicycle>listBicycle = new ArrayList<>();
+//        listBicycle = bicycleService.findByCurrentLocationWithPriceAndFreedom(5, true);
+//        for (int i = 0; i < listBicycle.size(); i++)
+//            System.out.println(i + " " + listBicycle.get(i).getId()+ " " + listBicycle.get(i).getModel()
+//            + " " + listBicycle.get(i).getRate() + " " + listBicycle.get(i).getProductionYear() +
+//                     " " + listBicycle.get(i).getProducer());
+//
+//        System.out.println("----------------------------------------------------------------------------------");
+//        listBicycle = bicycleService.sortBy(listBicycle, new BicycleComparator.SortBicycleByModel().comparatorSpecified());
+//        for (int i = 0; i < listBicycle.size(); i++)
+//            System.out.println(i + " " + listBicycle.get(i).getId()+ " " + listBicycle.get(i).getModel()
+//                    + " " + listBicycle.get(i).getRate() + " " + listBicycle.get(i).getProductionYear() +
+//                    " " + listBicycle.get(i).getProducer());
+//
+//
+//        System.out.println("----------------------------------------------------------------------------------");
+//        bicycleService.sortBy(listBicycle, new BicycleComparator.SortBicycleByYear().comparatorSpecified());
+//        Collections.reverse(listBicycle);
+//        for (int i = 0; i < listBicycle.size(); i++)
+//            System.out.println(i + " " + listBicycle.get(i).getId()+ " " + listBicycle.get(i).getModel()
+//                    + " " + listBicycle.get(i).getRate() + " " + listBicycle.get(i).getProductionYear() +
+//                    " " + listBicycle.get(i).getProducer());
 
-        System.out.println("----------------------------------------------------------------------------------");
-        listBicycle = bicycleService.sortBy(listBicycle, new BicycleComparator.SortBicycleByModel().comparatorSpecified());
-        for (int i = 0; i < listBicycle.size(); i++)
-            System.out.println(i + " " + listBicycle.get(i).getId()+ " " + listBicycle.get(i).getModel()
-                    + " " + listBicycle.get(i).getRate() + " " + listBicycle.get(i).getProductionYear() +
-                    " " + listBicycle.get(i).getProducer());
+        List<Enum> enumValues = Arrays.asList(CommandName.values());
+        String commandName ="authorization_page";
 
-
-        System.out.println("----------------------------------------------------------------------------------");
-        bicycleService.sortBy(listBicycle, new BicycleComparator.SortBicycleByYear().comparatorSpecified());
-        Collections.reverse(listBicycle);
-        for (int i = 0; i < listBicycle.size(); i++)
-            System.out.println(i + " " + listBicycle.get(i).getId()+ " " + listBicycle.get(i).getModel()
-                    + " " + listBicycle.get(i).getRate() + " " + listBicycle.get(i).getProductionYear() +
-                    " " + listBicycle.get(i).getProducer());
+        Boolean res=enumValues.contains(CommandName.valueOf(commandName.toUpperCase()));
 
     }
 }

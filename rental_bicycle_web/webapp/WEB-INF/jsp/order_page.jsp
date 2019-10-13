@@ -365,25 +365,21 @@
     <br class="item3">
         <img id="pictSelBycycle" width="200px" height="133px">
     <!---------------------------------- BICYCLES SORT BY DIFFERENT PARAMETERS---------------------------------------->
-        <form name="submit-pay" id="bicycles-by-model" class="form-signin" method="post" action="Controller?command=order_page&page=0">
+        <form name="submit-pay" id="bicycles-by-model" class="form-signin" method="post" action="Controller?command=order_page&page=0&sort_parameter=model">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sort-by-model</button>
         </form>
         </br>
-        <form name="submit-pay" id="bicycles-by-country" class="form-signin" method="post" action="./">
+        <form name="submit-pay" id="bicycles-by-country" class="form-signin" method="post" action="Controller?command=order_page&page=0&sort_parameter=model">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sort-by-country</button>
         </form>
         </br>
-        <form name="submit-pay" id="bicycles-by-rate" class="form-signin" method="post" action="/">
+        <form name="submit-pay" id="bicycles-by-rate" class="form-signin" method="post" action="Controller?command=order_page&page=0&sort_parameter=model">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sort-by-rate</button>
         </form>
     </br>
-    <form name="submit-pay" id="bicycles-by-year" class="form-signin" method="post" action="/">
+    <form name="submit-pay" id="bicycles-by-year" class="form-signin" method="post" action="Controller?command=order_page&page=0&sort_parameter=model">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sort-by-year</button>
     </form>
-        </br>
-        <form name="submit-pay" id="bicycles-by-date" class="form-signin" method="post" action="/">
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sort-by-date</button>
-        </form>
     </div>
 </div>
 
