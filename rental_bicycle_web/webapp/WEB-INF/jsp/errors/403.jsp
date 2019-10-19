@@ -8,32 +8,30 @@
 <html>
 <head>
     <title><fmt:message key="page.error.title.403" bundle="${cnt}"/></title>
-    <my:css/>
 </head>
 <body>
 <my:nav/>
-<div class="container min-vh-75">
-    <div class="row h-75 justify-content-center align-items-center">
-        <div>
-            <div class="row justify-content-center py-0">
-                <div class="container h-50 w-50">
-                    <img src="<c:url value = "/errors_img/err_403.jpg"/>" class="img-fluid img-thumbnail border-dark" alt="">
-                </div>
+<div>
+    <div>
+        <br>
+        <div class="row justify-content-center py-0">
+            <div class="container h-50 w-50">
+                <img src="<c:url value = "/errors_img/err_403.jpg"/>" class="img-fluid img-thumbnail border-dark" alt="" style="height:400px;width:auto;max-width:100%;display: block;margin-left: auto;margin-right: auto;">
             </div>
-            <div class="row justify-content-center pt-2">
-                <div class="container h-100 w-100">
-                    <h1 class="text-center"><fmt:message key="page.error.title.403" bundle="${cnt}"/></h1>
-                </div>
+        </div>
+        <div class="row justify-content-center pt-2">
+            <div class="container h-100 w-100">
+                <h1 class="text-center"><fmt:message key="page.error.title.403" bundle="${cnt}"/></h1>
             </div>
-            <div class="row justify-content-center py-0">
-                <a class="h6 font-weight-lighter" href="<c:url value = "/home.html"/>">
-                    <fmt:message key="page.error.action.go_home" bundle="${cnt}"/>
-                </a>
-            </div>
+        </div>
+        <div class="row justify-content-center py-0" align="center">
+            <a class="h6 font-weight-lighter" href="<c:url value = "."/>">
+                <fmt:message key="page.error.action.go_home" bundle="${cnt}"/>
+            </a>
         </div>
     </div>
 </div>
+</div>
 <my:footer/>
-<my:scripts/>
 </body>
 </html>

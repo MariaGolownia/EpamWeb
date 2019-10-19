@@ -15,13 +15,14 @@ public enum CommandName {
     SET_LOCALE,
 
     AUTHORIZATION_PAGE,
-    AUTHORIZATION_PAGE_USER_SUBMIT  ,
+    AUTHORIZATION_PAGE_USER_SUBMIT,
 
-    LOCATION_PAGE ,
-    USER_PAGE ,
+    LOCATION_PAGE,
+    USER_PAGE,
 
     REGISTER_COMMAND,
     REGISTRATION_PAGE,
+    REGISTRATION_PAGE_ADMIN,
 
     MAIN_PAGE,
 
@@ -29,31 +30,5 @@ public enum CommandName {
     START_ORDER,
 
     PAYMENT_PAGE ;
-    /*SET_LOCALE(new SetLocale()),
 
-    AUTHORIZATION_PAGE (new AuthorizationPageCommand()),
-    AUTHORIZATION_PAGE_USER_SUBMIT (new AuthorizationPageUserSubmitCommand()),
-
-    LOCATION_PAGE (new LocationPageCommand()),
-    USER_PAGE (new UserPageCommand()),
-
-    REGISTER_COMMAND (new RegistrationCommand()),
-    REGISTRATION_PAGE (new RegistrationPageCommand()),
-
-    MAIN_PAGE (new MainPageCommand()),
-
-    ORDER_PAGE (new OrderPageCommand()),
-    START_ORDER (new ActionStartOrder()),
-
-    PAYMENT_PAGE (new PaymentPageCommand());
-
-    private Command command;
-
-    CommandName(Command command) {
-        this.command = command;
-    }
-
-    public Command getCommand() {
-        return command;
-    }*/
 }

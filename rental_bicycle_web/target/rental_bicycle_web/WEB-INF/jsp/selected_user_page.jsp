@@ -183,7 +183,13 @@
     <div class="item2">
         <form action="Controller?command=main_page" method="post">
         <div class="item2">
-            <button class="btn btn-lg btn-primary btn-block" type="topUp" id="selectUser"> Select this user </button>
+        <button class="btn btn-lg btn-primary btn-block" type="topUp" id="selectUser"> Select this user </button>
+    </div>
+        </form>
+        </br>
+        <form action="Controller?command=register_command&mode=admin" method="post">
+        <div class="item2">
+            <button class="btn btn-lg btn-primary btn-block" type="topUp" id="addUser"> Add user </button>
         </div>
         </form>
         </br>

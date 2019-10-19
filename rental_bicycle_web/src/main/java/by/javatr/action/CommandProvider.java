@@ -1,5 +1,6 @@
 package by.javatr.action;
 import by.javatr.action.impl.*;
+import by.javatr.action.impl.admin.registration_page.RegistrationPageAdminCommand;
 import by.javatr.action.impl.authorization_page.AuthorizationPageCommand;
 import by.javatr.action.impl.authorization_page.AuthorizationPageUserSubmitCommand;
 import by.javatr.action.impl.locale.SetLocale;
@@ -32,6 +33,8 @@ public class CommandProvider {
         this.commands.put(CommandName.ORDER_PAGE, new OrderPageCommand());
         this.commands.put(CommandName.PAYMENT_PAGE, new PaymentPageCommand());
         this.commands.put(CommandName.START_ORDER, new ActionStartOrder());
+
+        this.commands.put(CommandName.REGISTRATION_PAGE_ADMIN, new RegistrationPageAdminCommand());
     }
 
     public static CommandProvider getInstance() {

@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,11 +42,8 @@
         <h2 class="form-signin-heading">Please sign in</h2>
         <!---------------------------------------Role-------------------------------------------------------------------------->
         <label for="inputRole" class="sr-show">Your role by default</label>
-        <input type="role" id="inputRole" name="userRole" class="form-control" value="User" readonly autofocus>
+        <input type="role" id="inputRole" name="userRole" class="form-control" value="user" readonly autofocus>
         <!----------------------------------------------------------------------------------------------------------------->
-        <label for="inputStatus" class="sr-show">Your status by default</label>
-        <input type="status" id="inputStatus" name="userStatus" class="form-control" value="Active" readonly autofocus>
-        <!---------------------------------------Login----------------------------------------------------------------->
         <label for="inputLogin" class="sr-show">Login</label>
         <input type="login" id="inputLogin" name="userLogin" class="form-control" placeholder="Enter your login" value="${loginUser}" required autofocus>
         <!---------------------------------------Password----------------------------------------------------------------->

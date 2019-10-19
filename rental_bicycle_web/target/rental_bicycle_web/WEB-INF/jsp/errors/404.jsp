@@ -29,7 +29,6 @@
                     <fmt:message key="page.error.action.go_home" bundle="${cnt}"/>
                 </a>
             </div>
-        </br>>
         </div>
     </div>
 </div>

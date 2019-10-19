@@ -1,8 +1,10 @@
 package by.javatr.controller.filter;
+
 import by.javatr.action.CommandName;
 import by.javatr.controller.web_data.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,25 +30,29 @@ public class SecurityFilter implements Filter {
             Object userLogin = session.getAttribute(Attributes.USER_LOGIN);
             String commandName = req.getParameter(Params.COMMAND_NAME);
 
-            if (userLogin != null || (commandName != null && commandName.equals(CommandParams.SET_LOCALE))
-                    || commandName.equals(Params.AUTHORIZATION_PAGE) || commandName.equals(Params.AUTHORIZATION_PAGE_USER_SUBMIT)) {
+            if (session != null) {
+                if (userLogin != null || (commandName != null && commandName.equals(CommandParams.SET_LOCALE))
+                        || commandName.equals(Params.AUTHORIZATION_PAGE) || commandName.equals(Params.AUTHORIZATION_PAGE_USER_SUBMIT)) {
 
-                List<Enum> enumValues = Arrays.asList(CommandName.values());
+                    List<Enum> enumValues = Arrays.asList(CommandName.values());
 
-                List<String> enumNames = Stream.of(CommandName.values())
-                        .map(Enum::name)
-                        .collect(Collectors.toList());
-                if (!enumNames.contains(commandName.toUpperCase())) {
-                    dispatcherSuccess = req.getRequestDispatcher(Pages.ERROR_404);
-                    dispatcherSuccess.forward(req, resp);
+                    List<String> enumNames = Stream.of(CommandName.values())
+                            .map(Enum::name)
+                            .collect(Collectors.toList());
+                    if (!enumNames.contains(commandName.toUpperCase())) {
+                        dispatcherSuccess = req.getRequestDispatcher(Pages.ERROR_404);
+                        dispatcherSuccess.forward(req, resp);
+                    } else {
+                        chain.doFilter(req, resp);
+                    }
                 } else {
-                    chain.doFilter(req, resp);
+                    dispatcherSuccess = req.getRequestDispatcher(Pages.AUTHORIZATION_PAGE);
+                    dispatcherSuccess.forward(req, resp);
                 }
             } else {
-                dispatcherSuccess = req.getRequestDispatcher(Pages.AUTHORIZATION_PAGE);
+                dispatcherSuccess = req.getRequestDispatcher(Pages.ERROR_500);
                 dispatcherSuccess.forward(req, resp);
             }
-
         }
     }
 }
