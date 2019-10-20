@@ -1,42 +1,37 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8" isErrorPage="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
+<fmt:setLocale value="${empty cookie.lang.value ? 'en_US' : cookie.lang.value}"/>
+<fmt:setBundle basename="config.content" var="cnt"/>
+
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="./css/bootstrap.min.css">
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-	<!-- <script src="https://kit.fontawesome.com/8976989bb7.js"></script> -->
-	<script type="text/javascript" src="./js/all.js"></script>
-	<link rel="stylesheet" href="./css/main.css">
-
-
-	<style>
-		body {
-			font-family: 'Lato', sans-serif;
-		}
-
-		.height-100 {
-			height: 100vh;
-		}
-	</style>
-
+	<title><fmt:message key="page.error.title.500" bundle="${cnt}"/></title>
 </head>
 <body>
-	<section class="height-100 bg-light">
-		<div class="container">
-			<div class="row align-items-center">
-				<h1 class="display-2 text-danger">Ошибка №404</h1>
+<my:nav/>
+<div>
+	<div>
+		<br>
+		<div class="row justify-content-center py-0">
+			<div class="container h-50 w-50">
+				<img src="<c:url value = "/errors_img/err_500.png"/>" class="img-fluid img-thumbnail border-dark" alt="" style="height:400px;width:auto;max-width:100%;display: block;margin-left: auto;margin-right: auto;">
 			</div>
 		</div>
-	</section>
-
-	<!-- jQuery -->
-	<script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
-	<!-- Bootstrap JS -->
-	<script type="text/javascript" src="./js/bootstrap.bundle.min.js"></script>
+		<div class="row justify-content-center pt-2">
+			<div class="container h-100 w-100">
+				<h1 class="text-center"><fmt:message key="page.error.title.500" bundle="${cnt}"/></h1>
+			</div>
+		</div>
+		<div class="row justify-content-center py-0" align="center">
+			<a class="h6 font-weight-lighter" href="<c:url value = "."/>">
+				<fmt:message key="page.error.action.go_home" bundle="${cnt}"/>
+			</a>
+		</div>
+	</div>
+</div>
+</div>
+<my:footer/>
 </body>
 </html>

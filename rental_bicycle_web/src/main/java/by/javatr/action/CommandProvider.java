@@ -1,5 +1,7 @@
 package by.javatr.action;
 import by.javatr.action.impl.*;
+import by.javatr.action.impl.admin.registration_page.EditUserPageAdminCommand;
+import by.javatr.action.impl.admin.registration_page.EditUserPageApplyAdminCommand;
 import by.javatr.action.impl.admin.registration_page.RegistrationPageAdminCommand;
 import by.javatr.action.impl.authorization_page.AuthorizationPageCommand;
 import by.javatr.action.impl.authorization_page.AuthorizationPageUserSubmitCommand;
@@ -11,7 +13,6 @@ import by.javatr.action.impl.payment_page.PaymentPageCommand;
 import by.javatr.action.impl.registration_page.RegistrationCommand;
 import by.javatr.action.impl.selected_user_page.RegistrationPageCommand;
 import by.javatr.action.impl.selected_user_page.UserPageCommand;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ public class CommandProvider {
     private Command command;
 
     private CommandProvider() {
+        //User's commands
         this.commands.put(CommandName.SET_LOCALE, new SetLocale());
         this.commands.put(CommandName.AUTHORIZATION_PAGE, new AuthorizationPageCommand());
         this.commands.put(CommandName.AUTHORIZATION_PAGE_USER_SUBMIT, new AuthorizationPageUserSubmitCommand());
@@ -34,7 +36,10 @@ public class CommandProvider {
         this.commands.put(CommandName.PAYMENT_PAGE, new PaymentPageCommand());
         this.commands.put(CommandName.START_ORDER, new ActionStartOrder());
 
+        //Admin's commands
         this.commands.put(CommandName.REGISTRATION_PAGE_ADMIN, new RegistrationPageAdminCommand());
+        this.commands.put(CommandName.EDIT_USER_PAGE_ADMIN, new EditUserPageAdminCommand());
+        this.commands.put(CommandName.EDIT_USER_APPLY_COMMAND_ADMIN, new EditUserPageApplyAdminCommand());
     }
 
     public static CommandProvider getInstance() {

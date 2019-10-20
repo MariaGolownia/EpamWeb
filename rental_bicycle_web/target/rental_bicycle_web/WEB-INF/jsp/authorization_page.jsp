@@ -54,7 +54,11 @@
             </a></li>
         </div>
         <!-- Вывод на форму переданного значения в loginErr в AuthorizationPageUserSubmitCommand -->
-        <label style="color: red">${loginErr}</label>
+        <c:if test="${loginErr != null}">
+            <label style="color: red">
+                <fmt:message key="authorization_page.error.message" bundle="${cnt}"/>
+            </label>
+        </c:if>
         </br>
         <button class="btn btn-lg btn-primary btn-block" type="submit" >
             <fmt:message key="authorization_page.button.submit" bundle="${cnt}"/>

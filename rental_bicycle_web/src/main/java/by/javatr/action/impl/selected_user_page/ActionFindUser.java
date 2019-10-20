@@ -3,6 +3,7 @@ import by.javatr.dao.mysql.DaoSql;
 import by.javatr.entity.User;
 import by.javatr.entity.UserInfo;
 import by.javatr.service.FactoryService;
+import by.javatr.service.ServiceException;
 import by.javatr.service.impl.UserInfoServiceImpl;
 import com.google.gson.Gson;
 
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 @WebServlet("/GetUser/*")
 public class ActionFindUser extends HttpServlet {
-public final static int DEFAULT_USER_ID = 9;
+    public final static int DEFAULT_USER_ID = 9;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         // Используем Gson для преобразования массива в структурированный string
@@ -23,20 +24,25 @@ public final static int DEFAULT_USER_ID = 9;
         UserInfoServiceImpl userInfoService = factoryService.get(DaoSql.UserInfoDao);
         UserInfo userInfo = new UserInfo();
         String json = "";
+        try {
+            String numberPasportStr = request.getParameter("userDocId").trim();
+            if (numberPasportStr == null || "".equals(numberPasportStr)) {
+                userInfo = userInfoService.findByIdentity(DEFAULT_USER_ID);
+            } else {
 
-        String numberPasportStr = request.getParameter("userDocId").trim();
-        if (numberPasportStr == null || "".equals(numberPasportStr)) {
-            userInfo = userInfoService.findByIdentity(DEFAULT_USER_ID);
-        } else {
-            userInfo = userInfoService.findByIdNumberPassport(numberPasportStr);
-            HttpSession session = request.getSession();
-            UserInfo userInfoSession = (UserInfo) session.getAttribute("selectedUserInfo");
-            if (userInfoSession!=null)
-                session.removeAttribute("selectedUserInfo");
-            session.setAttribute("selectedUserInfo", userInfo);
-            json = new Gson().toJson(userInfo);
+                userInfo = userInfoService.findByIdNumberPassport(numberPasportStr);
+
+                HttpSession session = request.getSession();
+                UserInfo userInfoSession = (UserInfo) session.getAttribute("selectedUserInfo");
+                if (userInfoSession!=null)
+                    session.removeAttribute("selectedUserInfo");
+                session.setAttribute("selectedUserInfo", userInfo);
+                json = new Gson().toJson(userInfo);
+            }
+            response.setContentType("text/plain");
+        } catch (ServiceException e) {
+            e.printStackTrace();
         }
-        response.setContentType("text/plain");
         try {
             response.getWriter().write(json);
         } catch (IOException e) {

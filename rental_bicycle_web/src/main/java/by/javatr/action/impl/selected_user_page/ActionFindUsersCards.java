@@ -5,6 +5,7 @@ import by.javatr.dao.mysql.DaoSql;
 import by.javatr.entity.UserInfo;
 import by.javatr.entity.VirtualCard;
 import by.javatr.service.FactoryService;
+import by.javatr.service.ServiceException;
 import by.javatr.service.impl.VirtualCardServiceImpl;
 import com.google.gson.Gson;
 
@@ -29,8 +30,12 @@ public class ActionFindUsersCards extends HttpServlet {
         if (numberPasportStr == null || "".equals(numberPasportStr)) {
             json = "None";
         } else {
-            virtualCards = virtualCardService.findByUserPassportId(numberPasportStr);
-            json = new Gson().toJson(virtualCards);
+            try {
+                virtualCards = virtualCardService.findByUserPassportId(numberPasportStr);
+                json = new Gson().toJson(virtualCards);
+            } catch (ServiceException e) {
+                e.printStackTrace();
+            }
         }
         response.setContentType("text/plain");
         try {

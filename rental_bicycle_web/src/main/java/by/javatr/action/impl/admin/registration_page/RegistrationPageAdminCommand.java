@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 public class RegistrationPageAdminCommand extends BaseCommand {
     private static final String USER_ROLE = "userRole";
@@ -40,6 +41,10 @@ public class RegistrationPageAdminCommand extends BaseCommand {
         String message_error = "";
         RequestDispatcher dispatcher = null;
         Boolean sts = false;
+        Enumeration paramaterNames = request.getParameterNames();
+        while(paramaterNames.hasMoreElements() ) {
+            System.out.println(paramaterNames.nextElement());
+        }
         String userRole = request.getParameter(USER_ROLE);
         String userLogin = request.getParameter(USER_LOGIN);
         String userPassword = request.getParameter(USER_PASSWORD);
@@ -76,6 +81,8 @@ public class RegistrationPageAdminCommand extends BaseCommand {
             userInfo.setSurname(surnameUser);
             userInfo.setName(nameUser);
             userInfo.setBirthDate(DateConverter.converterDateFromString(birthDateUser));
+            System.out.println(birthDateUser);
+            System.out.println(DateConverter.converterDateFromString(birthDateUser));
             userInfo.setSecondName(secondNameUser);
             userInfo.setCountry(countryUser);
             userInfo.setPassportIssueDate(DateConverter.converterDateFromString(passportIssueDateUser));

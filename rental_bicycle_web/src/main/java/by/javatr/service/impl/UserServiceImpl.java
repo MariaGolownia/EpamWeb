@@ -127,14 +127,17 @@ public class UserServiceImpl extends Service implements UserService {
     }
 
     @Override
-    public void update(User user, User userUpdate) throws SQLException {
+    public void update(User user, User userUpdate) {
         UserDao dao = null;
         UserServiceValidation userServiceValidation = new UserServiceValidation();
         if (userServiceValidation.ifUserExists(user)) {
-            UserDao userDao = null;
+
             try {
+                UserDao userDao = FactoryDaoSql.getInstance().get(DaoSql.UserDao);
                 userDao.update(userUpdate);
-                userDao = FactoryDaoSql.getInstance().get(DaoSql.UserDao);
+            }
+            catch (SQLException ex) {
+                ex.printStackTrace();
             }
              catch (DaoException e) {
                 e.printStackTrace();
@@ -144,11 +147,13 @@ public class UserServiceImpl extends Service implements UserService {
     }
 
     @Override
-    public void delete(Integer id) throws SQLException {
+    public void delete(Integer id)  {
         UserDao userDao = null;
         try {
             userDao = FactoryDaoSql.getInstance().get(DaoSql.UserDao);
             userDao.delete(id);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         } catch (DaoException e) {
             e.printStackTrace();
         }

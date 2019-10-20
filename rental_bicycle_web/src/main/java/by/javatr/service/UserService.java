@@ -7,19 +7,19 @@ import java.util.List;
 
 public interface UserService  {
 
-    List<User> findAll() throws PersistentException;
+    List<User> findAll() throws ServiceException;
 
-    User findByIdentity(Integer identity) throws PersistentException;
+    User findByIdentity(Integer identity) throws ServiceException;
 
-    User findByLogin(String login);
+    User findByLogin(String login) throws ServiceException;
 
-    User findByLoginAndPassword(String login, String password) throws PersistentException;
+    User findByLoginAndPassword(String login, String password) throws ServiceException;
 
-    Integer save(User user) throws PersistentException, ServiceException;
+    Integer save(User user) throws ServiceException;
 
-    void update(User user, User userUpdate) throws PersistentException, SQLException;
+    void update(User user, User userUpdate) throws ServiceException;
 
-    void delete(Integer identity) throws PersistentException, SQLException;
+    void delete(Integer identity) throws ServiceException;
 
     String getHashCodePassword (String passwordStr);
 

@@ -11,14 +11,14 @@ public interface UserInfoService {
 
     List<User> findAll() throws PersistentException;
 
-    UserInfo findByIdNumberPassport(String idPassport) throws PersistentException, SQLException;
+    UserInfo findByIdNumberPassport(String idPassport) throws ServiceException;
 
-    UserInfo findByIdentity(Integer identity) throws PersistentException;
+    UserInfo findByIdentity(Integer identity) throws ServiceException;
 
     void save(UserInfo userInfo) throws PersistentException, ServiceException;
 
-    void update(UserInfo userInfo, UserInfo userInfoUpdate) throws PersistentException;
+    void update(UserInfo userInfoUpdate) throws ServiceException;
 
-    void delete(Integer identity) throws PersistentException;
+    void delete(Integer identity) throws ServiceException;
 
 }

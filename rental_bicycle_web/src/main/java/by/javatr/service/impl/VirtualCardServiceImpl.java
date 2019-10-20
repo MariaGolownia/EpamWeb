@@ -7,6 +7,7 @@ import by.javatr.entity.UserInfo;
 import by.javatr.entity.VirtualCard;
 import by.javatr.service.FactoryService;
 import by.javatr.service.Service;
+import by.javatr.service.ServiceException;
 import by.javatr.service.VirtualCardService;
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -29,7 +30,7 @@ public class VirtualCardServiceImpl  extends Service implements VirtualCardServi
     }
 
     @Override
-    public List<VirtualCard> findByUserPassportId(String userPassportId) {
+    public List<VirtualCard> findByUserPassportId(String userPassportId) throws ServiceException {
         List<VirtualCard> virtualCards = new ArrayList<>();
         UserInfo userInfo = new UserInfo();
         Integer userId = null;

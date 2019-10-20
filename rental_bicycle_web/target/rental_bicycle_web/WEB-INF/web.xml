@@ -5,12 +5,12 @@
 		http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
 
   <display-name>FinalTask</display-name>
-
+<!--
   <error-page>
     <error-code>404</error-code>
     <location>/WEB-INF/jsp/error_page.jsp</location>
   </error-page>
-
+-->
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
@@ -49,7 +49,7 @@
     <servlet-name>Controller</servlet-name>
   </filter-mapping>
 
-  <!--
+<!--
     <error-page>
       <error-code>403</error-code>
       <location>/WEB-INF/jsp/errors/403.jsp</location>
@@ -64,6 +64,7 @@
     </error-page>
     <error-page>
       <location>/WEB-INF/jsp/errors/error.jsp</location>
-    </error-page>-->
+    </error-page>
+  -->
 
 </web-app>

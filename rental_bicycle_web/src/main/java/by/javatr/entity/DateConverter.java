@@ -1,6 +1,7 @@
 package by.javatr.entity;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +38,15 @@ public class DateConverter {
                 dateLocalDate = LocalDate.of(yearInt, monthInt, dayInt);
         }
         return dateLocalDate;
+    }
+
+    public static String converterStringFromDate(LocalDate date) {
+        String strDate = "";
+
+        if (date != null) {
+            strDate=date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        }
+        return strDate;
     }
 
     public static Boolean validateDate (String strDate) {

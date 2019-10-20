@@ -1,11 +1,11 @@
 package by.javatr.action.impl.payment_page;
-
 import by.javatr.action.BaseCommand;
 import by.javatr.dao.UserInfoDao;
 import by.javatr.dao.mysql.DaoSql;
 import by.javatr.entity.*;
 import by.javatr.entity.en_um.Currency;
 import by.javatr.service.FactoryService;
+import by.javatr.service.ServiceException;
 import by.javatr.service.impl.*;
 
 import javax.servlet.RequestDispatcher;
@@ -27,13 +27,15 @@ public class PaymentPageCommand extends BaseCommand {
 
         OrderServiceImpl orderService = factoryService.get(DaoSql.OrderDao);
         Order order = orderService.read(Integer.valueOf(orderID));
-
+        try {
         BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
         List<Integer>bicyclesIdList = order.getBicyclesId();
         List<Bicycle>bicycleList = bicycleService.findById(bicyclesIdList);
 
         UserInfoServiceImpl userService = factoryService.get(DaoSql.UserInfoDao);
-        UserInfo userInfo = userService.findByIdentity(order.getUserId());
+        UserInfo userInfo = null;
+
+            userInfo = userService.findByIdentity(order.getUserId());
 
         List<VirtualCard>virtualCards = new ArrayList<>();
         VirtualCardServiceImpl virtualCardService = factoryService.get(DaoSql.VirtualCardDao);
@@ -61,6 +63,9 @@ public class PaymentPageCommand extends BaseCommand {
         request.setAttribute("orderAmount", ammountForPay);
 
         dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/payment_page.jsp");
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
 
         try {
             dispatcher.forward(request, response);

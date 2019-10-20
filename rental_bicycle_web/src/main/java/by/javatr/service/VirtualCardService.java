@@ -8,7 +8,7 @@ public interface VirtualCardService {
 
     List<VirtualCard>  findByUserId(Integer userId);
 
-    List<VirtualCard>  findByUserPassportId(String userPassportId);
+    List<VirtualCard>  findByUserPassportId(String userPassportId) throws ServiceException;
 
     BigDecimal readBalance(String cardId);
 

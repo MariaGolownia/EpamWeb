@@ -2,7 +2,9 @@ package by.javatr.controller;
 import by.javatr.action.CommandName;
 import by.javatr.dao.mysql.DaoSql;
 import by.javatr.entity.*;
+import by.javatr.entity.en_um.UserStatus;
 import by.javatr.service.FactoryService;
+import by.javatr.service.ServiceException;
 import by.javatr.service.bic_sort.BicycleComparator;
 import by.javatr.service.bic_sort.BicycleComparatorRealization;
 import by.javatr.service.impl.*;
@@ -687,12 +689,62 @@ public class Runner {
 //                    + " " + listBicycle.get(i).getRate() + " " + listBicycle.get(i).getProductionYear() +
 //                    " " + listBicycle.get(i).getProducer());
 
-        List<Enum> enumValues = Arrays.asList(CommandName.values());
-        String commandName ="authorization_page";
+//        List<Enum> enumValues = Arrays.asList(CommandName.values());
+//        String commandName ="authorization_page";
+//
+//        Boolean res=enumValues.contains(CommandName.valueOf(commandName.toUpperCase()));
 
-        Boolean res=enumValues.contains(CommandName.valueOf(commandName.toUpperCase()));
 
-    }
+
+
+//        String message_error = "";
+//        String idPassportUser = "3041181A015PB4";
+//        FactoryService factoryService = FactoryService.getInstance();
+//        UserInfoServiceImpl userInfoService = factoryService.get(DaoSql.UserInfoDao);
+//        UserInfo userInfoFromDB = new UserInfo();
+//
+//        try {
+//            if (idPassportUser != null || !idPassportUser.equals("null") || !idPassportUser.trim().equals("")) {
+//                userInfoFromDB = userInfoService.findByIdNumberPassport(idPassportUser);
+//                System.out.println(userInfoFromDB.toString());
+//                UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
+//                User userFromDB = userService.findByIdentity(userInfoFromDB.getId());
+//                System.out.println(userFromDB.toString());
+//
+//            }
+//            else {
+//                message_error = "Select the user to edit!";
+//
+//            }
+//        } catch (ServiceException e) {
+//            message_error = e.getMessage();
+//            e.printStackTrace();
+//        }
+
+//        try {
+//        FactoryService factoryService = FactoryService.getInstance();
+//        UserInfoServiceImpl userInfoService = factoryService.get(DaoSql.UserInfoDao);
+//        UserInfo userInfoFromDB = new UserInfo();
+//
+//
+//
+//        userInfoFromDB = userInfoService.findByIdNumberPassport("3041181A015PB4");
+//
+//        UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
+//        Integer updateUserId = userInfoFromDB.getId();
+//        User userFromDB = userService.findByIdentity(updateUserId);
+//
+//        User userNew = userFromDB;
+//        UserInfo UserInfoNew = userInfoFromDB;
+//        UserInfoNew.setSecondPhoneNumber(new Long("80297777777"));
+//
+//
+//        userInfoService.update(UserInfoNew);
+//        userService.update(userFromDB, userNew);
+//        } catch (ServiceException e) {
+//            e.printStackTrace();
+//        }
+   }
 }
 
 

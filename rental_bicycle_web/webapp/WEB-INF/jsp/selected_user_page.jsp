@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +19,7 @@
     <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="./css/signin.css" rel="stylesheet">
     <link href="./css/order_page1.css" rel="stylesheet">
+    <link href="./css/flex_new_card.css" rel="stylesheet">
     <fmt:setLocale value="${empty cookie.lang.value ? 'en_US' : cookie.lang.value}"/>
     <fmt:setBundle basename="config.content" var="cnt"/>
     <!-- Подключение библиотеки с пользовательскими тегами-->
@@ -124,20 +128,63 @@
             });
         });
     </script>
+    <script>
+        function showForm() {
+            document.getElementById("newCardDiv").hidden = false;
+            document.getElementById("addCard").hidden = true;
+        }
+    </script>
+    <script>
+        function hideForm() {
+            document.getElementById("newCardDiv").hidden = true;
+            document.getElementById("addCard").hidden = false;
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#okNewCard').on('click', function() {
+                $.ajax({
+                    url : 'AddNewCard',
+                    data : {
+                        // Структура данных, которую передаем
+                        userDocId: $('#inputPassportIdentificationNumber').val(),
+                        userCardName: $('#nameNewCard').val(),
+                        userCardCcy: $('#currencyNewCard').val(),
+                        userCardAmmount: $('#balanceNewCard').val()
+                    },
+                    // Структура данных, которую принимаем
+                    success : function(responseJson) {
+                        var $select = $('#cardName');
+
+                        if (responseJson != null && responseJson != "") {
+                            $.each(JSON.parse(responseJson), function (i, cards) {
+                                $select.append($('<option>').text(cards.name).attr('value', cards.id));
+                            });
+                        }
+                        hideForm();
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
 <t:nav/>
 
     <!--<h2 class="form-signin-heading">Select a user by key parameters: </h2>-->
-
 <div class="flex2">
     <div class="item2">
         <div class="item2">
             <!--------------------------------PassportIdentificationNumber--------------------------------------------------------------->
-            <label for="inputPassportIdentificationNumber" class="sr-show">Passport identification number</label>
-            <input type="passportIdentificationNumber" id="inputPassportIdentificationNumber" name="userPassportIdentificationNumber" class="form-control" placeholder="" autofocus>
-            <button class="btn btn-lg btn-primary btn-block" type="topUp" id="findUser" > Select this user </button>
+            <form class="form-signin" action="Controller?command=edit_user_page_admin" method="post">
+                <label style="color: blue">${msgString}</label>
+                <label for="inputPassportIdentificationNumber" class="sr-show">Passport identification number</label>
+                <input type="text" id="inputPassportIdentificationNumber" name="userPassportIdentificationNumber" class="form-control" placeholder="" value="${idValue}" required autofocus>
+                <button class="btn btn-lg btn-primary btn-block" type="register" >Edit</button>
+                </br>
+                <button class="btn btn-lg btn-primary btn-block" type="topUp" id="findUser" > Select this user </button>
+            </form>
             </br>
             </br>
             </br>
@@ -153,7 +200,29 @@
             <!--------------------------------Virtual card--------------------------------------------------------------->
             <label class="sr-show">Virtual card</label>
             <select id="cardName" class="form-control">
+                <option value=""></option>
             </select>
+
+            <button class="btn btn-lg btn-primary btn-block" type="topUp" id="addCard" onclick="showForm()"> Add new card </button>
+
+            <div id="newCardDiv" class="flexNewCard" hidden>
+            <div class="itemNewCard">
+                <label for="nameNewCard" class="sr-show">Card name</label>
+                <input type="currency" id="nameNewCard" name="nameNewCard" class="form-control" placeholder="" autofocus>
+                <label for="currencyNewCard" class="sr-show">Currency</label>
+                <input type="currency" id="currencyNewCard" name="currencyNewCard" class="form-control" placeholder="" autofocus>
+                <label for="balanceNewCard" class="sr-show">Card balance</label>
+                <input type="balance" id="balanceNewCard" name="balanceNewCard" class="form-control" placeholder="" autofocus>
+            </div>
+            <div class="flexNewCard">
+                <div class="itemNewCard">
+                    <button class="btn btn-lg btn-primary btn-block" type="topUp" id="okNewCard" > Ok </button>
+                </div>
+                <div class="itemNewCard">
+                    <button class="btn btn-lg btn-primary btn-block" type="topUp" id="cancelNewCard" onclick="hideForm()"> Cancel </button>
+                </div>
+            </div>
+            </div>
             </br>
             </br>
             </br>
@@ -182,23 +251,35 @@
 
     <div class="item2">
         <form action="Controller?command=main_page" method="post">
-        <div class="item2">
-        <button class="btn btn-lg btn-primary btn-block" type="topUp" id="selectUser"> Select this user </button>
-    </div>
+            <div class="item2">
+                <button class="btn btn-lg btn-primary btn-block" type="topUp" id="selectUser"> Select this user </button>
+            </div>
         </form>
+
         </br>
+
         <form action="Controller?command=register_command&mode=admin" method="post">
-        <div class="item2">
-            <button class="btn btn-lg btn-primary btn-block" type="topUp" id="addUser"> Add user </button>
-        </div>
+            <div class="item2">
+                <button class="btn btn-lg btn-primary btn-block" type="topUp" id="addUser"> Add user </button>
+            </div>
         </form>
+        <!--
+
+                </br>
+                </br>
+                <form action="Controller?command=edit_user_page_admin" method="post">
+                    <div class="item2">
+                        <button class="btn btn-lg btn-primary btn-block" type="topUp" id="editUser"> Edit user </button>
+                    </div>
+                </form>
+        -->
         </br>
+
         <div class="item2">
             <button class="btn btn-lg btn-primary btn-block" type="topUp" onclick="history.back()"> Back </button>
         </div>
     </div>
 </div>
-
 
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
