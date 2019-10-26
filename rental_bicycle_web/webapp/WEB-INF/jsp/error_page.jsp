@@ -16,7 +16,7 @@
 		<br>
 		<div class="row justify-content-center py-0">
 			<div class="container h-50 w-50">
-				<img src="<c:url value = "/errors_img/err_500.png"/>" class="img-fluid img-thumbnail border-dark" alt="" style="height:400px;width:auto;max-width:100%;display: block;margin-left: auto;margin-right: auto;">
+				<img src="<c:url value = "/img/errors_img/err_500.png"/>" class="img-fluid img-thumbnail border-dark" alt="" style="height:400px;width:auto;max-width:100%;display: block;margin-left: auto;margin-right: auto;">
 			</div>
 		</div>
 		<div class="row justify-content-center pt-2">

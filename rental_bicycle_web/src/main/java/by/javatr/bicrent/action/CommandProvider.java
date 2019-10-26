@@ -13,7 +13,8 @@ import by.javatr.bicrent.action.impl.order_page.ActionStartOrder;
 import by.javatr.bicrent.action.impl.order_page.OrderPageCommand;
 import by.javatr.bicrent.action.impl.payment_page.PaymentPageCommand;
 import by.javatr.bicrent.action.impl.registration_page.RegistrationCommand;
-import by.javatr.bicrent.action.impl.selected_user_page.RegistrationPageCommand;
+import by.javatr.bicrent.action.impl.registration_page.RegistrationPageCommand;
+import by.javatr.bicrent.action.impl.selected_user_page.GetTopUpBalance;
 import by.javatr.bicrent.action.impl.selected_user_page.UserPageCommand;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +45,7 @@ public class CommandProvider {
         this.commands.put(CommandName.EDIT_USER_APPLY_COMMAND_ADMIN, new EditUserPageApplyAdminCommand());
         this.commands.put(CommandName.ADD_NEW_CARD_ADMIN, new AddNewCardAdminCommand());
         this.commands.put(CommandName.GET_CURRENCY_ADMIN, new GetCurrencyAdmin());
+        this.commands.put(CommandName.USER_PAGEUP_BALANCE, new GetTopUpBalance());
 
     }
 

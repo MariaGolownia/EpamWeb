@@ -5,19 +5,19 @@
 		http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
 
   <display-name>FinalTask</display-name>
-<!--
+
   <error-page>
     <error-code>404</error-code>
     <location>/WEB-INF/jsp/error_page.jsp</location>
   </error-page>
--->
+
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
   <servlet>
     <servlet-name>Controller</servlet-name>
-    <servlet-class>by.javatr.action.Controller</servlet-class>
+    <servlet-class>by.javatr.bicrent.action.Controller</servlet-class>
 
     <init-param>
       <param-name>contextConfigLocation</param-name>
@@ -32,7 +32,7 @@
 
   <filter>
     <filter-name>XssFilter</filter-name>
-    <filter-class>by.javatr.controller.filter.XSSFilter</filter-class>
+    <filter-class>by.javatr.bicrent.controller.filter.XSSFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>XssFilter</filter-name>
@@ -42,14 +42,14 @@
 
   <filter>
     <filter-name>RoleCheckingFilter</filter-name>
-    <filter-class>by.javatr.controller.filter.SecurityFilter</filter-class>
+    <filter-class>by.javatr.bicrent.controller.filter.SecurityFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>RoleCheckingFilter</filter-name>
     <servlet-name>Controller</servlet-name>
   </filter-mapping>
 
-<!--
+
     <error-page>
       <error-code>403</error-code>
       <location>/WEB-INF/jsp/errors/403.jsp</location>
@@ -65,6 +65,6 @@
     <error-page>
       <location>/WEB-INF/jsp/errors/error.jsp</location>
     </error-page>
-  -->
+
 
 </web-app>

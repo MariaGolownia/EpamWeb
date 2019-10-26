@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="./img/favicon.ico">
+    <link rel="icon" href="./img/site_img/favicon.ico">
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="./css/signin.css" rel="stylesheet">
@@ -94,15 +94,35 @@ Role: ${userR}
         <input type="status" id="selectedUser" class="form-control" value="${userName}" readonly autofocus>
     </form>
     </br>
-    <form class="form-signin" action="Controller?command=order_page" method="post">
-        <button class="btn btn-lg btn-primary btn-block" type="submit" >
+    <form id="submitOrder" class="form-signin">
+        <button class="btn btn-lg btn-primary btn-block" id="submit-order">
             <fmt:message key="main_page.choose_order" bundle="${cnt}"/>
         </button>
     </form>
+    <div id="messageCheckFillingLocAndUser" hidden>
+        <label style="color: red">
+            <fmt:message key="message.error.form.main.page.fill.loc.user" bundle="${cnt}"/>
+        </label>
+    </div>
 </div> <!-- /container -->
 
+<script>
+    document.getElementById("submit-order").addEventListener("click", function(event){
+        var loc = document.getElementById('selectedLocation');
+        var user = document.getElementById('selectedUser');
+        var frm = document.getElementById('submitOrder') || null;
 
-
+        if(frm && loc.value!="" && user.value!="") {
+            frm.action = "Controller?command=order_page";
+            frm.method = "post";
+            frm.submit();
+        }
+        else {
+            document.getElementById('messageCheckFillingLocAndUser').hidden = false;
+            event.preventDefault()
+        }
+    });
+</script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="./js/ie10-viewport-bug-workaround.js"></script>
 </body>

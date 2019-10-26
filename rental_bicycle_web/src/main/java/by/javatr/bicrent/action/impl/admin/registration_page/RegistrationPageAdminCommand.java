@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
 public class RegistrationPageAdminCommand extends BaseCommand {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String USER_ROLE = "userRole";
@@ -63,7 +62,6 @@ public class RegistrationPageAdminCommand extends BaseCommand {
         String secondPhoneNumberUser = request.getParameter(SECOND_PHONE_NUMBER_USER);
         String emailUser = request.getParameter(EMAIL_USER);
 
-
         try {
             UserServiceImpl userService = factoryService.get(DaoSql.UserDao);
             User userNew = new User();
@@ -74,14 +72,13 @@ public class RegistrationPageAdminCommand extends BaseCommand {
             userNew.setRole(Role.USER);
 
             Integer id = userService.save(userNew);
-
             UserInfoServiceImpl userInfoService = factoryService.get(DaoSql.UserInfoDao);
             UserInfo userInfo = new UserInfo();
             userInfo.setId(id);
             userInfo.setSurname(surnameUser);
             userInfo.setName(nameUser);
             userInfo.setBirthDate(DateConverter.converterDateFromString(birthDateUser));
-            
+
             userInfo.setSecondName(secondNameUser);
             userInfo.setCountry(countryUser);
             userInfo.setPassportIssueDate(DateConverter.converterDateFromString(passportIssueDateUser));
@@ -122,20 +119,17 @@ public class RegistrationPageAdminCommand extends BaseCommand {
             request.setAttribute("phone_number_user", phoneNumberUser);
             request.setAttribute("phone_number2_user", secondPhoneNumberUser);
             request.setAttribute("e_mail_user", emailUser);
-
             request.setAttribute("errorMessage", message_error);
             dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/admin/registration_page_adm.jsp");
         }
 
         try {
             dispatcher.forward(request, response);
-            // передача запроса/управления другому ресурсу на сервере;
+            // transfer request / control to another resource on the server;
         } catch (ServletException e) {
-            LOGGER.error("ServletException =" + e);
-            e.printStackTrace();
+            LOGGER.error("ServletException from RegistrationPageAdminCommand =" + e.getMessage());
         } catch (IOException e) {
-            LOGGER.error("IOException =" + e);
-            e.printStackTrace();
+            LOGGER.error("IOException from RegistrationPageAdminCommand =" + e.getMessage());
         }
     }
 }

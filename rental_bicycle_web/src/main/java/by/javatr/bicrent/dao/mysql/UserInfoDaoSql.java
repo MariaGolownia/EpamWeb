@@ -226,9 +226,11 @@ public class UserInfoDaoSql extends BaseDaoSql implements UserInfoDao {
                 userInfo.setSurname(resultSet.getString("userInfo_surname"));
                 userInfo.setName(resultSet.getString("userInfo_name"));
                 userInfo.setSecondName(resultSet.getString("userInfo_secondName"));
-                userInfo.setBirthDate(resultSet.getDate("userInfo_birthDate").toLocalDate());
+                Date resultDate = resultSet.getDate("userInfo_birthDate");
+                userInfo.setBirthDate(resultDate==null?null:resultDate.toLocalDate());
                 userInfo.setCountry(Country.getCountry(resultSet.getString("userInfo_country")));
-                userInfo.setPassportIssueDate(resultSet.getDate("userInfo_passportIssueDate").toLocalDate());
+                Date resultPassportIssueDate = resultSet.getDate("userInfo_passportIssueDate");
+                userInfo.setPassportIssueDate(resultPassportIssueDate==null?null:resultPassportIssueDate.toLocalDate());
                 userInfo.setPassportIssuingAuthority(resultSet.getString("userInfo_passportIssuingAuthority"));
                 userInfo.setPassportIdentificationNumber(resultSet.getString("userInfo_passportIdentificationNumber"));
                 userInfo.setPassportSerialNumber(resultSet.getString("userInfo_passportSerialNumber"));

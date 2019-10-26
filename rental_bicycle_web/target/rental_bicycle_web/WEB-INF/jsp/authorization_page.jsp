@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="./img/favicon.ico">
+    <link rel="icon" href="./img/site_img/favicon.ico">
     <title>Bicycle's rent</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/signin.css" rel="stylesheet">
@@ -55,10 +55,16 @@
         </div>
         <!-- Вывод на форму переданного значения в loginErr в AuthorizationPageUserSubmitCommand -->
         <c:if test="${loginErr != null}">
-            <label style="color: red">
-                <fmt:message key="authorization_page.error.message" bundle="${cnt}"/>
+        <label style="color: red">
+            <fmt:message key="authorization_page.error.message" bundle="${cnt}"/>
+        </label>
+    </c:if>
+        <c:if test="${messageSuccessRegistration != null}">
+            <label style="color: green">
+                <fmt:message key="message.inform.registration.success" bundle="${cnt}"/>
             </label>
         </c:if>
+
         </br>
         <button class="btn btn-lg btn-primary btn-block" type="submit" >
             <fmt:message key="authorization_page.button.submit" bundle="${cnt}"/>

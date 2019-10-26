@@ -1,4 +1,5 @@
-package by.javatr.bicrent.action.impl.selected_user_page;
+package by.javatr.bicrent.action.impl.registration_page;
+
 import by.javatr.bicrent.action.BaseCommand;
 import by.javatr.bicrent.action.validator.IncorrectDataException;
 import by.javatr.bicrent.action.validator.UserDataValidator;
@@ -11,11 +12,13 @@ import by.javatr.bicrent.entity.en_um.UserStatus;
 import by.javatr.bicrent.service.ServiceException;
 import by.javatr.bicrent.service.impl.UserInfoServiceImpl;
 import by.javatr.bicrent.service.impl.UserServiceImpl;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +26,7 @@ public class RegistrationPageCommand extends BaseCommand {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String USER_LOGIN = "userLogin";
     private static final String USER_PASSWORD = "userPassword";
+    private static final String USER_PASSWORD_REP = "userPasswordRep";
     private static final String SURNAME_USER = "userSurname";
     private static final String NAME_USER = "userName";
     private static final String SECOND_NAME_USER = "userSecondName";
@@ -39,22 +43,19 @@ public class RegistrationPageCommand extends BaseCommand {
     private static final String EMAIL_USER = "userEmail";
 
     private static final String messageSuccessRegistration = "Registration is successful!";
+    private static final Boolean IF_REQUIRED_FILL = true;
+    private static final Boolean IF_NOT_REQUIRED_FILL = false;
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         Boolean flagValidationSuccess = true;
-
-        String messageCheckUserName = null;
-        String messageCheckUserSurname = null;
-        String messageCheckUserPassword = null;
-        String messageCheckUserLogin = null;
-        String messageCheckIdPassport = null;
         RequestDispatcher dispatcherSuccess = null;
         RequestDispatcher dispatcher = null;
         Boolean sts = false;
-
+        String messageCheckUserPassword = null;
         String userLogin = request.getParameter(USER_LOGIN);
         String userPassword = request.getParameter(USER_PASSWORD);
+        String userPasswordRep = request.getParameter(USER_PASSWORD_REP);
         String surnameUser = request.getParameter(SURNAME_USER);
         String nameUser = request.getParameter(NAME_USER);
         String secondNameUser = request.getParameter(SECOND_NAME_USER);
@@ -74,15 +75,23 @@ public class RegistrationPageCommand extends BaseCommand {
             UserDataValidator.checkLogin(userLogin);
         } catch (IncorrectDataException e) {
             flagValidationSuccess = false;
-            messageCheckUserLogin = "Please, check your login!";
+            String messageCheckUserLogin = "Please, check your login!";
             request.setAttribute("messageCheckUserLogin", messageCheckUserLogin);
         }
 
         try {
-            UserDataValidator.checkNameSurname(nameUser);
+            UserDataValidator.checkStr(surnameUser, IF_REQUIRED_FILL);
         } catch (IncorrectDataException e) {
             flagValidationSuccess = false;
-            messageCheckUserName = "Please, check your name!";
+            String messageCheckUserSurname = "Please, check your surname!";
+            request.setAttribute("messageCheckUserSurname", messageCheckUserSurname);
+        }
+
+        try {
+            UserDataValidator.checkStr(nameUser, IF_REQUIRED_FILL);
+        } catch (IncorrectDataException e) {
+            flagValidationSuccess = false;
+            String messageCheckUserName = "Please, check your name!";
             request.setAttribute("messageCheckUserName", messageCheckUserName);
         }
 
@@ -101,25 +110,102 @@ public class RegistrationPageCommand extends BaseCommand {
         }
 
         try {
-            UserDataValidator.checkNameSurname(surnameUser);
+            System.out.println(userPassword);
+            System.out.println(userPasswordRep);
+            if (messageCheckUserPassword == null && !userPassword.equals(userPasswordRep)) {
+                throw new IncorrectDataException("Passwords do not match!");
+            }
+
         } catch (IncorrectDataException e) {
             flagValidationSuccess = false;
-            messageCheckUserSurname = "Please, check your surname!";
-            request.setAttribute("messageCheckUserSurname", messageCheckUserSurname);
+            String messageCheckUserPasswordRep = "Passwords do not match!";
+            request.setAttribute("messageCheckUserPasswordRep", messageCheckUserPasswordRep);
         }
 
 
-            UserInfoServiceImpl userServiceInfo = factoryService.get(DaoSql.UserInfoDao);
-            try {
-                UserInfo userInfo = userServiceInfo.findByIdNumberPassport(passportIdentificationNumberUser);
-                if (userInfo!=null)
-                    throw new ServiceException();
-            } catch (ServiceException e) {
-                flagValidationSuccess = false;
-                messageCheckIdPassport  = "Entered passport identification number is exist in system!";
-                request.setAttribute("messageCheckIdPassport", messageCheckIdPassport);
-            }
+        try {
+            UserDataValidator.checkStr(secondNameUser, IF_NOT_REQUIRED_FILL);
+        } catch (IncorrectDataException e) {
+            flagValidationSuccess = false;
+            String messageCheckSecName = "Please, check your second name!";
+            request.setAttribute("messageCheckSecName", messageCheckSecName);
+        }
+//-----------------------
+        try {
+            UserDataValidator.checkStr(countryUser, IF_NOT_REQUIRED_FILL);
+        } catch (IncorrectDataException e) {
+            flagValidationSuccess = false;
+            String messageCheckCountry = "Please, check your country!";
+            request.setAttribute("messageCheckCountry", messageCheckCountry);
+        }
 
+
+        try {
+            UserDataValidator.checkFormateDate(birthDateUser);
+            UserDataValidator.checkDateInPast(birthDateUser);
+            UserDataValidator.checkMinDateBirth(birthDateUser);
+        } catch (IncorrectDataException e) {
+            flagValidationSuccess = false;
+            String messageCheckBirthDate = "Please, check your birth date! Format:" +
+                    " 'XX.XX.XXXX' or 'XX/XX/XXXX' or 'XX-XX-XXXX' and age authority.";
+            request.setAttribute("messageCheckBirthDate", messageCheckBirthDate);
+        }
+
+        try {
+            UserDataValidator.checkFormateDate(passportIssueDateUser);
+            UserDataValidator.checkDateInPast(passportIssueDateUser);
+            UserDataValidator.checkMinDatePassport(passportIssueDateUser);
+        } catch (IncorrectDataException e) {
+            flagValidationSuccess = false;
+            String messageCheckPassportDate = "Please, check your passport issue date! Format:" +
+                    " 'XX.XX.XXXX' or 'XX/XX/XXXX' or 'XX-XX-XXXX' and passport's authority.";
+            request.setAttribute("messageCheckPassportDate", messageCheckPassportDate);
+        }
+
+        UserInfoServiceImpl userServiceInfo = factoryService.get(DaoSql.UserInfoDao);
+        try {
+            UserInfo userInfo = userServiceInfo.findByIdNumberPassport(passportIdentificationNumberUser);
+            if (userInfo.getPassportIdentificationNumber() != null)
+                throw new ServiceException();
+        } catch (ServiceException e) {
+            flagValidationSuccess = false;
+            String messageCheckIdPassport = "Entered passport identification number is exist in system!";
+            request.setAttribute("messageCheckIdPassport", messageCheckIdPassport);
+        }
+
+        try {
+            UserDataValidator.checkPhone(phoneNumberUser, IF_REQUIRED_FILL);
+        } catch (IncorrectDataException e) {
+            flagValidationSuccess = false;
+            String messageCheckUserPhone = "Please, check your phone! Start with a number."
+                    + " For example: '8029'";
+            request.setAttribute("messageCheckUserPhone", messageCheckUserPhone);
+        }
+
+        try {
+            UserDataValidator.checkPhone(secondPhoneNumberUser, IF_NOT_REQUIRED_FILL);
+        } catch (IncorrectDataException e) {
+            flagValidationSuccess = false;
+            String messageCheckUserSecPhone = "Please, check your phone! Start with a number."
+                    + " For example: '8029'";
+            request.setAttribute("messageCheckUserSecPhone", messageCheckUserSecPhone);
+        }
+
+        try {
+            UserDataValidator.checkStr(countryUser, IF_NOT_REQUIRED_FILL);
+        } catch (IncorrectDataException e) {
+            flagValidationSuccess = false;
+            String messageCheckUserCountry = "Please, check your name!";
+            request.setAttribute("messageCheckUserCountry", messageCheckUserCountry);
+        }
+
+        try {
+            UserDataValidator.checkEmail(emailUser);
+        } catch (IncorrectDataException e) {
+            flagValidationSuccess = false;
+            String messageCheckEmail = "Please, check your email!";
+            request.setAttribute("messageCheckEmail", messageCheckEmail);
+        }
 
 
         if (flagValidationSuccess) {
@@ -190,13 +276,11 @@ public class RegistrationPageCommand extends BaseCommand {
 
         try {
             dispatcher.forward(request, response);
-            // передача запроса/управления другому ресурсу на сервере;
+            // transfer request / control to another resource on the server;
         } catch (ServletException e) {
-            LOGGER.error("ServletException=" + e);
-            e.printStackTrace();
+            LOGGER.error("ServletException from RegistrationPageCommand =" + e.getMessage());
         } catch (IOException e) {
-            LOGGER.error("IOException=" + e);
-            e.printStackTrace();
+            LOGGER.error("IOException from RegistrationPageCommand =" + e.getMessage());
         }
     }
 }

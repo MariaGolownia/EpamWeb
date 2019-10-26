@@ -10,7 +10,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="./img/favicon.ico">
+    <link rel="icon" href="./img/site_img/favicon.ico">
     <fmt:setLocale value="${empty cookie.lang.value ? 'en_US' : cookie.lang.value}"/>
     <fmt:setBundle basename="config.content" var="cnt"/>
     <!-- Подключение библиотеки с пользовательскими тегами-->

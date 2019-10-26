@@ -1,11 +1,11 @@
-<!--<?xml version = "1.0" encoding = "UTF-8"?>
+<?xml version = "1.0" encoding = "UTF-8"?>
 <Configuration status = "warn" strict = "true">
     <Properties>
-        <Property name = "filename">${sys:catalina.base}/logs/logcat.log</Property>
-        <Property name = "filename">${sys:user.home}/.esurgeon/esurgeon.log</Property>
+        <Property name = "filename">${sys:catalina.home}/logs/logcat.log</Property>
+        <!--<Property name = "filename">C:/Users/Mari/logcat.log</Property>-->
     </Properties>
     <Appenders>
-        <Appender type = "File" name = "basic" filename = "${filename}">
+        <Appender type = "File" name = "basic" filename = "${filename}" >
             <PatternLayout
                     pattern = "%d{HH:mm:ss.SSS} %-5level %logger: %msg%n"/>
         </Appender>
@@ -18,39 +18,5 @@
         <Root level = "DEBUG">
         </Root>
     </Loggers>
-</Configuration>-->
-
-<?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
-    <Properties>
-        <Property name="patternfull">
-            %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{5} - %msg%n
-        </Property>
-        <Property name="patternshort">
-            %d{HH:mm:ss.SSS} [%t] %-5level %logger{1} - %msg%n
-        </Property>
-    </Properties>
-
-    <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="${patternshort}" />
-        </Console>
-        <File name="TxtFile" fileName="logs/logging.log" bufferedIO="true">
-            <PatternLayout pattern="${patternfull}" />
-        </File>
-    </Appenders>
-
-    <Loggers>
-        <Logger name="by.javatr.controller.Runner" level="ALL" additivity="true">
-            <AppenderRef ref="Console" />
-            <AppenderRef ref="TxtFile" />
-        </Logger>
-
-        <!-- Root Logger -->
-        <Root level="all">
-            <AppenderRef ref="Console" />
-        </Root>
-    </Loggers>
-
-
 </Configuration>
+

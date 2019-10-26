@@ -14,25 +14,27 @@ public class AuthorizationPageCommand extends BaseCommand {
     private static final Logger LOGGER = LogManager.getLogger();
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-//        Интерфейс RequestDispatcher используется для работы с дополнительными ресурсами,
-//        к которым относятся другой сервлет, страница JSP или документ HTML.
-//        Данный интерфейс используется для внутренней коммуникации между сервлетами в одном контексте.
-//        Доступ к RequestDispatcher можно получить с помощью метода getRequestDispatcher(String url)
-//        интерфейса ServletContext.
+//Интерфейс RequestDispatcher используется для работы с дополнительными ресурсами,
+//к которым относятся другой сервлет, страница JSP или документ HTML.
+//Данный интерфейс используется для внутренней коммуникации между сервлетами в одном контексте.
+//Доступ к RequestDispatcher можно получить с помощью метода getRequestDispatcher(String url)
+//интерфейса ServletContext.
+// The RequestDispatcher interface is used to work with additional resources,
+// which include another servlet, a JSP page, or an HTML document.
+// This interface is used for internal communication between servlets in the same context.
+// RequestDispatcher can be accessed using the getRequestDispatcher(String url) method)
+// ServletContext interface.
 
- RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorization_page.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorization_page.jsp");
         try {
             HttpSession session = request.getSession();
-
             session.removeAttribute(Attributes.USER_LOGIN);
             dispatcher.forward(request, response);
             // передача запроса/управления другому ресурсу на сервере;
         } catch (ServletException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.error("ServletException from AuthorizationPageCommand =" + e.getMessage());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.error("IOException from AuthorizationPageCommand =" + e.getMessage());
         }
     }
 }

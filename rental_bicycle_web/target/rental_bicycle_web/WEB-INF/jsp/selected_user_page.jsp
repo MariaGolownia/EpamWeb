@@ -1,7 +1,7 @@
+<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -10,7 +10,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="./img/favicon.ico">
+    <link rel="icon" href="./img/site_img/favicon.ico">
 
     <title>Bicycle's rent</title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
@@ -52,10 +52,27 @@
                     // Структура данных, которую принимаем
                     success : function(responseJson) {
                         // Сооружаем конструкцию типа <option value="City">City
-                        var curUser=JSON.parse(responseJson);
-                        $('#userName').attr('value', curUser.name);
-                        $('#userSurname').attr('value', curUser.surname);
-                        $('#userCountry').attr('value', curUser.country);
+                        if (responseJson != "" && responseJson != "{}") {
+                            var curUser = JSON.parse(responseJson);
+                           // $('#userName').attr('value', curUser.name);
+                           // $('#userSurname').attr('value', curUser.surname);
+                           // $('#userCountry').attr('value', curUser.country);
+                            document.getElementById("userSurname").value = curUser.surname;
+                            document.getElementById("userName").value = curUser.name;
+                            document.getElementById("userCountry").value = curUser.country;
+                            document.getElementById("selectedUserIsNotExist").hidden = true;
+                            document.getElementById("addCardDiv").hidden = false;
+                        }
+                        else {
+                            document.getElementById("selectedUserIsNotExist").hidden = false;
+                            document.getElementById("addCardDiv").hidden = true;
+                            document.getElementById("userSurname").value = "";
+                            document.getElementById("userName").value = "";
+                            document.getElementById("userCountry").value = "";
+                        }
+                        var controlId = document.getElementById("selectedUserIsNotExist2");
+                        if (controlId!=null)
+                            controlId.hidden=true;
                     }
                 });
 
@@ -72,9 +89,30 @@
                         $select.find('option').remove();
                         // Добавляем пустую строчку
                         $select.append($('<option>').text("").attr('value', ""));
-                        $.each(JSON.parse(responseJson), function(i, cards) {
-                            $select.append($('<option>').text(cards.name).attr('value', cards.id));
-                        });
+
+                        if (responseJson!="" && responseJson != "{}") {
+                            $.each(JSON.parse(responseJson), function (i, cards) {
+                                $select.append($('<option>').text(cards.name).attr('value', cards.id));
+                            });
+                        }
+                    }
+                });
+
+                $.ajax({
+                    url : 'Controller?command=get_currency_admin',
+                    // Структура данных, которую принимаем
+                    success : function(responseJson) {
+                        var $select = $('#currencyNewCard');
+                        // Очищаем предыдущие значения в combobox
+                        $select.find('option').remove();
+                        // Добавляем пустую строчку
+                        $select.append($('<option>').text("").attr('value', ""));
+
+                        if (responseJson!="" && responseJson != "{}") {
+                            $.each(JSON.parse(responseJson), function (i, ccy) {
+                                $select.append($('<option>').text(ccy).attr('value', ccy));
+                            });
+                        }
                     }
                 });
             });
@@ -92,6 +130,7 @@
                     url : 'GetUserCardBalance',
                     data : {
                         // Структура данных, которую передаем
+                        // value's content is id of card
                         userCardId: $('#cardName').val()
                     },
                     // Структура данных, которую принимаем
@@ -111,59 +150,82 @@
         //-----------------------------------------------------------------------------------------------------
         $(document).ready(function() {
             $('#buttonTopUpBalance').on('click', function() {
-                $.ajax({
-                    url : 'GetTopUpBalance',
-                    data : {
-                        // Структура данных, которую передаем
-                        userCardId: $('#cardName').val(),
-                        userCardAmmount: $('#rechargeableBalanceCard').val()
-                    },
-                    // Структура данных, которую принимаем
-                    success : function(balanceCard) {
-                        // Сооружаем конструкцию типа <option value="City">City
 
-                        $('#balanceCard').attr('value', balanceCard);
-                    }
-                });
+                if (isNum($('#rechargeableBalanceCard').val())) {
+                    $.ajax({
+                        url: 'Controller?command=user_pageup_balance',
+                        data: {
+                            // Структура данных, которую передаем
+                            userCardId: $('#cardName').val(),
+                            userCardAmmount: $('#rechargeableBalanceCard').val().replace(",", ".")
+                        },
+                        // Структура данных, которую принимаем
+                        success: function (balanceCard) {
+                            // Сооружаем конструкцию типа <option value="City">City
+                            $('#balanceCard').attr('value', balanceCard);
+                            document.getElementById("messageCheckCardTopUpBalance").hidden = true;
+                        }
+                    });
+                }
+                else {
+                    document.getElementById("messageCheckCardTopUpBalance").hidden = false;
+                }
             });
         });
+
     </script>
     <script>
         function showForm() {
             document.getElementById("newCardDiv").hidden = false;
-            document.getElementById("addCard").hidden = true;
         }
     </script>
     <script>
         function hideForm() {
             document.getElementById("newCardDiv").hidden = true;
-            document.getElementById("addCard").hidden = false;
+            document.getElementById("nameNewCard").value = "";
+            document.getElementById("currencyNewCard").value = "";
+            document.getElementById("balanceNewCard").value = "";
+            document.getElementById("messageCheckCardBalance").hidden = true;
         }
     </script>
     <script>
+        function isNum(strNumber)
+        {
+            var res=true;
+
+            if(isNaN(strNumber.replace(",", "."))){
+                res=false;
+            }
+            return res;
+        }
         $(document).ready(function() {
             $('#okNewCard').on('click', function() {
-                $.ajax({
-                    url : 'AddNewCard',
-                    data : {
-                        // Структура данных, которую передаем
-                        userDocId: $('#inputPassportIdentificationNumber').val(),
-                        userCardName: $('#nameNewCard').val(),
-                        userCardCcy: $('#currencyNewCard').val(),
-                        userCardAmmount: $('#balanceNewCard').val()
-                    },
-                    // Структура данных, которую принимаем
-                    success : function(responseJson) {
-                        var $select = $('#cardName');
-
-                        if (responseJson != null && responseJson != "") {
-                            $.each(JSON.parse(responseJson), function (i, cards) {
-                                $select.append($('<option>').text(cards.name).attr('value', cards.id));
-                            });
+                // work by id
+                if (isNum($('#balanceNewCard').val())) {
+                    $.ajax({
+                        url: 'Controller?command=add_new_card_admin',
+                        data: {
+                            // Структура данных, которую передаем
+                            userDocId: $('#inputPassportIdentificationNumber').val(),
+                            userCardName: $('#nameNewCard').val(),
+                            userCardCcy: $('#currencyNewCard').val(),
+                            userCardAmmount: $('#balanceNewCard').val()
+                        },
+                        // Структура данных, которую принимаем
+                        success: function (responseId) {
+                            var $select = $('#cardName');
+                            if (responseId != null && responseId != "") {
+                                // new element of combobox
+                                $select.append($('<option>').text($('#nameNewCard').val()).attr('value', responseId));
+                            }
+                            hideForm();
                         }
-                        hideForm();
-                    }
-                });
+                    });
+                }
+                else
+                {
+                    document.getElementById("messageCheckCardBalance").hidden = false;
+                }
             });
         });
     </script>
@@ -179,12 +241,25 @@
             <!--------------------------------PassportIdentificationNumber--------------------------------------------------------------->
             <form class="form-signin" action="Controller?command=edit_user_page_admin" method="post">
                 <label style="color: blue">${msgString}</label>
+                <div id="selectedUserIsNotExist" class="item2" hidden>
+                    <label style="color: red">
+                        <fmt:message key="selected.user.page.message_user_not_exist" bundle="${cnt}"/>
+                    </label>
+                </div>
+                <c:if test="${messageUserIsNotExist != null}">
+                    <label id="selectedUserIsNotExist2" style="color: red">
+                        <fmt:message key="selected.user.page.message_user_not_exist" bundle="${cnt}"/>
+                    </label>
+                </c:if>
+
                 <label for="inputPassportIdentificationNumber" class="sr-show">Passport identification number</label>
                 <input type="text" id="inputPassportIdentificationNumber" name="userPassportIdentificationNumber" class="form-control" placeholder="" value="${idValue}" required autofocus>
                 <button class="btn btn-lg btn-primary btn-block" type="register" >Edit</button>
-                </br>
-                <button class="btn btn-lg btn-primary btn-block" type="topUp" id="findUser" > Select this user </button>
             </form>
+            </br>
+            <div class="form-signin">
+                <button class="btn btn-lg btn-primary btn-block" type="topUp" id="findUser" > Select this user </button>
+            </div>
             </br>
             </br>
             </br>
@@ -199,20 +274,29 @@
             <input type="country" id="userCountry" name="userCountry" class="form-control" placeholder=""  autofocus>
             <!--------------------------------Virtual card--------------------------------------------------------------->
             <label class="sr-show">Virtual card</label>
+            <!--combobox-->
             <select id="cardName" class="form-control">
                 <option value=""></option>
             </select>
 
-            <button class="btn btn-lg btn-primary btn-block" type="topUp" id="addCard" onclick="showForm()"> Add new card </button>
-
+            <div id="addCardDiv" class="item2" hidden>
+                <button class="btn btn-lg btn-primary btn-block" type="topUp" id="addCard" onclick="showForm()"> Add new card </button>
+            </div>
             <div id="newCardDiv" class="flexNewCard" hidden>
             <div class="itemNewCard">
                 <label for="nameNewCard" class="sr-show">Card name</label>
                 <input type="currency" id="nameNewCard" name="nameNewCard" class="form-control" placeholder="" autofocus>
                 <label for="currencyNewCard" class="sr-show">Currency</label>
-                <input type="currency" id="currencyNewCard" name="currencyNewCard" class="form-control" placeholder="" autofocus>
+                <select id="currencyNewCard" class="form-control">
+                    <option value=""></option>
+                </select>
                 <label for="balanceNewCard" class="sr-show">Card balance</label>
                 <input type="balance" id="balanceNewCard" name="balanceNewCard" class="form-control" placeholder="" autofocus>
+                <div id="messageCheckCardBalance" class="item2" hidden>
+                    <label style="color: red">
+                        <fmt:message key="message.error.form.selected.user.page.cardbalance" bundle="${cnt}"/>
+                    </label>
+                </div>
             </div>
             <div class="flexNewCard">
                 <div class="itemNewCard">
@@ -242,7 +326,11 @@
             <!--------------------------------Top up--------------------------------------------------------------->
             <label for="rechargeableBalanceCard" class="sr-show">Rechargeable balance</label>
             <input type="rechargeableBalance" id="rechargeableBalanceCard" name="userRechargeableBalanceCard" class="form-control" placeholder="" autofocus>
-
+            <div id="messageCheckCardTopUpBalance" class="item2" hidden>
+                <label style="color: red">
+                    <fmt:message key="message.error.form.selected.user.page.cardbalance.up" bundle="${cnt}"/>
+                </label>
+            </div>
             <button class="btn btn-lg btn-primary btn-block" type="topUp" id="buttonTopUpBalance">Top up balance</button>
         </div>
     </div>

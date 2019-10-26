@@ -31,7 +31,9 @@ public static final Boolean FREE_STATUS_FALSE = false;
         Integer orderId;
         String[] id = request.getParameter("idVal").split(",");
         for (int i = 0; i < id.length; i++) {
-            bicycleIdList.add(Integer.valueOf(id[i]));
+            System.out.println('|'+id[i]+'|');
+            if (!id[i].trim().equals(""))
+                bicycleIdList.add(Integer.valueOf(id[i]));
         }
         //bicycleIdList = request.getParameter("idVal");
         FactoryService factoryService = FactoryService.getInstance();

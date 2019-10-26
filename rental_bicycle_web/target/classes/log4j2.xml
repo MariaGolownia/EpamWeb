@@ -19,7 +19,7 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="by.javatr.controller.Runner" level="ALL" additivity="true">
+        <Logger name="by.javatr.bicrent.controller.Runner" level="ALL" additivity="true">
             <AppenderRef ref="Console" />
             <AppenderRef ref="TxtFile" />
         </Logger>

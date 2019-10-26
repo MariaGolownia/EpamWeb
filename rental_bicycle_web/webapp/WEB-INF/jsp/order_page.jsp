@@ -10,7 +10,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="./img/favicon.ico">
+    <link rel="icon" href="./img/site_img/favicon.ico">
 
     <title>Signin Template for Bootstrap</title>
 
@@ -161,14 +161,14 @@
                 for (var i = 0; i < selBic.options.length; i++) {
                     idVal += selBic.options[i].value + ',';
                 }
+
                 $.ajax({
                     //url: 'startOrder',
-                    url:'Controller',
+                    url:'Controller?command=start_order',
                     data:{
                         idOfPassport: idPassport.value,
                         idVal: idVal,
-                        idLocation: idLocation.value,
-                        command:'start_order'},
+                        idLocation: idLocation.value},
                     // Структура данных, которую принимаем
                     success : function(order) {
                         $('#orderID').attr('value', JSON.parse(order).id);
@@ -462,6 +462,7 @@
     var cookiesArray = getCookieKeys("Bic");
 
     for (i = 0; i < cookiesArray.length; i++) {
+        // cut bic
         selBic.options[selBic.options.length] = new Option(getCookie(cookiesArray[i]), cookiesArray[i].substring(3));
     }
 </script>

@@ -21,7 +21,8 @@ public class DateConverter {
         List<Integer> indexSep = new ArrayList<>();
 
         if (strDate != null && DateConverter.validateDate(strDate)) {
-            strDate = strDate.replace('-', '.');
+            strDate = strDate.replace('-', '.')
+                    .replace('/', '.');
             for (int i = 0; i < strDate.length(); i++) {
                 if (strDate.charAt(i) == '.') {
                     indexSep.add(i);

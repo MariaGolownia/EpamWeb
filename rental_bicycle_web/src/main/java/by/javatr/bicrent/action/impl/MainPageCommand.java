@@ -1,9 +1,9 @@
 package by.javatr.bicrent.action.impl;
-
 import by.javatr.bicrent.action.BaseCommand;
 import by.javatr.bicrent.entity.Location;
 import by.javatr.bicrent.entity.UserInfo;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class MainPageCommand extends BaseCommand {
+    private static final Logger LOGGER = LogManager.getLogger();
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = null;
@@ -35,9 +36,9 @@ public class MainPageCommand extends BaseCommand {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException e) {
-            e.printStackTrace();
+            LOGGER.error("ServletException from MainPageCommand =" + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("IOException from MainPageCommand =" + e.getMessage());
         }
     }
 }
