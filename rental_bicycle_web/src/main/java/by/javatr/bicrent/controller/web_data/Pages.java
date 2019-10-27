@@ -12,6 +12,7 @@ public class Pages {
     public static final String ERROR = "/WEB-INF/jsp/errors/error.jsp";
 
     public static final String AUTHORIZATION_PAGE = "/WEB-INF/jsp/authorization_page.jsp";
+    public static final String ALLOWED_USER_PAGE = "/WEB-INF/jsp/location_page.jsp";
 
 
     private Pages() {

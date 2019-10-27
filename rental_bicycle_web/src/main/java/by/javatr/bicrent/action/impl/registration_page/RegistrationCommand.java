@@ -1,5 +1,6 @@
 package by.javatr.bicrent.action.impl.registration_page;
 import by.javatr.bicrent.action.BaseCommand;
+import by.javatr.bicrent.entity.en_um.Role;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,12 @@ import java.io.IOException;
 public class RegistrationCommand extends BaseCommand {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String USER_MODE = "mode";
+
+    public RegistrationCommand() {
+        allowedRoles.add(Role.ADMIN);
+        allowedRoles.add(Role.USER);
+        allowedRoles.add(Role.GUEST);
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

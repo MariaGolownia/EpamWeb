@@ -1,5 +1,7 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -165,11 +167,12 @@
 </head>
 
 <body>
-<t:nav/>
-User: ${userL}
-</br>
-Role: ${userR}
-
+<c:if test="${isAdminTag == null}">
+    <t:nav_user/>
+</c:if>
+<c:if test="${isAdminTag != null}">
+    <t:nav/>
+</c:if>
 
 <div class="flex">
     <div class="item">

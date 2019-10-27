@@ -25,7 +25,7 @@ public class GetTopUpBalance extends BaseCommand {
         String json = "";
         String cardIdStr = request.getParameter("userCardId").trim();
         String cardAmmountStr = request.getParameter("userCardAmmount").trim();
-        System.out.println(cardAmmountStr);
+
         if (cardIdStr == null || "".equals(cardIdStr)) {
             json = "None";
         } else {

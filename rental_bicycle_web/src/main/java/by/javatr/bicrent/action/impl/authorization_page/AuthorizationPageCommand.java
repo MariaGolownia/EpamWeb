@@ -1,6 +1,7 @@
 package by.javatr.bicrent.action.impl.authorization_page;
 import by.javatr.bicrent.action.BaseCommand;
 import by.javatr.bicrent.controller.web_data.Attributes;
+import by.javatr.bicrent.entity.en_um.Role;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.RequestDispatcher;
@@ -12,6 +13,11 @@ import java.io.IOException;
 
 public class AuthorizationPageCommand extends BaseCommand {
     private static final Logger LOGGER = LogManager.getLogger();
+
+    public AuthorizationPageCommand() {
+        allowedRoles.add(Role.ADMIN);
+    }
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 //Интерфейс RequestDispatcher используется для работы с дополнительными ресурсами,

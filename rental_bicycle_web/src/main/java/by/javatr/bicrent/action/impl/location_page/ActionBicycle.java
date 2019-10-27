@@ -42,7 +42,7 @@ public class ActionBicycle extends HttpServlet {
         try {
             response.getWriter().write(json);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("IOException from ActionBicycle =" + e.getMessage());
         }
     }
 

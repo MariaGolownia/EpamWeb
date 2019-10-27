@@ -26,6 +26,8 @@ public class OrderDaoSql extends BaseDaoSql implements OrderDao {
     private static final String SQL_SELECT_START_RENT_BY_ID =
             "SELECT `rent_user_id`, `rent_start_time`" +
                     " FROM `rent` WHERE `rent_id` = ?";
+    private static final String SQL_SELECT_BICYCLE_BY_ID =
+            "SELECT `rent_bic_bicycle_id` FROM `rent_bic` WHERE `rent_bic_rent_id` = ?";
 //    private static final String SQL_SELECT_ALL_RENT_BY_BICYCLE_ID =
 //            "SELECT `rent_id`, `rent_user_id`, `rent_start_time`, `rent_finish_time`, `rent_finishLocation_id` " +
 //                    "FROM `rent` WHERE `rent_bicycle_id` = ?";
@@ -251,8 +253,10 @@ public class OrderDaoSql extends BaseDaoSql implements OrderDao {
             startLocationId = resultSet.getInt("rent_startLocation_id");
             finishLocationId = resultSet.getInt("rent_finishLocation_id");
             paymentId = resultSet.getInt("rent_payment_id");
-            localDateTimeStart = (resultSet.getTimestamp("rent_start_time")).toLocalDateTime();
-            localDateTimeFinish = (resultSet.getTimestamp("rent_finish_time")).toLocalDateTime();
+            Timestamp startDT = resultSet.getTimestamp("rent_start_time");
+            localDateTimeStart = (startDT == null ? null : startDT.toLocalDateTime());
+            Timestamp finishDT = resultSet.getTimestamp("rent_finish_time");
+            localDateTimeFinish = (finishDT == null ? null : finishDT.toLocalDateTime());
         }
 
         Integer bicyleId;
@@ -300,6 +304,25 @@ public class OrderDaoSql extends BaseDaoSql implements OrderDao {
             statement.close();
         } catch(SQLException | NullPointerException e) {}
         return localDateTimeFinishStr;
+    }
+
+    //SQL_SELECT_BICYCLE_BY_ID
+    @Override
+    public List<Integer> getBicyclesByOrderId(Integer orderId) throws SQLException {
+        ResultSet resultSet = null;
+        List<Integer> bicycleList = new ArrayList<>();
+        PreparedStatement statement = null;
+        statement = connection.prepareStatement(SQL_SELECT_BICYCLE_BY_ID);
+        statement.setInt(1, orderId);
+        resultSet =  statement.executeQuery();
+        while (resultSet.next()) {
+            Integer bicyleId = resultSet.getInt("rent_bic_bicycle_id");
+            bicycleList.add(bicyleId);
+        }
+        try {
+            statement.close();
+        } catch(SQLException | NullPointerException e) {}
+        return bicycleList;
     }
 
 

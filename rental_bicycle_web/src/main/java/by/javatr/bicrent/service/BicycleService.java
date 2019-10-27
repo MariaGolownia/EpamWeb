@@ -6,19 +6,28 @@ import java.util.List;
 
 public interface BicycleService {
 
-    List<Bicycle> findByCurrentLocation(Integer locationId) throws SQLException;
+    List<Bicycle> findByCurrentLocation(Integer locationId);
 
-    List<Bicycle> findByCurrentLocationWithPriceAndFreedom(Integer locationId, Boolean ifFree) throws SQLException;
+    List<Bicycle> findByCurrentLocationWithPriceAndFreedom(Integer locationId, Boolean ifFree);
 
-    List<Bicycle> findByFreeStatus(Integer idLocation, Boolean ifFree) throws SQLException;
+    List<Bicycle> findByFreeStatus(Integer idLocation, Boolean ifFree);
 
-    Bicycle findById(Integer bicycleId) throws SQLException;
+    Bicycle findById(Integer bicycleId);
 
     List<Bicycle> findById(List <Integer> bicyclesId);
 
-    void changeFreeStatus (List <Integer> bicyclesId, Boolean freeStatus) throws SQLException;
+    List<Bicycle> findAll();
 
+    Bicycle readLastBicycle();
 
-    List<Bicycle> sortBy (List<Bicycle> bicycles, Comparator<Bicycle> bicycleComparator) ;
+    void changeFreeStatus (List <Integer> bicyclesId, Boolean freeStatus);
+
+    List<Bicycle> sortBy (List<Bicycle> bicycles, Comparator<Bicycle> bicycleComparator);
+
+    Integer save (Bicycle bicycleNew);
+
+    void update (Bicycle bicycle);
+
+    void changeLocation (List<Bicycle> bicycleList, Integer locationId);
 
 }

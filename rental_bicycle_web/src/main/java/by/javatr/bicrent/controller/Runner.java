@@ -1,13 +1,23 @@
 package by.javatr.bicrent.controller;
+import by.javatr.bicrent.action.validator.DataValidator;
+import by.javatr.bicrent.action.validator.IncorrectDataException;
 import by.javatr.bicrent.dao.mysql.DaoSql;
 import by.javatr.bicrent.entity.*;
+import by.javatr.bicrent.entity.en_um.BicycleType;
 import by.javatr.bicrent.service.FactoryService;
 import by.javatr.bicrent.service.ServiceException;
+import by.javatr.bicrent.service.bic_sort.BicycleComparator;
 import by.javatr.bicrent.service.impl.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.testng.Assert;
 
 import java.math.BigDecimal;
+import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Runner {
     private static final Logger logger = LogManager.getLogger();
@@ -314,16 +324,6 @@ public class Runner {
 //        }
 ////------------------------------------------------------------------------------------------------------------
         // Тестирование получения bicycle by ID
-//        BicycleDaoSql bicycleDao = new BicycleDaoSql();
-//        try {
-//            Bicycle bicycle = new Bicycle();
-//            bicycle = bicycleDao.read(1);
-//            System.out.print(bicycle.toString());
-//        } catch (PersistentException e) {
-//            e.printStackTrace();
-//        }}
-//------------------------------------------------------------------------------------------------------------
-// Тестирование получения bicycle by ID
 //        BicycleDaoSql bicycleDao = new BicycleDaoSql();
 //        try {
 //            Bicycle bicycle = new Bicycle();
@@ -793,8 +793,24 @@ public class Runner {
 //        } catch (ServiceException e) {
 //            e.printStackTrace();
 //        }
-        BigDecimal bigDecimal1 = new BigDecimal(15.00);
-        System.out.println(bigDecimal1);
+//        BigDecimal bigDecimal1 = new BigDecimal(15.00);
+//        System.out.println(bigDecimal1);
+
+
+        OrderServiceImpl userOrderService = factoryService.get(DaoSql.OrderDao);
+        List<Bicycle> bicycleList = new ArrayList<>();
+        Order order = userOrderService.read(33);
+        System.out.println(order.toString());
+
+        List<Integer> bicycleListId = userOrderService.getBicyclesIdByOrder(33);
+         System.out.println(Arrays.toString(bicycleListId.toArray()));
+
+        BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
+        for (int i = 0; i < bicycleListId.size(); i++) {
+            Bicycle bicycle = bicycleService.findById(bicycleListId.get(i));
+            bicycleList.add(bicycle);
+        }
+        System.out.println(Arrays.toString(bicycleList.toArray()));
 
     }
 }

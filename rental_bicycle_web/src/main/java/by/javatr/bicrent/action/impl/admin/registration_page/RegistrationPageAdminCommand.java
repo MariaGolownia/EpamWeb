@@ -37,6 +37,9 @@ public class RegistrationPageAdminCommand extends BaseCommand {
     private static final String SECOND_PHONE_NUMBER_USER = "userSecondPhoneNumber";
     private static final String EMAIL_USER = "userEmail";
 
+    public RegistrationPageAdminCommand() {
+        allowedRoles.add(Role.ADMIN);
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

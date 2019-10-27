@@ -31,4 +31,6 @@ public interface OrderService {
     BigDecimal calcAmmountForPay (List<Integer> idBicycles, Integer minutes);
 
     Map<Integer, BigDecimal> calcAmmountForPay(List<Integer> idBicycles);
+
+    List <Integer> getBicyclesIdByOrder (Integer orderId);
 }

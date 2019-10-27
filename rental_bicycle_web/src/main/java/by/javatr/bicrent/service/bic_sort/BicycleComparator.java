@@ -32,4 +32,11 @@ public class BicycleComparator {
             return new BicycleComparatorRealization.ByYear();
         }
     }
+
+    public static class SortBicycleByID extends SortBicycleSpecification {
+        @Override
+        public Comparator comparatorSpecified() {
+            return new BicycleComparatorRealization.ById();
+        }
+    }
 }

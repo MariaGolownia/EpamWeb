@@ -62,6 +62,7 @@
                             document.getElementById("userCountry").value = curUser.country;
                             document.getElementById("selectedUserIsNotExist").hidden = true;
                             document.getElementById("addCardDiv").hidden = false;
+                            document.getElementById("selUser").hidden = false;
                         }
                         else {
                             document.getElementById("selectedUserIsNotExist").hidden = false;
@@ -258,7 +259,7 @@
             </form>
             </br>
             <div class="form-signin">
-                <button class="btn btn-lg btn-primary btn-block" type="topUp" id="findUser" > Select this user </button>
+                <button class="btn btn-lg btn-primary btn-block" type="topUp" id="findUser" > Find user </button>
             </div>
             </br>
             </br>
@@ -283,29 +284,29 @@
                 <button class="btn btn-lg btn-primary btn-block" type="topUp" id="addCard" onclick="showForm()"> Add new card </button>
             </div>
             <div id="newCardDiv" class="flexNewCard" hidden>
-            <div class="itemNewCard">
-                <label for="nameNewCard" class="sr-show">Card name</label>
-                <input type="currency" id="nameNewCard" name="nameNewCard" class="form-control" placeholder="" autofocus>
-                <label for="currencyNewCard" class="sr-show">Currency</label>
-                <select id="currencyNewCard" class="form-control">
-                    <option value=""></option>
-                </select>
-                <label for="balanceNewCard" class="sr-show">Card balance</label>
-                <input type="balance" id="balanceNewCard" name="balanceNewCard" class="form-control" placeholder="" autofocus>
-                <div id="messageCheckCardBalance" class="item2" hidden>
-                    <label style="color: red">
-                        <fmt:message key="message.error.form.selected.user.page.cardbalance" bundle="${cnt}"/>
-                    </label>
-                </div>
-            </div>
-            <div class="flexNewCard">
                 <div class="itemNewCard">
-                    <button class="btn btn-lg btn-primary btn-block" type="topUp" id="okNewCard" > Ok </button>
+                    <label for="nameNewCard" class="sr-show">Card name</label>
+                    <input type="currency" id="nameNewCard" name="nameNewCard" class="form-control" placeholder="" autofocus>
+                    <label for="currencyNewCard" class="sr-show">Currency</label>
+                    <select id="currencyNewCard" class="form-control">
+                        <option value=""></option>
+                    </select>
+                    <label for="balanceNewCard" class="sr-show">Card balance</label>
+                    <input type="balance" id="balanceNewCard" name="balanceNewCard" class="form-control" placeholder="" autofocus>
+                    <div id="messageCheckCardBalance" class="item2" hidden>
+                        <label style="color: red">
+                            <fmt:message key="message.error.form.selected.user.page.cardbalance" bundle="${cnt}"/>
+                        </label>
+                    </div>
                 </div>
-                <div class="itemNewCard">
-                    <button class="btn btn-lg btn-primary btn-block" type="topUp" id="cancelNewCard" onclick="hideForm()"> Cancel </button>
+                <div class="flexNewCard">
+                    <div class="itemNewCard">
+                        <button class="btn btn-lg btn-primary btn-block" type="topUp" id="okNewCard" > Ok </button>
+                    </div>
+                    <div class="itemNewCard">
+                        <button class="btn btn-lg btn-primary btn-block" type="topUp" id="cancelNewCard" onclick="hideForm()"> Cancel </button>
+                    </div>
                 </div>
-            </div>
             </div>
             </br>
             </br>
@@ -338,11 +339,11 @@
 </br>
 
     <div class="item2">
-        <form action="Controller?command=main_page" method="post">
-            <div class="item2">
+        <div class="item2" id="selUser" hidden>
+            <form action="Controller?command=main_page" method="post">
                 <button class="btn btn-lg btn-primary btn-block" type="topUp" id="selectUser"> Select this user </button>
-            </div>
-        </form>
+            </form>
+        </div>
 
         </br>
 

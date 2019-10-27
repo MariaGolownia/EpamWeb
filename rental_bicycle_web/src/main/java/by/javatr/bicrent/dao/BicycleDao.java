@@ -15,5 +15,9 @@ public interface BicycleDao extends Dao<Bicycle> {
 
     List<Bicycle> readByCurrentLocationAndFreedom(Integer idLocation, Boolean ifFree) throws SQLException;
 
+    public List<Bicycle> readAll() throws SQLException;
+
+    public Bicycle readByLastId() throws SQLException;
+
     void changeFreeStatus(Integer idBicycle, Boolean ifFree) throws SQLException;
 }

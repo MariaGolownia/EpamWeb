@@ -47,7 +47,10 @@ public class Order extends Entity {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
-        this.startTimeStr = startTime.toString();
+        if (startTime != null)
+            this.startTimeStr = startTime.toString();
+        else
+            this.startTimeStr = "";
     }
 
     public LocalDateTime getFinishTime() {
@@ -56,7 +59,10 @@ public class Order extends Entity {
 
     public void setFinishTime(LocalDateTime finishTime) {
         this.finishTime = finishTime;
-        this.finishTimeStr = finishTime.toString();
+        if (finishTime != null)
+            this.finishTimeStr = finishTime.toString();
+        else
+            this.finishTimeStr = "";
     }
 
     public Integer getFinishLocationId() {
@@ -85,5 +91,20 @@ public class Order extends Entity {
 
     public void setPayment(Integer payment) {
         this.paymentId = paymentId;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "userId=" + userId +
+                ", bicyclesId=" + bicyclesId +
+                ", startTime=" + startTime +
+                ", finishTime=" + finishTime +
+                ", finishLocationId=" + finishLocationId +
+                ", startLocationId=" + startLocationId +
+                ", paymentId=" + paymentId +
+                ", startTimeStr='" + startTimeStr + '\'' +
+                ", finishTimeStr='" + finishTimeStr + '\'' +
+                '}';
     }
 }

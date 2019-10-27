@@ -3,6 +3,7 @@ package by.javatr.bicrent.action.impl.order_page;
 import by.javatr.bicrent.action.BaseCommand;
 import by.javatr.bicrent.dao.mysql.DaoSql;
 import by.javatr.bicrent.entity.Order;
+import by.javatr.bicrent.entity.en_um.Role;
 import by.javatr.bicrent.service.FactoryService;
 import by.javatr.bicrent.service.impl.BicycleServiceImpl;
 import by.javatr.bicrent.service.impl.OrderServiceImpl;
@@ -22,6 +23,9 @@ public class ActionStartOrder extends BaseCommand {
     private static final Logger LOGGER = LogManager.getLogger();
 public static final Boolean FREE_STATUS_FALSE = false;
 
+    public ActionStartOrder() {
+        allowedRoles.add(Role.ADMIN);
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -55,7 +59,7 @@ public static final Boolean FREE_STATUS_FALSE = false;
         try {
             response.getWriter().write(json);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("IOException from ActionStartOrder =" + e.getMessage());
         }
     }
 }

@@ -2,6 +2,7 @@ package by.javatr.bicrent.dao;
 import by.javatr.bicrent.entity.Order;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface OrderDao extends Dao<Order> {
 
@@ -20,5 +21,8 @@ public interface OrderDao extends Dao<Order> {
     Order read(Integer identity) throws SQLException;
 
     String selectFinishTime (Integer identity) throws SQLException;
+
+    List<Integer> getBicyclesByOrderId (Integer orderId) throws SQLException;
+
 
 }

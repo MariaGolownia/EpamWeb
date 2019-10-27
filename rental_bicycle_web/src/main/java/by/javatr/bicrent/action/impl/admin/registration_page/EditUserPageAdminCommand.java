@@ -4,6 +4,7 @@ import by.javatr.bicrent.dao.mysql.DaoSql;
 import by.javatr.bicrent.entity.DateConverter;
 import by.javatr.bicrent.entity.User;
 import by.javatr.bicrent.entity.UserInfo;
+import by.javatr.bicrent.entity.en_um.Role;
 import by.javatr.bicrent.service.FactoryService;
 import by.javatr.bicrent.service.ServiceException;
 import by.javatr.bicrent.service.impl.UserInfoServiceImpl;
@@ -20,6 +21,9 @@ public class EditUserPageAdminCommand extends BaseCommand {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String PASSPORTID_USER_PARAM = "userPassportIdentificationNumber";
 
+    public EditUserPageAdminCommand() {
+        allowedRoles.add(Role.ADMIN);
+    }
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = null;

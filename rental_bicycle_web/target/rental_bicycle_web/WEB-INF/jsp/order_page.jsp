@@ -1,7 +1,7 @@
+<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -52,14 +52,20 @@
 
         function getCookie(cname) {
             var name = cname + "=";
+            var indEq = 0;
+            var keyCookie="";
+            // take all cookies
             var ca = document.cookie.split(';');
             for(var i = 0; i < ca.length; i++) {
                 var c = ca[i];
                 while (c.charAt(0) == ' ') {
                     c = c.substring(1);
                 }
-                if (c.indexOf(cname) == 0) {
-                    return c.substring(name.length, c.length);
+                indEq=c.indexOf("=");
+                keyCookie=c.substring(0, indEq);
+                if (keyCookie==cname) {
+                    // select all after '='
+                    return c.substring(cname.length+1, c.length);
                 }
             }
             return "";
@@ -95,7 +101,6 @@
 
         function deleteCookie(cname) {
             document.cookie = cname +"=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-            alert(cname +"=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;");
         }
 
     </script>
@@ -123,11 +128,17 @@
     </script>
     <script type="text/javascript">
         function getBicycle() {
-            var freeBic=document.getElementsByName('pict_sel');
+            // name of check box
+            var freeBic=document.getElementsByName('comb_name');
+            // object 'bicycle' of combobox
+            // selBic = combobox
             var selBic=document.getElementById('selectedBicycles');
 
             var i;
             for (i = 0; i < freeBic.length; i++) {
+                //freeBic[i].type == "checkbox" - if use similar name in another element
+                //checkCookie("Bic" + freeBic[i].value) == false - check if bicycle hasn't been already choose\
+                //freeBic[i].value - id in it
                 if (freeBic[i].type == "checkbox" && freeBic[i].checked == true && checkCookie("Bic" + freeBic[i].value) == false) {
                     var selImg=document.getElementById('pictBycycle' + freeBic[i].value);
                         selBic.options[selBic.options.length] = new Option(selImg.getAttribute("alt"), freeBic[i].value);
@@ -201,7 +212,7 @@
                         $select.append($('<option>').text("Belarus").attr('value', "Belarus"));
                         $select.append($('<option>').text("Poland").attr('value', "Poland"));
                         $select.append($('<option>').text("Lithuania").attr('value', "Lithuania"));
-                        $('#buttonFinish').attr('readonly', 'true');
+                        document.getElementById("buttonFinish").readonly = true;
                     }
                 });
             });
@@ -216,6 +227,7 @@
 // Работа с объектом по id = countryName
 // Вызов апплета происходит по событию change
             $('#countryName').on('change', function() {
+                document.getElementById("doPay").hidden = true;
                 $.ajax({
                     url : 'GetCity',
                     data : {
@@ -271,6 +283,103 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#locationName').on('change', function() {
+                document.getElementById("doPay").hidden = false;
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function getOrderID() {
+            var x = document.getElementById('orderID');
+            var y = document.getElementById('locationName');
+            var str="Controller?command=payment_page&orderid=" + x.value + "&locationid=" + y.value;
+
+            var frm = document.getElementById('submit-pay') || null;
+            if(frm) {
+                frm.action = str;
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function doFindOrder() {
+            $.ajax({
+                url : 'Controler?command=find_order',
+                data : {
+                    orderId : $('#orderID').val(),
+                    mode: "1"
+                },
+                success : function(responseJson) {
+                    $.each(JSON.parse(responseJson), function(i, loc) {
+                        var locName=loc.country + ", " + loc.city + ", " + loc.street + ", house: " + loc.house + ", office: " + loc.office;
+
+                        document.getElementById("choosedLocationId").value = loc.id;
+                        document.getElementById("choosedAddress").value = locName;
+                    });
+                }
+            });
+
+            $.ajax({
+                url : 'Controler?command=find_order',
+                data : {
+                    orderId : $('#orderID').val(),
+                    mode: "2"
+                },
+                success : function(responseJson) {
+                    $.each(JSON.parse(responseJson), function(i, user) {
+                        var userName = user.surname + " " + user.name + " " + user.secondName;
+
+                        document.getElementById("choosedIDPassport").value = user.passportIdentificationNumber;
+                        document.getElementById("choosedUser").value = userName;
+                    });
+                }
+            });
+
+            $.ajax({
+                url : 'Controler?command=find_order',
+                data : {
+                    orderId : $('#orderID').val(),
+                    mode: "3"
+                },
+                success : function(responseJson) {
+                    var $select = $('#selectedBicycles');
+                    $select.find('option').remove();
+                    $select.append($('<option>').text("").attr('value', ""));
+                    $.each(JSON.parse(responseJson), function(i, bic) {
+                        var bicName="Id:" + bic.id + " " + bic.model + ", year: " + bic.productionYear + ", type: " + bic.bicycleType;
+                        $select.append($('<option>').text(bicName).attr('value', bic.id));
+                    });
+
+                    document.getElementById("listBicyclesDiv").hidden = true;
+                    document.getElementById("delSelectedBicyclesDiv").hidden = true;
+                }
+            });
+
+            $.ajax({
+                url : 'Controler?command=find_order',
+                data : {
+                    orderId : $('#orderID').val(),
+                    mode: "4"
+                },
+                success : function(responseJson) {
+                    var listTime = JSON.parse(responseJson);
+
+                    document.getElementById("startTime").value = listTime[0];
+                    if (document.getElementById("startTime").value != "")
+                        document.getElementById("btnStartDiv").hidden = true;
+
+                    document.getElementById("finishTime").value = listTime[1];
+                    if (document.getElementById("finishTime").value != "")
+                        document.getElementById("btnFinishDiv").hidden = true;
+
+                    if (document.getElementById("startTime").value != "" &&
+                                document.getElementById("finishTime").value != "")
+                        document.getElementById("finishLock").hidden = true;
+                }
+            });
+        }
+    </script>
 </head>
 
 <body>
@@ -280,6 +389,11 @@
     <!--<h2 class="form-signin-heading">Select a user by key parameters: </h2>-->
     <label for="orderID" class="sr-show">ID of order</label>
     <input id="orderID" class="form-control" placeholder="" value="${numberOrder}" required autofocus>
+    <div class="flex-rent" id="doFind" hidden>
+        <button class="btn btn-lg btn-primary btn-block" onclick="doFindOrder()">
+            <fmt:message key="order.page.btn.findorder" bundle="${cnt}"/>
+        </button>
+    </div>
     </br>
 </div>
 
@@ -313,19 +427,22 @@
 
 <h2 align="center">Bicycles</h2>
 
-<div class="flex3">
+<div class="flex3" id="listBicyclesDiv">
     <div class="item3">
         <div class="item3">
             <table border="1" cellpadding="5" cellspacing="5">
             <c:forEach var="bicyclesArr" items="${bicyclesList}">
                 <tr>
+                    <td>${bicyclesArr.id}</td>
                     <td>
+                        <!-- add id picture 'bicyclesArr.id'-->
+                        <!-- add information in hidden element alt (need after checking)-->
                         <img id="pictBycycle${bicyclesArr.id}" alt="Id:${bicyclesArr.id}, ${bicyclesArr.model}, year: ${bicyclesArr.productionYear}, type: ${bicyclesArr.bicycleType}" src = "data:image/jpg;base64,${bicyclesArr.photoBlobStr}" width="200px" height="133px">
                     </td>
                     <td>${bicyclesArr.model}</td>
                     <td>${bicyclesArr.productionYear}</td>
                     <td>${bicyclesArr.rate} ${bicyclesArr.currency}</td>
-                    <td><input id="cb${bicyclesArr.id}" type='checkbox' class="checkbox" name="pict_sel" value="${bicyclesArr.id}" size="25px"></td>
+                    <td><input id="cb${bicyclesArr.id}" type='checkbox' class="checkbox" name="comb_name" value="${bicyclesArr.id}" size="25px"></td>
                 </tr>
             </c:forEach>
             </table>
@@ -362,9 +479,8 @@
     </div>
     </br>
     </br>
-    <br class="item3">
-        <img id="pictSelBycycle" width="200px" height="133px">
-    <!---------------------------------- BICYCLES SORT BY DIFFERENT PARAMETERS---------------------------------------->
+    <div class="item3">
+    <!---------------------------------- BICYCLES SORT BY DIFFERENT PARAMETERS----------<img id="pictSelBycycle" width="200px" height="133px">------------------------------>
         <form name="submit-pay" id="bicycles-by-model" class="form-signin" method="post" action="Controller?command=order_page&page=0&sort_parameter=model">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sort-by-model</button>
         </form>
@@ -376,10 +492,9 @@
         <form name="submit-pay" id="bicycles-by-rate" class="form-signin" method="post" action="Controller?command=order_page&page=0&sort_parameter=model">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sort-by-rate</button>
         </form>
-    </br>
-    <form name="submit-pay" id="bicycles-by-year" class="form-signin" method="post" action="Controller?command=order_page&page=0&sort_parameter=model">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sort-by-year</button>
-    </form>
+        <form name="submit-pay" id="bicycles-by-year" class="form-signin" method="post" action="Controller?command=order_page&page=0&sort_parameter=model">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sort-by-year</button>
+        </form>
     </div>
 </div>
 
@@ -393,7 +508,9 @@
             </c:forEach>
         </select>
 
-        <button class="btn btn-lg btn-primary btn-block" onclick="removeBicycle()" >Delete from order</button>
+        <div class="item4" id="delSelectedBicyclesDiv">
+            <button class="btn btn-lg btn-primary btn-block" onclick="removeBicycle()" >Delete from order</button>
+        </div>
     </div>
     <div>
     </div>
@@ -409,47 +526,43 @@
             <!-----------------------------------------Surname--------------------------------------------------------------->
             <label for="finishTime" class="sr-show">Finish time</label>
             <input id="finishTime" class="form-control" placeholder="" value="" readonly autofocus>
-            <!-----------------------------------------Name--------------------------------------------------------------->
-            <label class="sr-show">Country</label>
-            <select id="countryName" class="form-control">
-            </select>
-            <!----------------------------------------Cities------------------------------------------------------------->
-            <label class="sr-show">City</label>
-            <select id="cityName" class="form-control">
-            </select>
-            <!----------------------------------------Location----------------------------------------------------------->
-            <label class="sr-show">Location</label>
-            <select id="locationName" class="form-control">
-            </select>
+            <div class="item5" id="finishLock">
+                <!-----------------------------------------Name--------------------------------------------------------------->
+                <label class="sr-show">Country</label>
+                <select id="countryName" class="form-control">
+                </select>
+                <!----------------------------------------Cities------------------------------------------------------------->
+                <label class="sr-show">City</label>
+                <select id="cityName" class="form-control">
+                </select>
+                <!----------------------------------------Location----------------------------------------------------------->
+                <label class="sr-show">Location</label>
+                <select id="locationName" class="form-control">
+                </select>
+            </div>
         </div>
     </div>
 
     </br>
 
-    <script type="text/javascript">
-        function getOrderID() {
-            var x = document.getElementById('orderID');
-            var str="Controller?command=payment_page&orderid=" + x.value;
-
-            var frm = document.getElementById('submit-pay') || null;
-            if(frm) {
-                frm.action = str;
-            }
-        }
-    </script>
-
     <div class="item5">
-        <button class="btn btn-lg btn-primary btn-block" id="buttonStart" >Start</button>
+        <div class="item5" id="btnStartDiv">
+            <button class="btn btn-lg btn-primary btn-block" id="buttonStart" >Start</button>
+        </div>
         </br>
         </br>
         </br>
-        <button class="btn btn-lg btn-primary btn-block" id="buttonFinish" >Finish</button>
+        <div class="item5" id="btnFinishDiv">
+            <button class="btn btn-lg btn-primary btn-block" id="buttonFinish" >Finish</button>
+        </div>
         </br>
         </br>
         </br>
-        <form name="submit-pay" id="submit-pay" class="form-signin" method="post" action="/">
-            <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="getOrderID()">Pay</button>
-        </form>
+        <div class="item5" id="doPay" hidden>
+            <form name="submit-pay" id="submit-pay" class="form-signin" method="post" action="/">
+                <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="getOrderID()">Pay</button>
+            </form>
+        </div>
     </div>
 </div>
 

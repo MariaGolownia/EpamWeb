@@ -30,8 +30,7 @@ public class ActionCity extends HttpServlet {
         if(countryName == null || "".equals(countryName)){
             json = "None";
         }
-        else
-        {
+        else {
             list = City.getCitiesStrByCountry(Country.valueOf(countryName));
             json = new Gson().toJson(list);
         }

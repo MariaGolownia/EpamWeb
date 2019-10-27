@@ -1,5 +1,7 @@
 package by.javatr.bicrent.action;
 import by.javatr.bicrent.action.impl.*;
+import by.javatr.bicrent.action.impl.admin.order_page.FindOrder;
+import by.javatr.bicrent.action.impl.admin.order_page.OrderPageStatus;
 import by.javatr.bicrent.action.impl.admin.registration_page.EditUserPageAdminCommand;
 import by.javatr.bicrent.action.impl.admin.registration_page.EditUserPageApplyAdminCommand;
 import by.javatr.bicrent.action.impl.admin.registration_page.RegistrationPageAdminCommand;
@@ -11,18 +13,20 @@ import by.javatr.bicrent.action.impl.locale.SetLocale;
 import by.javatr.bicrent.action.impl.location_page.LocationPageCommand;
 import by.javatr.bicrent.action.impl.order_page.ActionStartOrder;
 import by.javatr.bicrent.action.impl.order_page.OrderPageCommand;
+import by.javatr.bicrent.action.impl.payment_page.DoMainPay;
 import by.javatr.bicrent.action.impl.payment_page.PaymentPageCommand;
 import by.javatr.bicrent.action.impl.registration_page.RegistrationCommand;
 import by.javatr.bicrent.action.impl.registration_page.RegistrationPageCommand;
 import by.javatr.bicrent.action.impl.selected_user_page.GetTopUpBalance;
 import by.javatr.bicrent.action.impl.selected_user_page.UserPageCommand;
-import java.util.HashMap;
+
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CommandProvider {
 
     private static final CommandProvider instance = new CommandProvider();
-    private Map<CommandName, Command> commands = new HashMap<>();
+    private Map<CommandName, Command> commands = new ConcurrentHashMap<>();
     private Command command;
 
     private CommandProvider() {
@@ -46,6 +50,10 @@ public class CommandProvider {
         this.commands.put(CommandName.ADD_NEW_CARD_ADMIN, new AddNewCardAdminCommand());
         this.commands.put(CommandName.GET_CURRENCY_ADMIN, new GetCurrencyAdmin());
         this.commands.put(CommandName.USER_PAGEUP_BALANCE, new GetTopUpBalance());
+        this.commands.put(CommandName.DO_MAIN_PAY, new DoMainPay());
+        this.commands.put(CommandName.FIND_ORDER, new FindOrder());
+        this.commands.put(CommandName.ORDER_PAGE_STATUS, new OrderPageStatus());
+
 
     }
 

@@ -29,6 +29,40 @@
                     <fmt:message key="nav_tag.about_company" bundle="${cnt}"/>
                 </a></li>
             </ul>
+
+            <ul class="nav navbar-nav navbar-left">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <fmt:message key="nav_tag.menu" bundle="${cnt}"/>
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <form class="form-locale" value="en_US" name="set_locale_li" method="post" action="Controller?command=main_page">
+                            <button type="submit" name="locale" value="en_US" class="btn btn-link nav-link">
+                                <fmt:message key="nav_tag.menu.main.page" bundle="${cnt}"/>
+                            </button>
+                        </form>
+
+                        <form class="form-locale" value="ru_RU" name="set_locale_li" method="post" action="Controller?command=location_page&isAdminTag=1">
+                            <button type="submit" name="locale" value="ru_RU" class="btn btn-link nav-link">
+                                <fmt:message key="nav_tag.menu.location.page" bundle="${cnt}"/>
+                            </button>
+                        </form>
+
+                        <form class="form-locale" value="ru_RU" name="set_locale_li" method="post" action="Controller?command=user_page">
+                            <button type="submit" name="locale" value="ru_RU" class="btn btn-link nav-link">
+                                <fmt:message key="nav_tag.menu.users.page" bundle="${cnt}"/>
+                            </button>
+                        </form>
+
+                        <form class="form-locale" value="ru_RU" name="set_locale_li" method="post" action="Controller?command=order_page_status">
+                            <button type="submit" name="locale" value="ru_RU" class="btn btn-link nav-link">
+                                <fmt:message key="nav_tag.menu.order.page.status" bundle="${cnt}"/>
+                            </button>
+                        </form>
+                    </ul>
+                </li>
+            </ul>
+
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">

@@ -1,4 +1,5 @@
 package by.javatr.bicrent.service.impl;
+
 import by.javatr.bicrent.dao.VirtualCardDao;
 import by.javatr.bicrent.dao.mysql.DaoException;
 import by.javatr.bicrent.dao.mysql.DaoSql;
@@ -9,12 +10,17 @@ import by.javatr.bicrent.service.FactoryService;
 import by.javatr.bicrent.service.Service;
 import by.javatr.bicrent.service.ServiceException;
 import by.javatr.bicrent.service.VirtualCardService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VirtualCardServiceImpl  extends Service implements VirtualCardService {
+public class VirtualCardServiceImpl extends Service implements VirtualCardService {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @Override
     public Integer save(VirtualCard virtualCard) throws ServiceException {
         VirtualCardDao dao = null;
@@ -32,17 +38,17 @@ public class VirtualCardServiceImpl  extends Service implements VirtualCardServi
     }
 
     @Override
-    public List<VirtualCard>  findByUserId(Integer userId) {
+    public List<VirtualCard> findByUserId(Integer userId) {
         List<VirtualCard> virtualCards = new ArrayList<>();
         try {
             VirtualCardDao virtualCardDao = FactoryDaoSql.getInstance().get(DaoSql.VirtualCardDao);
             virtualCards = virtualCardDao.readByUserId(userId);
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } catch (DaoException e) {
             e.printStackTrace();
         }
-        return  virtualCards;
+        return virtualCards;
     }
 
     @Override
@@ -54,16 +60,16 @@ public class VirtualCardServiceImpl  extends Service implements VirtualCardServi
             UserInfoServiceImpl userInfoDao = FactoryService.getInstance().get(DaoSql.UserInfoDao);
             userInfo = userInfoDao.findByIdNumberPassport(userPassportId);
             userId = userInfo.getId();
-            if(userId!= null) {
+            if (userId != null) {
                 VirtualCardDao virtualCardDao = FactoryDaoSql.getInstance().get(DaoSql.VirtualCardDao);
                 virtualCards = virtualCardDao.readByUserId(userId);
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } catch (DaoException e) {
             e.printStackTrace();
         }
-        return  virtualCards;
+        return virtualCards;
     }
 
     @Override
@@ -78,7 +84,7 @@ public class VirtualCardServiceImpl  extends Service implements VirtualCardServi
             e.printStackTrace();
         }
         balance = virtualCard.getBalance();
-        return  balance;
+        return balance;
     }
 
     @Override
@@ -90,14 +96,15 @@ public class VirtualCardServiceImpl  extends Service implements VirtualCardServi
 
         } catch (DaoException e) {
             e.printStackTrace();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return  virtualCard;
+        return virtualCard;
     }
 
     @Override
-    public void topUp(Integer cardId, BigDecimal ammount) {
+    public Boolean topUp(Integer cardId, BigDecimal ammount) {
+        Boolean result = false;
         VirtualCardServiceImpl virtualCardService = new VirtualCardServiceImpl();
         VirtualCard virtualCard = virtualCardService.read(cardId);
         BigDecimal currentBalance = virtualCard.getBalance();
@@ -105,11 +112,14 @@ public class VirtualCardServiceImpl  extends Service implements VirtualCardServi
         virtualCard.setBalance(currentBalance);
         try {
             VirtualCardDao virtualCardDao = FactoryDaoSql.getInstance().get(DaoSql.VirtualCardDao);
-                virtualCardDao.update(virtualCard);
+            virtualCardDao.update(virtualCard);
+            result = true;
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (DaoException e) {
             e.printStackTrace();
         }
+        return result;
     }
+
 }

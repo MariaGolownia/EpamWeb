@@ -158,6 +158,7 @@ public class Bicycle extends Entity {
     @Override
     public String toString() {
         return "Bicycle{" +
+                "id='" + super.toString() + '\'' +
                 "model='" + model + '\'' +
                 ", bicycleType=" + bicycleType +
                 ", productionYear=" + productionYear +
@@ -177,19 +178,13 @@ public class Bicycle extends Entity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+        if (o == null) return false;
         if (!(o instanceof Bicycle)) return false;
-        if (!super.equals(o)) return false;
         Bicycle bicycle = (Bicycle) o;
         return Objects.equals(getModel(), bicycle.getModel()) &&
                 getBicycleType() == bicycle.getBicycleType() &&
                 Objects.equals(getProductionYear(), bicycle.getProductionYear()) &&
-                Objects.equals(getProducer(), bicycle.getProducer()) &&
-                Objects.equals(getCurrentLocation(), bicycle.getCurrentLocation()) &&
-                Objects.equals(getPhoto(), bicycle.getPhoto()) &&
-                Objects.equals(getPriceId(), bicycle.getPriceId()) &&
-                Objects.equals(getIfNotBooked(), bicycle.getIfNotBooked()) &&
-                Objects.equals(getIfFree(), bicycle.getIfFree()) &&
-                Objects.equals(getRentList(), bicycle.getRentList());
+                Objects.equals(getProducer(), bicycle.getProducer());
     }
 
     @Override

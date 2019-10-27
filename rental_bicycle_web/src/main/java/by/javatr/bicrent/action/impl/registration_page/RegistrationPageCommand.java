@@ -1,5 +1,4 @@
 package by.javatr.bicrent.action.impl.registration_page;
-
 import by.javatr.bicrent.action.BaseCommand;
 import by.javatr.bicrent.action.validator.IncorrectDataException;
 import by.javatr.bicrent.action.validator.UserDataValidator;
@@ -12,13 +11,11 @@ import by.javatr.bicrent.entity.en_um.UserStatus;
 import by.javatr.bicrent.service.ServiceException;
 import by.javatr.bicrent.service.impl.UserInfoServiceImpl;
 import by.javatr.bicrent.service.impl.UserServiceImpl;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,6 +42,12 @@ public class RegistrationPageCommand extends BaseCommand {
     private static final String messageSuccessRegistration = "Registration is successful!";
     private static final Boolean IF_REQUIRED_FILL = true;
     private static final Boolean IF_NOT_REQUIRED_FILL = false;
+
+    public RegistrationPageCommand() {
+        allowedRoles.add(Role.ADMIN);
+        allowedRoles.add(Role.USER);
+        allowedRoles.add(Role.GUEST);
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {

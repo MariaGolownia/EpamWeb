@@ -38,7 +38,9 @@ public class EditUserPageApplyAdminCommand extends BaseCommand {
     private static final String SECOND_PHONE_NUMBER_USER = "userSecondPhoneNumber";
     private static final String EMAIL_USER = "userEmail";
 
-
+    public EditUserPageApplyAdminCommand() {
+        allowedRoles.add(Role.ADMIN);
+    }
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         String message_error = "";
@@ -142,10 +144,8 @@ public class EditUserPageApplyAdminCommand extends BaseCommand {
             // передача запроса/управления другому ресурсу на сервере;
         } catch (ServletException e) {
             LOGGER.error("ServletException =" + e);
-            e.printStackTrace();
         } catch (IOException e) {
             LOGGER.error("IOException =" + e);
-            e.printStackTrace();
         }
     }
 }

@@ -5,6 +5,7 @@ import by.javatr.bicrent.dao.mysql.DaoSql;
 import by.javatr.bicrent.entity.Location;
 import by.javatr.bicrent.entity.en_um.City;
 import by.javatr.bicrent.entity.en_um.Country;
+import by.javatr.bicrent.entity.en_um.Role;
 import by.javatr.bicrent.service.impl.LocationServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +21,12 @@ import java.util.List;
 
 public class LocationPageCommand extends BaseCommand {
     private static final Logger LOGGER = LogManager.getLogger();
+
+    public LocationPageCommand() {
+        allowedRoles.add(Role.ADMIN);
+        allowedRoles.add(Role.USER);
+    }
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = null;
@@ -28,8 +35,12 @@ public class LocationPageCommand extends BaseCommand {
 
         HttpSession session = request.getSession();
         Location selectedLocation = (Location) session.getAttribute("selectedLocation");
+        Role userRole = (Role) session.getAttribute("role");
 
         String locationImg = "";
+        if (userRole != null && userRole.equals(Role.ADMIN)){
+            request.setAttribute("isAdminTag", "1");
+        }
         if (selectedLocation != null) {
             request.setAttribute("selectedCountry", selectedLocation.getCountry().getName());
 
@@ -56,11 +67,10 @@ public class LocationPageCommand extends BaseCommand {
             dispatcher.forward(request, response);
             // передача запроса/управления другому ресурсу на сервере;
         } catch (ServletException e) {
-            // TODO Auto-generated catch block
+            LOGGER.error("ServletException from LocationPageCommand =" + e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.error("IOException from LocationPageCommand =" + e.getMessage());
         }
     }
 }

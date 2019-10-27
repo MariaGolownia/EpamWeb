@@ -26,7 +26,7 @@ public class SetLocale extends BaseCommand {
         try {
             response.sendRedirect(url);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("IOException from SetLocale =" + e.getMessage());
         }
     }
 }

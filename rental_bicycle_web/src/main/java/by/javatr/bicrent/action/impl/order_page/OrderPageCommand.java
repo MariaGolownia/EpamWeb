@@ -5,6 +5,7 @@ import by.javatr.bicrent.dao.mysql.DaoSql;
 import by.javatr.bicrent.entity.Bicycle;
 import by.javatr.bicrent.entity.Location;
 import by.javatr.bicrent.entity.UserInfo;
+import by.javatr.bicrent.entity.en_um.Role;
 import by.javatr.bicrent.service.FactoryService;
 import by.javatr.bicrent.service.bic_sort.BicycleComparator;
 import by.javatr.bicrent.service.impl.BicycleServiceImpl;
@@ -21,6 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderPageCommand extends BaseCommand {
+
+    public OrderPageCommand() {
+        allowedRoles.add(Role.ADMIN);
+    }
+
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Boolean BOOLEAN_FREE_BICYCLE = true;
     private static final int RECORDS_PER_PAGE = 5;
@@ -113,11 +119,9 @@ public class OrderPageCommand extends BaseCommand {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.error("ServletException from OrderPageCommand =" + e.getMessage());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.error("IOException from OrderPageCommand =" + e.getMessage());
         }
     }
 }

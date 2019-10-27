@@ -20,6 +20,10 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
             "SELECT `bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
                     " `bicycle_currentLocation_id`, `bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_ifFree`, `bicycle_photo`" +
                     " FROM `bicycle` WHERE `bicycle_id` = ?";
+    private static final String SQL_BICYCLE_ALL =
+            "SELECT `bicycle_id`,`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
+                    "`bicycle_currentLocation_id`, `bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_ifFree`, `bicycle_photo`" +
+                    " FROM `bicycle`";
     private static final String SQL_BICYCLE_BY_CURRENT_LOCATION =
             "SELECT `bicycle_id`,`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
                     "`bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_ifFree`, `bicycle_photo`" +
@@ -32,6 +36,10 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
             "SELECT `bicycle_id`,`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
                     "`bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_photo`" +
                     " FROM `bicycle` WHERE `bicycle_currentLocation_id` = ? AND `bicycle_ifFree` = ?";
+    private static final String SQL_BICYCLE_BY_LAST_ID =
+            "SELECT `bicycle_id`,`bicycle_model`, `bicycle_type`, `bicycle_productionYear`, `bicycle_producer`," +
+                    "`bicycle_currentLocation_id`, `bicycle_price_id`, `bicycle_ifNotBooked`, `bicycle_ifFree`, `bicycle_photo`" +
+                    " FROM `bicycle` ORDER BY `bicycle_id` DESC LIMIT 1";
     private static final String SQL_BICYCLE_UPDATE =
             "UPDATE `bicycle` SET `bicycle_model`= ?, `bicycle_type`= ?, `bicycle_productionYear`= ?," +
                     " `bicycle_producer`= ?, `bicycle_currentLocation_id`= ?, `bicycle_price_id`= ?," +
@@ -45,6 +53,93 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
 
     public BicycleDaoSql(Connection connection) {
         super(connection);
+    }
+
+    @Override
+    public List<Bicycle> readAll() throws SQLException {
+        List<Bicycle> bicycles = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_BICYCLE_ALL);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()) {
+                Bicycle bicycle = new Bicycle();
+                Integer bicycleID = resultSet.getInt("bicycle_id");
+                bicycle.setId(bicycleID);
+                bicycle.setModel(resultSet.getString("bicycle_model"));
+                BicycleType bicycleType = BicycleType.getBicycleType(resultSet.getString("bicycle_type"));
+                bicycle.setBicycleType(bicycleType);
+                bicycle.setProductionYear(resultSet.getShort("bicycle_productionYear"));
+                bicycle.setProducer(resultSet.getString("bicycle_producer"));
+                Location locationBicycle = new Location();
+                LocationDaoSql locationDao = FactoryDaoSql.getInstance().get(DaoSql.LocationDao);
+                locationBicycle = locationDao.read(resultSet.getInt("bicycle_currentLocation_id"));
+                bicycle.setCurrentLocation(locationBicycle);
+                bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
+                Price price = new Price();
+                PriceDaoSql priceDao = FactoryDaoSql.getInstance().get(DaoSql.PriceDao);
+                Integer bicycle_price_id = resultSet.getInt("bicycle_price_id");
+                price = priceDao.read(bicycle_price_id==null ? null : bicycle_price_id);
+                //price = priceDao.read(resultSet.getInt("bicycle_price_id"));
+                bicycle.setPriceId(price.getId());
+                bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
+                bicycle.setIfFree(resultSet.getBoolean("bicycle_ifFree"));
+                bicycles.add(bicycle);
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                resultSet.close();
+            } catch(NullPointerException e) {}
+            try {
+                statement.close();
+            } catch(NullPointerException e) {}
+        }
+        return bicycles;
+    }
+
+    @Override
+    public Bicycle readByLastId() throws SQLException {
+        Bicycle bicycle = new Bicycle();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SQL_BICYCLE_BY_LAST_ID);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()) {
+                Integer bicycleID = resultSet.getInt("bicycle_id");
+                bicycle.setId(bicycleID);
+                bicycle.setModel(resultSet.getString("bicycle_model"));
+                BicycleType bicycleType = BicycleType.getBicycleType(resultSet.getString("bicycle_type"));
+                bicycle.setBicycleType(bicycleType);
+                bicycle.setProductionYear(resultSet.getShort("bicycle_productionYear"));
+                bicycle.setProducer(resultSet.getString("bicycle_producer"));
+                Location locationBicycle = new Location();
+                LocationDaoSql locationDao = FactoryDaoSql.getInstance().get(DaoSql.LocationDao);
+                locationBicycle = locationDao.read(resultSet.getInt("bicycle_currentLocation_id"));
+                bicycle.setCurrentLocation(locationBicycle);
+                bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
+                Price price = new Price();
+                PriceDaoSql priceDao = FactoryDaoSql.getInstance().get(DaoSql.PriceDao);
+                Integer bicycle_price_id = resultSet.getInt("bicycle_price_id");
+                price = priceDao.read(bicycle_price_id == null ? null : bicycle_price_id);
+                bicycle.setPriceId(price.getId());
+                bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
+                bicycle.setIfFree(resultSet.getBoolean("bicycle_ifFree"));
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                resultSet.close();
+            } catch(NullPointerException e) {}
+            try {
+                statement.close();
+            } catch(NullPointerException e) {}
+        }
+        return bicycle;
     }
 
     @Override
@@ -71,8 +166,10 @@ public class BicycleDaoSql extends BaseDaoSql implements BicycleDao {
                 bicycle.setCurrentLocation(locationBicycle);
                 bicycle.setPhoto(resultSet.getBlob("bicycle_photo"));
                 Price price = new Price();
-                PriceDaoSql priceDao = new PriceDaoSql();
-                price = priceDao.read(resultSet.getInt("bicycle_price_id"));
+                PriceDaoSql priceDao = FactoryDaoSql.getInstance().get(DaoSql.PriceDao);
+                Integer bicycle_price_id = resultSet.getInt("bicycle_price_id");
+                price = priceDao.read(bicycle_price_id==null ? null : bicycle_price_id);
+                //price = priceDao.read(resultSet.getInt("bicycle_price_id"));
                 bicycle.setPriceId(price.getId());
                 bicycle.setIfNotBooked(resultSet.getBoolean("bicycle_ifNotBooked"));
                 bicycle.setIfFree(resultSet.getBoolean("bicycle_ifFree"));

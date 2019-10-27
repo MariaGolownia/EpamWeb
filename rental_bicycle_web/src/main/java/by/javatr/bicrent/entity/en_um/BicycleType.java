@@ -28,7 +28,7 @@ public enum BicycleType {
     public static BicycleType getBicycleType(String str) {
         BicycleType bicycleType = null;
         for (int i = 0; i < bicycleType.values().length; i++) {
-            String bicycleTypeFromEnum = Country.values()[i].toString();
+            String bicycleTypeFromEnum = BicycleType.values()[i].toString();
             if (bicycleTypeFromEnum.equals(str.toUpperCase())) {
                 bicycleType = BicycleType.getById(i);
             }

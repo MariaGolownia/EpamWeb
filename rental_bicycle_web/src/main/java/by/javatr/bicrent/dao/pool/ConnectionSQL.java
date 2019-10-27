@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 
 public class ConnectionSQL {
-    public static final int MAX_CONNECTIONS_SIZE = 20;
+    public static final int MAX_CONNECTIONS_SIZE = 100;
     private static final String SERVER_NAME = "localhost";
     private static final String MY_DATA_BASE = "rental_bicycle_web";
     private static final String URL = "jdbc:mysql://" + SERVER_NAME + "/" + MY_DATA_BASE;

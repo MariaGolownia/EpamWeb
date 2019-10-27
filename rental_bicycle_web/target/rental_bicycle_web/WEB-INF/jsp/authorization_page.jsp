@@ -31,7 +31,7 @@
 
 <body>
 <!-- Пользовательский тэг для внедрения информационного нафигационного элемента-->
-<t:nav/>
+<t:nav_user/>
 
 <div class="container">
     <!-- Обработка кнопки Submit, принадлежащей данной форме submit-form -->
@@ -47,7 +47,7 @@
         <label for="inputPassword" class="sr-only">
             Password
         </label>
-        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="<fmt:message key="authorization_page.label.login" bundle="${cnt}"/>" required>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="<fmt:message key="authorization_page.label.password" bundle="${cnt}"/>" required>
         <div class="checkbox">
             <li><a href="./Controller?command=register_command">
                 <fmt:message key="authorization_page.input.registr" bundle="${cnt}"/>

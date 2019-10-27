@@ -6,6 +6,7 @@ import by.javatr.bicrent.entity.User;
 import by.javatr.bicrent.entity.UserInfo;
 import by.javatr.bicrent.entity.VirtualCard;
 import by.javatr.bicrent.entity.en_um.Currency;
+import by.javatr.bicrent.entity.en_um.Role;
 import by.javatr.bicrent.service.FactoryService;
 import by.javatr.bicrent.service.ServiceException;
 import by.javatr.bicrent.service.impl.UserInfoServiceImpl;
@@ -22,6 +23,11 @@ import java.math.BigDecimal;
 
 public class AddNewCardAdminCommand extends BaseCommand {
     private static final Logger LOGGER = LogManager.getLogger();
+
+    public AddNewCardAdminCommand() {
+        allowedRoles.add(Role.ADMIN);
+    }
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         FactoryService factoryService = FactoryService.getInstance();
@@ -55,7 +61,7 @@ public class AddNewCardAdminCommand extends BaseCommand {
             try {
               virtualCardId = virtualCardService.save(virtualCard);
             } catch (ServiceException e) {
-                e.printStackTrace();
+                LOGGER.error("ServiceException from AddNewCardAdminCommand =" + e.getMessage());
             }
 
 
@@ -65,7 +71,7 @@ public class AddNewCardAdminCommand extends BaseCommand {
             response.getWriter().write(virtualCardId.toString());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("IOException from AddNewCardAdminCommand =" + e.getMessage());
         }
     }
 }

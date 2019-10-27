@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,10 +24,7 @@
 
 <body>
 <t:nav/>
-User: ${userL}
-</br>
-Role: ${userR}
-</br>
+
 
 <script>
     var i;
@@ -97,6 +94,12 @@ Role: ${userR}
     <form id="submitOrder" class="form-signin">
         <button class="btn btn-lg btn-primary btn-block" id="submit-order">
             <fmt:message key="main_page.choose_order" bundle="${cnt}"/>
+        </button>
+    </form>
+    </br>
+    <form class="form-signin" action="Controller?command=order_page_status" method="post">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" >
+            <fmt:message key="nav_tag.menu.order.page.status" bundle="${cnt}"/>
         </button>
     </form>
     <div id="messageCheckFillingLocAndUser" hidden>

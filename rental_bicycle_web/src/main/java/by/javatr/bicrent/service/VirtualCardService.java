@@ -16,5 +16,5 @@ public interface VirtualCardService {
 
     VirtualCard read(Integer id);
 
-    void topUp(Integer cardId, BigDecimal ammount);
+    Boolean topUp(Integer cardId, BigDecimal ammount);
 }

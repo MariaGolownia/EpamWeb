@@ -45,7 +45,7 @@ public class ActionBicycleImg extends HttpServlet {
             BASE64Encoder encoder = new BASE64Encoder();
             imageString = encoder.encode(bdata);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("SQLException from ActionBicycleImg =" + e.getMessage());
         }
     }
         response.setContentType("blob");
@@ -53,7 +53,7 @@ public class ActionBicycleImg extends HttpServlet {
             response.getWriter().write(imageString);
         //response.getOutputStream().write(imageString);
     } catch (IOException e) {
-        e.printStackTrace();
+            LOGGER.error("IOException from ActionBicycleImg =" + e.getMessage());
     }
 }
 

@@ -1,4 +1,5 @@
 package by.javatr.bicrent.service.bic_sort;
+
 import by.javatr.bicrent.entity.Bicycle;
 
 import java.math.BigDecimal;
@@ -44,6 +45,16 @@ public class BicycleComparatorRealization {
             String country1 = b1.getProducer();
             String country2 = b2.getProducer();
             int res = String.CASE_INSENSITIVE_ORDER.compare(country1, country2);
+            return res;
+        }
+    }
+
+    public static class ById implements Comparator<Bicycle> {
+        @Override
+        public int compare(Bicycle b1, Bicycle b2) {
+            Integer id1 = b1.getId();
+            Integer id2 = b2.getId();
+            int res = id1.compareTo(id2);
             return res;
         }
     }

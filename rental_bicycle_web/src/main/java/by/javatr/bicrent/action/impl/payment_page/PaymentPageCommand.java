@@ -3,6 +3,7 @@ import by.javatr.bicrent.action.BaseCommand;
 import by.javatr.bicrent.dao.mysql.DaoSql;
 import by.javatr.bicrent.entity.*;
 import by.javatr.bicrent.entity.en_um.Currency;
+import by.javatr.bicrent.entity.en_um.Role;
 import by.javatr.bicrent.service.ServiceException;
 import by.javatr.bicrent.service.impl.*;
 import org.apache.logging.log4j.LogManager;
@@ -20,17 +21,24 @@ import java.util.List;
 public class PaymentPageCommand extends BaseCommand {
     private static final Logger LOGGER = LogManager.getLogger();
 
+    public PaymentPageCommand() {
+        allowedRoles.add(Role.ADMIN);
+    }
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = null;
         String orderID=request.getParameter("orderid");
+        String locationID =request.getParameter("locationid");
 
         OrderServiceImpl orderService = factoryService.get(DaoSql.OrderDao);
         Order order = orderService.read(Integer.valueOf(orderID));
+
         try {
         BicycleServiceImpl bicycleService = factoryService.get(DaoSql.BicycleDao);
         List<Integer>bicyclesIdList = order.getBicyclesId();
         List<Bicycle>bicycleList = bicycleService.findById(bicyclesIdList);
+        bicycleService.changeLocation(bicycleList, Integer.valueOf(locationID.trim()));
 
         UserInfoServiceImpl userService = factoryService.get(DaoSql.UserInfoDao);
         UserInfo userInfo = null;
@@ -62,6 +70,7 @@ public class PaymentPageCommand extends BaseCommand {
         BigDecimal ammountForPay = orderService.calcAmmountForPay(bicyclesIdList, countDurationInMin);
         request.setAttribute("orderAmount", ammountForPay);
 
+
         dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/payment_page.jsp");
         } catch (ServiceException e) {
             e.printStackTrace();
@@ -70,11 +79,9 @@ public class PaymentPageCommand extends BaseCommand {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.error("ServletException from PaymentPageCommand =" + e.getMessage());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.error("IOException from PaymentPageCommand =" + e.getMessage());
         }
     }
 }

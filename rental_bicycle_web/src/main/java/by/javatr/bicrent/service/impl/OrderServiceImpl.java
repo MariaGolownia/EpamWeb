@@ -179,6 +179,21 @@ public class OrderServiceImpl extends Service implements OrderService {
         return countBicMin;
     }
 
+    @Override
+    public List<Integer> getBicyclesIdByOrder(Integer orderId) {
+        List <Integer> bicylesId = new ArrayList<>();
+        OrderDao dao = null;
+        try {
+            dao = FactoryDaoSql.getInstance().get(DaoSql.OrderDao);
+            bicylesId = dao.getBicyclesByOrderId(orderId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        return bicylesId;
+    }
+
 
     public BigDecimal calcAmmountForPay(List<Integer> idBicycles, Integer minutes) {
         List<Bicycle> bicycleList = new ArrayList<>();

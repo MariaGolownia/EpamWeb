@@ -42,7 +42,7 @@ public class ActionLocationImg extends HttpServlet {
         try {
             response.getWriter().write(locationImg);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("IOException from ActionLocationImg =" + e.getMessage());
         }
     }
 

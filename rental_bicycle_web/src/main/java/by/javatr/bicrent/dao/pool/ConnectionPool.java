@@ -18,7 +18,7 @@ final public class ConnectionPool {
     private String password;
     private int maxSize;
     private int checkConnectionTimeout;
-    private ReentrantLock locker = new ReentrantLock();
+    //private ReentrantLock locker = new ReentrantLock();
     private BlockingQueue<PooledConnection> freeConnections = new LinkedBlockingQueue<>();
     private Set<PooledConnection> usedConnections = new ConcurrentSkipListSet<>();
     private static ConnectionPool instance = new ConnectionPool();
@@ -30,7 +30,6 @@ final public class ConnectionPool {
     }
 
     public Connection getConnection() throws PersistentException {
-        locker.lock();
         PooledConnection connection = null;
         while(connection == null) {
             try {
@@ -55,12 +54,10 @@ final public class ConnectionPool {
         }
         usedConnections.add(connection);
         logger.debug(String.format("Connection was received from pool. Current pool size: %d used connections; %d free connection", usedConnections.size(), freeConnections.size()));
-        locker.unlock();
         return connection;
     }
 
      void freeConnection(PooledConnection connection) {
-        locker.lock();
         try {
             if(connection.isValid(checkConnectionTimeout)) {
                 connection.clearWarnings();
@@ -75,11 +72,9 @@ final public class ConnectionPool {
                 connection.getConnection().close();
             } catch(SQLException e2) {}
         }
-        locker.unlock();
     }
 
     public  void init(String driverClass, String url, String user, String password, int startSize, int maxSize, int checkConnectionTimeout) throws PersistentException {
-        locker.lock();
         try {
             destroy();
             Class.forName(driverClass);
@@ -95,7 +90,6 @@ final public class ConnectionPool {
             logger.fatal("It is impossible to initialize connection pool", e);
             throw new PersistentException(e);
         }
-        locker.unlock();
     }
 
 
@@ -104,7 +98,6 @@ final public class ConnectionPool {
     }
 
     public  void destroy() {
-        locker.lock();
         usedConnections.addAll(freeConnections);
         freeConnections.clear();
         for(PooledConnection connection : usedConnections) {
@@ -113,7 +106,6 @@ final public class ConnectionPool {
             } catch(SQLException e) {}
         }
         usedConnections.clear();
-        locker.unlock();
     }
 
     @Override
